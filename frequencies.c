@@ -21,11 +21,11 @@
 
 // the BK4819 has 2 bands it covers, 18MHz ~ 630MHz and 760MHz ~ 1300MHz
 
-#define BX4819_band1_lower 1800000
+#define BX4819_band1_lower 1500000
 #define BX4819_band2_upper 130000000
 
 const freq_band_table_t BX4819_band1 = {BX4819_band1_lower,  63000000};
-const freq_band_table_t BX4819_band2 = {84000000, BX4819_band2_upper};
+const freq_band_table_t BX4819_band2 = {63000000, BX4819_band2_upper};
 
 const freq_band_table_t frequencyBandTable[] =
 {
@@ -213,6 +213,8 @@ int32_t TX_freq_check(const uint32_t Frequency)
             if (Frequency >= 14400000 && Frequency < 14800000)
                 return 0;
             if (Frequency >= 43000000 && Frequency < 44000000)
+                return 0;
+            if (Frequency >= 40900000 && Frequency < 40999000)
                 return 0;
             break;
 
