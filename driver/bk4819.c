@@ -1693,8 +1693,10 @@ static void BK4819_PlayRogerNormal(void)
         const uint32_t tone2_Hz = 730;
     #else
         // motorola type
-        const uint32_t tone1_Hz = 1540;
-        const uint32_t tone2_Hz = 1310;
+        const uint32_t tone1_Hz = 730;
+        const uint32_t tone2_Hz = 0;
+        const uint32_t tone3_Hz = 730;
+
     #endif
 
 
@@ -1709,13 +1711,18 @@ static void BK4819_PlayRogerNormal(void)
     BK4819_WriteRegister(BK4819_REG_71, scale_freq(tone1_Hz));
 
     BK4819_ExitTxMute();
-    SYSTEM_DelayMs(80);
+    SYSTEM_DelayMs(140);
     BK4819_EnterTxMute();
 
     BK4819_WriteRegister(BK4819_REG_71, scale_freq(tone2_Hz));
 
     BK4819_ExitTxMute();
-    SYSTEM_DelayMs(80);
+    SYSTEM_DelayMs(140);
+    BK4819_EnterTxMute();
+    BK4819_WriteRegister(BK4819_REG_71, scale_freq(tone3_Hz));
+
+    BK4819_ExitTxMute();
+    SYSTEM_DelayMs(140);
     BK4819_EnterTxMute();
 
     BK4819_WriteRegister(BK4819_REG_70, 0x0000);

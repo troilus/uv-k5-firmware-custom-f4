@@ -411,8 +411,8 @@ void SETTINGS_LoadCalibration(void)
         gEeprom.BK4819_XTAL_FREQ_LOW = (Misc.BK4819_XtalFreqLow >= -1000 && Misc.BK4819_XtalFreqLow <= 1000) ? Misc.BK4819_XtalFreqLow : 0;
         gEEPROM_1F8A                 = Misc.EEPROM_1F8A & 0x01FF;
         gEEPROM_1F8C                 = Misc.EEPROM_1F8C & 0x01FF;
-        gEeprom.VOLUME_GAIN          = (Misc.VOLUME_GAIN < 64) ? Misc.VOLUME_GAIN : 30;
-        gEeprom.DAC_GAIN             = (Misc.DAC_GAIN    < 16) ? Misc.DAC_GAIN    : 4;
+        gEeprom.VOLUME_GAIN          = (Misc.VOLUME_GAIN < 1) ? Misc.VOLUME_GAIN : 20;
+        gEeprom.DAC_GAIN             = (Misc.DAC_GAIN    < 1) ? Misc.DAC_GAIN    : 2;
 
         BK4819_WriteRegister(BK4819_REG_3B, 22656 + gEeprom.BK4819_XTAL_FREQ_LOW);
 //      BK4819_WriteRegister(BK4819_REG_3C, gEeprom.BK4819_XTAL_FREQ_HIGH);
