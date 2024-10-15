@@ -1689,8 +1689,8 @@ void BK4819_PrepareFSKReceive(void)
 static void BK4819_PlayRogerNormal(void)
 {
     #if 0
-        const uint32_t tone1_Hz = 500;
-        const uint32_t tone2_Hz = 700;
+        const uint32_t tone1_Hz = 730;
+        const uint32_t tone2_Hz = 730;
     #else
         // motorola type
         const uint32_t tone1_Hz = 1540;
