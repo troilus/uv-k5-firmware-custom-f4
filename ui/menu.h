@@ -41,7 +41,7 @@ enum
     MENU_OFFSET,
     MENU_TOT,
     MENU_W_N,
-#ifndef ENABLE_FEAT_F4HWN
+#ifdef ENABLE_FEAT_F4HWN
     MENU_SCR,
 #endif
     MENU_BCL,
