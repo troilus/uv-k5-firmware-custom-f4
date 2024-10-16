@@ -1,8 +1,8 @@
-This repository is a fork of F4HWN for personal use:
-
-- BYP output for POCSAG decoding
-- 630-840 MHz RX range configured for 821.2375 MHz
-- GB lock enabled with 409.000~409.990 MHz TX range
-- Roger beep 730Hz*2
-- Match FM Radio and TX/RX volume
-- Remove ..
+基于F4HWN的自用固件：
+- 启用 BYP 输出(用于POCSAG)解码
+- 允许 630-840 MHz RX
+- CNLock 启用 409.000~409.990 MHz TX
+- 修改尾音为 730Hz*2
+- 适配电台与收音机接收音量（收音机音量太小了）
+- 精简了用不上的菜单项
+- ...
