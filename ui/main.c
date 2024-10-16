@@ -904,7 +904,7 @@ void UI_DisplayMain(void)
 
                 if(gMR_ChannelExclude[gEeprom.ScreenChannel[vfo_num]] == false)
                 {
-                    // show the scan list assigment symbols
+                   /*不显示搜索列表 // show the scan list assigment symbols
                     const ChannelAttributes_t att = gMR_ChannelAttributes[gEeprom.ScreenChannel[vfo_num]];
 
                     countList = att.scanlist1 + att.scanlist2 + att.scanlist3;
@@ -931,11 +931,11 @@ void UI_DisplayMain(void)
                         {
                             memcpy(p_line0 + 127 - (shiftList * 6), BITMAP_ScanList3, sizeof(BITMAP_ScanList3));
                         }
-                    }
+                   /* }
                 }
                 else
                 {
-                    memcpy(p_line0 + 127 - (1 * 6), BITMAP_ScanListE, sizeof(BITMAP_ScanListE));
+                   // memcpy(p_line0 + 127 - (1 * 6), BITMAP_ScanListE, sizeof(BITMAP_ScanListE));
                 }
 
                 /*
