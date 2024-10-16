@@ -931,7 +931,7 @@ void UI_DisplayMain(void)
                         {
                             memcpy(p_line0 + 127 - (shiftList * 6), BITMAP_ScanList3, sizeof(BITMAP_ScanList3));
                         }
-                   /* }
+                    }*/
                 }
                 else
                 {
