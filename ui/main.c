@@ -756,13 +756,15 @@ void UI_DisplayMain(void)
         }
 
         uint32_t frequency = gEeprom.VfoInfo[vfo_num].pRX->Frequency;
-
+//如果是禁用的频率，直接不要显示发射功率
         if(TX_freq_check(frequency) != 0 && gEeprom.VfoInfo[vfo_num].TX_LOCK == true)
         {
             if(isMainOnly(false))
                 memcpy(p_line0 + 14, BITMAP_VFO_Lock, sizeof(BITMAP_VFO_Lock));
             else
                 memcpy(p_line0 + 24, BITMAP_VFO_Lock, sizeof(BITMAP_VFO_Lock));
+            // 设置标志位为 false，跳过后续显示发射功率和频率偏移
+            displayPowerAndOffset = false; 
         }
 
         if (gCurrentFunction == FUNCTION_TRANSMIT)
@@ -1075,7 +1077,12 @@ void UI_DisplayMain(void)
         }
 
         // ************
-
+/*
+这段代码用于在发送模式下显示发射功率，或在接收模式下显示信号强度：
+在 发送模式（TX 模式） 时，它根据发射功率设置（低、中、高）显示不同的功率等级（Level = 2、4 或 6）。
+在 接收模式（RX 模式） 时，它根据接收到的信号强度显示相应的信号条数。
+最终，Level 值用于绘制图形，显示在设备的屏幕上，反映当前的发射功率或接收信号强度。
+    */
         {   // show the TX/RX level
             uint8_t Level = 0;
 
@@ -1202,8 +1209,8 @@ void UI_DisplayMain(void)
 #else
         UI_PrintStringSmallNormal(s, LCD_WIDTH + 24, 0, line + 1);
 #endif
-
-        if (state == VFO_STATE_NORMAL || state == VFO_STATE_ALARM)
+//这段代码的作用是在显示界面上根据当前的 VFO（Variable Frequency Oscillator）状态，显示发射功率和发送频率偏移的符号。仅在 displayPowerAndOffset 为 true 时执行
+        if (displayPowerAndOffset && (state == VFO_STATE_NORMAL || state == VFO_STATE_ALARM))
         {   // show the TX power
             uint8_t currentPower = vfoInfo->OUTPUT_POWER % 8;
             uint8_t arrowPos = 19;
