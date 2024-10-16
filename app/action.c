@@ -467,12 +467,12 @@ void ACTION_BlminTmpOff(void)
 #ifdef ENABLE_FEAT_F4HWN
 void ACTION_Update(void)
 {
-    gSaveRxMode          = false;
+    gSaveRxMode          = true;
     gFlagReconfigureVfos = true;
     gUpdateStatus        = true;
 }
 
-void ACTION_RxMode(void)
+/*void ACTION_RxMode(void)
 {
     static bool cycle = 0;
 
@@ -488,7 +488,7 @@ void ACTION_RxMode(void)
     }
 
     ACTION_Update();
-}
+}*/
 
 void ACTION_MainOnly(void)
 {
@@ -502,12 +502,12 @@ void ACTION_MainOnly(void)
             cb = gEeprom.CROSS_BAND_RX_TX;
 
             gEeprom.DUAL_WATCH = 0;
-            gEeprom.CROSS_BAND_RX_TX = 0;
+            // gEeprom.CROSS_BAND_RX_TX = 0;
             cycle = 1;
             break;
         case 1:
             gEeprom.DUAL_WATCH = dw;
-            gEeprom.CROSS_BAND_RX_TX = cb;
+            // gEeprom.CROSS_BAND_RX_TX = cb;
             cycle = 0;
             break;
     }
