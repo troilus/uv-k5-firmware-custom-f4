@@ -754,7 +754,7 @@ void UI_DisplayMain(void)
             else
                 memcpy(p_line0 + 0, BITMAP_VFO_NotDefault, sizeof(BITMAP_VFO_NotDefault));
         }
-
+        bool displayPowerAndOffset = true;
         uint32_t frequency = gEeprom.VfoInfo[vfo_num].pRX->Frequency;
 //如果是禁用的频率，直接不要显示发射功率
         if(TX_freq_check(frequency) != 0 && gEeprom.VfoInfo[vfo_num].TX_LOCK == true)
@@ -901,8 +901,8 @@ void UI_DisplayMain(void)
             if (IS_MR_CHANNEL(gEeprom.ScreenChannel[vfo_num]))
             {   // it's a channel
 
-                uint8_t countList = 0;
-                uint8_t shiftList = 0;
+                //uint8_t countList = 0;
+                //uint8_t shiftList = 0;
 
                 if(gMR_ChannelExclude[gEeprom.ScreenChannel[vfo_num]] == false)
                 {

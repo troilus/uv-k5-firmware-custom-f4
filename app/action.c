@@ -106,7 +106,7 @@ void (*action_opt_table[])(void) = {
 #endif
 
 #ifdef ENABLE_FEAT_F4HWN
-    [ACTION_OPT_RXMODE] = &ACTION_RxMode,
+    // [ACTION_OPT_RXMODE] = &ACTION_RxMode,
     [ACTION_OPT_MAINONLY] = &ACTION_MainOnly,
     [ACTION_OPT_PTT] = &ACTION_Ptt,
     [ACTION_OPT_WN] = &ACTION_Wn,
@@ -494,12 +494,12 @@ void ACTION_MainOnly(void)
 {
     static bool cycle = 0;
     static uint8_t dw = 0;
-    static uint8_t cb = 0;
+    //static uint8_t cb = 0;
 
     switch(cycle) {
         case 0:
             dw = gEeprom.DUAL_WATCH;
-            cb = gEeprom.CROSS_BAND_RX_TX;
+            //cb = gEeprom.CROSS_BAND_RX_TX;
 
             gEeprom.DUAL_WATCH = 0;
             // gEeprom.CROSS_BAND_RX_TX = 0;

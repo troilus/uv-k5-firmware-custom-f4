@@ -49,9 +49,9 @@ const t_menu_item MenuList[] =
     {"TxDir",       MENU_SFT_D         }, // was "SFT_D"
     {"TxOffs",      MENU_OFFSET        }, // was "OFFSET"
     {"W/N",         MENU_W_N           },
-//#ifndef ENABLE_FEAT_F4HWN
+#ifndef ENABLE_FEAT_F4HWN
     {"Scramb",      MENU_SCR           }, // was "SCR"
-//#endif
+#endif
     {"BzLock",      MENU_BCL           }, // was "BCL"
     {"Compnd",      MENU_COMPAND       },
     {"Mode",        MENU_AM            }, // was "AM"
@@ -314,13 +314,13 @@ const char * const gSubMenu_F_LOCK[] =
     "UNLOCK\nALL",
 };
 
-//const char gSubMenu_RX_TX[][6] =
-//{
-//    "OFF",
-//    "TX",
-//    "RX",
-//    "TX/RX"
-//};
+const char gSubMenu_RX_TX[][6] =
+{
+    "OFF",
+    "TX",
+    "RX",
+    "TX/RX"
+};
 
 const char gSubMenu_BAT_TXT[][8] =
 {
@@ -746,7 +746,7 @@ void UI_DisplayMenu(void)
 #endif
 //#ifdef ENABLE_FEAT_F4HWN
 //        case MENU_SET_TMR:
-#endif
+//#endif
             strcpy(String, gSubMenu_OFF_ON[gSubMenuSelection]);
             break;
 
