@@ -40,6 +40,8 @@
 const t_menu_item MenuList[] =
 {
 //   text,          menu ID
+    {"Sql",         MENU_SQL           },
+    {"DWMode",      MENU_TDR           },
     {"Step",        MENU_STEP          },
     {"Power",       MENU_TXP           }, // was "TXP"
     {"RxDCS",       MENU_R_DCS         }, // was "R_DCS"
@@ -53,7 +55,7 @@ const t_menu_item MenuList[] =
     {"Scramb",      MENU_SCR           }, // was "SCR"
 #endif
     {"BzLock",      MENU_BCL           }, // was "BCL"
-    {"Compnd",      MENU_COMPAND       },
+//    {"Compnd",      MENU_COMPAND       },
     {"Mode",        MENU_AM            }, // was "AM"
 #ifdef ENABLE_FEAT_F4HWN
     {"TXLock",      MENU_TX_LOCK       }, 
@@ -134,8 +136,7 @@ const t_menu_item MenuList[] =
 #else
     {"BatVol",      MENU_VOL           }, // was "VOL"
 #endif
-    {"DWMode",      MENU_TDR           },
-    {"Sql",         MENU_SQL           },
+
 #ifdef ENABLE_FEAT_F4HWN
     {"SetPwr",      MENU_SET_PWR       },
 //    {"SetPtt",      MENU_SET_PTT       },
@@ -146,7 +147,7 @@ const t_menu_item MenuList[] =
     {"SetLck",      MENU_SET_LCK       },
     {"SetMet",      MENU_SET_MET       },
     {"SetGui",      MENU_SET_GUI       },
-    {"SetTmr",      MENU_SET_TMR       },
+//    {"SetTmr",      MENU_SET_TMR       },
 //#ifdef ENABLE_FEAT_F4HWN_SLEEP
 //    {"SetOff",       MENU_SET_OFF      },
 //#endif
@@ -219,7 +220,7 @@ const char* const gSubMenu_RXMode[] =
 {
     "MAIN\nONLY",       // TX and RX on main only
     "DUAL RX\nRESPOND", // Watch both and respond
-    //"CROSS\nBAND",      // TX on main, RX on secondary
+    "CROSS\nBAND",      // TX on main, RX on secondary
     "MAIN TX\nDUAL RX"  // always TX on main, but RX on both
 };
 
@@ -311,7 +312,7 @@ const char * const gSubMenu_F_LOCK[] =
 //    "GMRS\nFRS\nMURS",
 //#endif
     "DISABLE\nALL",
-    "UNLOCK\nALL",
+    "UNLOCK\nALL"
 };
 
 const char gSubMenu_RX_TX[][6] =

@@ -258,7 +258,7 @@ void SETTINGS_InitEEPROM(void)
 
     // 0F40..0F47
     EEPROM_ReadBuffer(0x0F40, Data, 8);
-    gSetting_F_LOCK            = (Data[0] < F_LOCK_LEN) ? Data[0] : F_LOCK_DEF;
+    gSetting_F_LOCK            = (Data[0] < 3) ? Data[0] : F_LOCK_GB;
 #ifndef ENABLE_FEAT_F4HWN
     gSetting_350TX             = (Data[1] < 2) ? Data[1] : false;  // was true
 #endif
@@ -271,7 +271,7 @@ void SETTINGS_InitEEPROM(void)
 #endif
     gSetting_350EN             = (Data[5] < 2) ? Data[5] : true;
 #ifdef ENABLE_FEAT_F4HWN
-    gSetting_ScrambleEnable    = false;
+    gSetting_ScrambleEnable    = true;
 #else
     gSetting_ScrambleEnable    = (Data[6] < 2) ? Data[6] : true;
 #endif
