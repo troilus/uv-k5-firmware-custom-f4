@@ -182,6 +182,7 @@ void UI_DisplayStatus()
     x += sizeof(gFontVox) + 3;
 #endif
 
+/*不显示PTT方式，没用
 #ifdef ENABLE_FEAT_F4HWN
     // PTT indicator
     if (gSetting_set_ptt_session) {
@@ -195,7 +196,7 @@ void UI_DisplayStatus()
     }
     x += sizeof(gFontPttClassic) + 3;
 #endif
-
+*/
     x = MAX(x1, 70u);
 
     // KEY-LOCK indicator
