@@ -528,6 +528,7 @@ static void MAIN_Key_DIGITS(KEY_Code_t Key, bool bKeyPressed, bool bKeyHeld)
     gWasFKeyPressed = false;
     gUpdateStatus   = true;
 //这里是F+8、F+9的功能，找了老半天， 都改成长按功能！背光有个毛切头啊
+        const uint8_t Vfo = gEeprom.TX_VFO;
     if(Key == 8)
     {
         gTxVfo->FrequencyReverse = gTxVfo->FrequencyReverse == false;
@@ -543,8 +544,7 @@ static void MAIN_Key_DIGITS(KEY_Code_t Key, bool bKeyPressed, bool bKeyHeld)
         gRequestSaveVFO            = true;
         gVfoConfigureMode          = VFO_CONFIGURE_RELOAD;
     } else {
-        if (beep)
-            gBeepToPlay = BEEP_500HZ_60MS_DOUBLE_BEEP_OPTIONAL; 
+       
     }
         return;
     }
