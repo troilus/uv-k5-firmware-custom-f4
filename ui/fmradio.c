@@ -35,7 +35,7 @@ void UI_DisplayFM(void)
     char *pPrintStr = String;
     UI_DisplayClear();
 
-    UI_PrintString("FM Radio", 2, 0, 0, 8);
+    UI_PrintString("FM", 2, 0, 0, 8);
 
     sprintf(String, "CN %d-%dMHz",
         BK1080_GetFreqLoLimit(gEeprom.FM_Band)/10,
