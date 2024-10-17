@@ -159,14 +159,14 @@ void UI_DisplayStatus()
                         if(gDualWatchActive) {
                             if (dw == 1) {
                                 // dw == 1 时显示 gFontDWR
-                                memcpy(line + x, gFontDWR, sizeof(gFontDWR));
+                                memcpy(line + x + 2, gFontDWR, sizeof(gFontDWR));
                             } else if (dw == 3) {
                                 // dw == 3 时显示 gFontDW
-                                memcpy(line + x, gFontDW, sizeof(gFontDW));
+                                memcpy(line + x + 2, gFontDW, sizeof(gFontDW));
                             }
                         } else {
                             // 如果 gDualWatchActive 为假，则显示 gFontHold
-                            memcpy(line + x + 3, gFontHold, sizeof(gFontHold));
+                            memcpy(line + x + 2, gFontHold, sizeof(gFontHold));
                         }
                 }
                 else if(dw == 2) { // XB - crossband
