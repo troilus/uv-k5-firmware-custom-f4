@@ -14,7 +14,7 @@ extern const uint8_t gFontKeyLock[1][9];
 extern const uint8_t gFontLight[9];
 
 extern const uint8_t gFontXB[2][6];
-extern const uint8_t gFontMO[2][6];
+extern const uint8_t gFontMO[1][6];
 extern const uint8_t gFontDWR[3][6];
 extern const uint8_t gFontHold[2][5];
 
