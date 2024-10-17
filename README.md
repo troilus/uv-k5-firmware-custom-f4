@@ -22,8 +22,10 @@
 - [ ] 去除了XB模式及显示、菜单
 - [ ] 单收界面修改（需要能够看到另一个信道频率）
 - [ ] 增加中文菜单，信道名？在精简不常用功能的基础上
+- [ ] 信道模式不显示步长
 
 
-![image](https://github.com/user-attachments/assets/3ba73138-4178-4938-94fa-cc9fc9fca507)
-![image](https://github.com/user-attachments/assets/e030a239-ffeb-49ec-b26d-3f871534223d)
-![image](https://github.com/user-attachments/assets/044141c6-231e-4c4e-9b9d-ead7f94bdf6b)
+![image](https://github.com/user-attachments/assets/1cb55267-1525-4489-8a8b-a6acdc8a77f0)
+![image](https://github.com/user-attachments/assets/0a632c70-30e2-411f-a757-42b1fba390db)
+![image](https://github.com/user-attachments/assets/3d42d1ab-2e38-42da-af2b-a74b1cdf2511)
+
