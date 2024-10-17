@@ -153,7 +153,7 @@ void UI_DisplayStatus()
             }
             else
         #endif
-            {
+            {//这里修改接收模式的图标gFontDWR、gFontHold、gFontMO
                 uint8_t dw = (gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2;
                 if(dw == 1 || dw == 3) { // DWR - dual watch + respond
                     if(gDualWatchActive)
