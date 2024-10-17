@@ -156,10 +156,18 @@ void UI_DisplayStatus()
             {//这里修改接收模式的图标gFontDWR、gFontHold、gFontMO
                 uint8_t dw = (gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2;
                 if(dw == 1 || dw == 3) { // DWR - dual watch + respond
-                    if(gDualWatchActive)
-                        memcpy(line + x + (dw==1?0:2), gFontDWR, sizeof(gFontDWR) - (dw==1?0:5));
-                    else
-                        memcpy(line + x + 3, gFontHold, sizeof(gFontHold));
+                        if(gDualWatchActive) {
+                            if (dw == 1) {
+                                // dw == 1 时显示 gFontDWR
+                                memcpy(line + x, gFontDWR, sizeof(gFontDWR));
+                            } else if (dw == 3) {
+                                // dw == 3 时显示 gFontDW
+                                memcpy(line + x, gFontDW, sizeof(gFontDW));
+                            }
+                        } else {
+                            // 如果 gDualWatchActive 为假，则显示 gFontHold
+                            memcpy(line + x + 3, gFontHold, sizeof(gFontHold));
+                        }
                 }
                 else if(dw == 2) { // XB - crossband
                     memcpy(line + x + 2, gFontXB, sizeof(gFontXB));
