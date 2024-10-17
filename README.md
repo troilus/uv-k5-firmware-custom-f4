@@ -22,3 +22,8 @@
 - [ ] 去除了XB模式及显示、菜单
 - [ ] 单收界面修改（需要能够看到另一个信道频率）
 - [ ] 增加中文菜单，信道名？在精简不常用功能的基础上
+
+
+![image](https://github.com/user-attachments/assets/3ba73138-4178-4938-94fa-cc9fc9fca507)
+![image](https://github.com/user-attachments/assets/e030a239-ffeb-49ec-b26d-3f871534223d)
+![image](https://github.com/user-attachments/assets/044141c6-231e-4c4e-9b9d-ead7f94bdf6b)
