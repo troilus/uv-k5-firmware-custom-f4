@@ -130,7 +130,7 @@ enum BacklightOnRxTx_t gSetting_backlight_on_tx_rx;
     uint8_t       gDebug;
     uint8_t       gDW = 0;
     uint8_t       gCB = 0;
-    bool          gSaveRxMode = false;
+    bool          gSaveRxMode = true;
     uint8_t       crc[15] = { 0 };
     uint8_t       lErrorsDuringAirCopy = 0;
     uint8_t       gAircopyStep = 0;
