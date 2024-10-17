@@ -45,10 +45,10 @@ const uint16_t    key_debounce_10ms                =    20 / 10;   // 20ms
 const uint8_t     scan_delay_10ms                  =   210 / 10;   // 210ms
 
 #ifdef ENABLE_FEAT_F4HWN
-    const uint16_t    dual_watch_count_after_tx_10ms   =  200;         // 4.2 sec after TX ends 双守状态接收信号结束后，有一段单守时间，将这个时间又4.2秒改成2秒
+    const uint16_t    dual_watch_count_after_tx_10ms   =  420;         // 4.2 sec after TX ends 双守状态tx结束后，有一段单守时间，4.2秒
     const uint16_t    dual_watch_count_after_rx_10ms   =  1000 / 10;   // 1 sec after RX ends ?
     const uint16_t    dual_watch_count_after_1_10ms    =  5000 / 10;   // 5 sec
-    const uint16_t    dual_watch_count_after_2_10ms    =  420;         // 4.2 sec
+    const uint16_t    dual_watch_count_after_2_10ms    =  210;         // 4.2 sec 双守状态接收信号结束后，有一段单守时间，将这个时间4.2秒改成2.1秒
     const uint16_t    dual_watch_count_noaa_10ms       =    70 / 10;   // 70ms
 #else
     const uint16_t    dual_watch_count_after_tx_10ms   =  3600 / 10;   // 3.6 sec after TX ends
