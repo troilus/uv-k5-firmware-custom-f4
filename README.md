@@ -14,9 +14,18 @@
 - [x] 去掉*进入DTMF输入（DTMF用不上，显示杂乱，删）
 - [x] 缩短了双守状态下接收信息后继续单守的时间（双守就双守，单守那么久搞毛）
 - [x] 收音机状态下可以双守、收发操作后快速1s返回收音机（来快点，等那么久干啥）
+- [x] 顶端图标修改
+
 
 - [ ] 去掉信道模式长按*搜索选项（用不上scanlist，显示杂乱，删）
 - [ ] 收音机固定中国频率范围
 - [ ] 去除了XB模式及显示、菜单
-- [ ] 顶端图标修改
 - [ ] 单收界面修改（需要能够看到另一个信道频率）
+- [ ] 增加中文菜单，信道名？在精简不常用功能的基础上
+- [ ] 信道模式不显示步长
+
+
+![image](https://github.com/user-attachments/assets/1cb55267-1525-4489-8a8b-a6acdc8a77f0)
+![image](https://github.com/user-attachments/assets/0a632c70-30e2-411f-a757-42b1fba390db)
+![image](https://github.com/user-attachments/assets/3d42d1ab-2e38-42da-af2b-a74b1cdf2511)
+
