@@ -111,10 +111,7 @@ static void CheckForIncoming(void)
 如果 squelch 打开，说明设备接收到信号，接着会判断设备是否在执行 RF 扫描（gScanStateDir 是否为 SCAN_OFF）。
 处理非 RF 扫描状态：
 
-如果设备未进行 RF 扫描，进一步检查是否开启了双重监听（gEeprom.DUAL_WATCH 是否为 DUAL_WATCH_OFF）。
-如果双重监听模式关闭：
-在 NOAA 模式下（gIsNoaaMode），执行 NOAA 特定的倒计时和调度设置。
-如果当前功能（gCurrentFunction）不是 "incoming" 模式，调用 FUNCTION_Select(FUNCTION_INCOMING) 切换到 "incoming" 模式。
+
 
 
 
@@ -129,7 +126,10 @@ static void CheckForIncoming(void)
         return;          // squelch is closed
 
     // squelch is open
-
+/*如果设备未进行 RF 扫描，进一步检查是否开启了双重监听（gEeprom.DUAL_WATCH 是否为 DUAL_WATCH_OFF）。
+如果双重监听模式关闭：
+在 NOAA 模式下（gIsNoaaMode），执行 NOAA 特定的倒计时和调度设置。
+如果当前功能（gCurrentFunction）不是 "incoming" 模式，调用 FUNCTION_Select(FUNCTION_INCOMING) 切换到 "incoming" 模式。*/ 
     if (gScanStateDir == SCAN_OFF)
     {   // not RF scanning
         if (gEeprom.DUAL_WATCH == DUAL_WATCH_OFF)
@@ -518,14 +518,14 @@ void APP_StartListening(FUNCTION_Type_t function)
 {
     const unsigned int vfo = gEeprom.RX_VFO;
 
-#ifdef ENABLE_FEAT_F4HWN_RX_TX_TIMER
+/*#ifdef ENABLE_FEAT_F4HWN_RX_TX_TIMER
     gRxTimerCountdown_500ms = 7200;
-#endif
+#endif*/
 
-#ifdef ENABLE_DTMF_CALLING
+/*#ifdef ENABLE_DTMF_CALLING
     if (gSetting_KILLED)
         return;
-#endif
+#endif*/
 
 #ifdef ENABLE_FMRADIO
     if (gFmRadioMode)
@@ -545,7 +545,7 @@ void APP_StartListening(FUNCTION_Type_t function)
     if (gScanStateDir != SCAN_OFF)
         CHFRSCANNER_Found();
 
-#ifdef ENABLE_NOAA
+/*#ifdef ENABLE_NOAA
     if (IS_NOAA_CHANNEL(gRxVfo->CHANNEL_SAVE) && gIsNoaaMode) {
         gRxVfo->CHANNEL_SAVE        = gNoaaChannel + NOAA_CHANNEL_FIRST;
         gRxVfo->pRX->Frequency      = NoaaFrequencyTable[gNoaaChannel];
@@ -555,7 +555,7 @@ void APP_StartListening(FUNCTION_Type_t function)
         gNOAA_Countdown_10ms        = 500;   // 5 sec
         gScheduleNOAA               = false;
     }
-#endif
+#endif*/
 
     if (gScanStateDir == SCAN_OFF &&
         gEeprom.DUAL_WATCH != DUAL_WATCH_OFF)
