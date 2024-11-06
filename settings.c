@@ -27,6 +27,7 @@
 #include "settings.h"
 #include "ui/menu.h"
 
+#ifdef ENABLE_FEAT_F4HWN_RESET_CHANNEL
 static const uint32_t gDefaultFrequencyTable[] =
 {
     14500000,    //
@@ -35,6 +36,7 @@ static const uint32_t gDefaultFrequencyTable[] =
     43320000,    //
     43350000     //
 };
+#endif
 
 EEPROM_Config_t gEeprom = { 0 };
 
@@ -65,11 +67,23 @@ void SETTINGS_InitEEPROM(void)
 #endif
     gEeprom.CHANNEL_DISPLAY_MODE  = (Data[1] < 4) ? Data[1] : MDF_FREQUENCY;    // 4 instead of 3 - extra display mode
     gEeprom.CROSS_BAND_RX_TX      = (Data[2] < 3) ? Data[2] : CROSS_BAND_OFF;
-    gEeprom.BATTERY_SAVE          = (Data[3] < 5) ? Data[3] : 4;
+    gEeprom.BATTERY_SAVE          = (Data[3] < 6) ? Data[3] : 4;
     gEeprom.DUAL_WATCH            = (Data[4] < 3) ? Data[4] : DUAL_WATCH_CHAN_A;
     gEeprom.BACKLIGHT_TIME        = (Data[5] < 62) ? Data[5] : 12;
-    gEeprom.TAIL_TONE_ELIMINATION = (Data[6] < 2) ? Data[6] : false;
-    gEeprom.VFO_OPEN              = (Data[7] < 2) ? Data[7] : true;
+    #ifdef ENABLE_FEAT_F4HWN_NARROWER
+        gEeprom.TAIL_TONE_ELIMINATION = ((Data[6] & 0x01) < 2) ? (Data[6] & 0x01) : false;
+        gSetting_set_nfm = (((Data[6] >> 1) & 0x03) < 3) ? ((Data[6] >> 1) & 0x03) : 0;
+    #else
+        gEeprom.TAIL_TONE_ELIMINATION = (Data[6] < 2) ? Data[6] : false;
+    #endif
+
+    #ifdef ENABLE_FEAT_F4HWN_RESTORE_SCAN
+        gEeprom.VFO_OPEN = Data[7] & 0x01;
+        gEeprom.CURRENT_STATE = (Data[7] >> 1) & 0x07;
+        gEeprom.CURRENT_LIST = (Data[7] >> 4) & 0x07;
+    #else
+        gEeprom.VFO_OPEN              = (Data[7] < 2) ? Data[7] : true;
+    #endif
 
     // 0E80..0E87
     EEPROM_ReadBuffer(0x0E80, Data, 8);
@@ -492,15 +506,17 @@ void SETTINGS_FactoryReset(bool bIsAll)
     {
         RADIO_InitInfo(gRxVfo, FREQ_CHANNEL_FIRST + BAND6_400MHz, 43350000);
 
-        // set the first few memory channels
-        for (i = 0; i < ARRAY_SIZE(gDefaultFrequencyTable); i++)
-        {
-            const uint32_t Frequency   = gDefaultFrequencyTable[i];
-            gRxVfo->freq_config_RX.Frequency = Frequency;
-            gRxVfo->freq_config_TX.Frequency = Frequency;
-            gRxVfo->Band               = FREQUENCY_GetBand(Frequency);
-            SETTINGS_SaveChannel(MR_CHANNEL_FIRST + i, 0, gRxVfo, 2);
-        }
+        #ifdef ENABLE_FEAT_F4HWN_RESET_CHANNEL
+            // set the first few memory channels
+            for (i = 0; i < ARRAY_SIZE(gDefaultFrequencyTable); i++)
+            {
+                const uint32_t Frequency   = gDefaultFrequencyTable[i];
+                gRxVfo->freq_config_RX.Frequency = Frequency;
+                gRxVfo->freq_config_TX.Frequency = Frequency;
+                gRxVfo->Band               = FREQUENCY_GetBand(Frequency);
+                SETTINGS_SaveChannel(MR_CHANNEL_FIRST + i, 0, gRxVfo, 2);
+            }
+        #endif
 
         #ifdef ENABLE_FEAT_F4HWN
             EEPROM_WriteBuffer(0x1FF0, Template);
@@ -609,8 +625,17 @@ void SETTINGS_SaveSettings(void)
         State[5] = gEeprom.BACKLIGHT_TIME;
     #endif
 
-    State[6] = gEeprom.TAIL_TONE_ELIMINATION;
-    State[7] = gEeprom.VFO_OPEN;
+    #ifdef ENABLE_FEAT_F4HWN_NARROWER
+        State[6] = (gEeprom.TAIL_TONE_ELIMINATION & 0x01) | ((gSetting_set_nfm & 0x03) << 1);
+    #else
+        State[6] = gEeprom.TAIL_TONE_ELIMINATION;
+    #endif
+
+    #ifdef ENABLE_FEAT_F4HWN_RESTORE_SCAN
+        State[7] = (gEeprom.VFO_OPEN & 0x01) | ((gEeprom.CURRENT_STATE & 0x07) << 1) | ((gEeprom.SCAN_LIST_DEFAULT & 0x07) << 4);
+    #else
+        State[7] = gEeprom.VFO_OPEN;
+    #endif
     EEPROM_WriteBuffer(0x0E78, State);
 
     State[0] = gEeprom.BEEP_CONTROL;
@@ -769,6 +794,10 @@ void SETTINGS_SaveSettings(void)
     gEeprom.KEY_LOCK_PTT = gSetting_set_lck;
 
     EEPROM_WriteBuffer(0x1FF0, State);
+#endif
+
+#ifdef ENABLE_FEAT_F4HWN_VOL
+    SETTINGS_WriteCurrentVol();
 #endif
 }
 
@@ -961,3 +990,25 @@ State[1] = 0
 ;
     EEPROM_WriteBuffer(0x1FF0, State);
 }
+
+
+#ifdef ENABLE_FEAT_F4HWN_RESTORE_SCAN
+    void SETTINGS_WriteCurrentState(void)
+    {
+        uint8_t State[8];
+        EEPROM_ReadBuffer(0x0E78, State, sizeof(State));
+        //State[3] = (gEeprom.CURRENT_STATE << 4) | (gEeprom.BATTERY_SAVE & 0x0F);
+        State[7] = (gEeprom.VFO_OPEN & 0x01) | ((gEeprom.CURRENT_STATE & 0x07) << 1) | ((gEeprom.SCAN_LIST_DEFAULT & 0x07) << 4);
+        EEPROM_WriteBuffer(0x0E78, State);
+    }
+#endif
+
+#ifdef ENABLE_FEAT_F4HWN_VOL
+    void SETTINGS_WriteCurrentVol(void)
+    {
+        uint8_t State[8];
+        EEPROM_ReadBuffer(0x1F88, State, sizeof(State));
+        State[6] = gEeprom.VOLUME_GAIN;
+        EEPROM_WriteBuffer(0x1F88, State);
+    }
+#endif

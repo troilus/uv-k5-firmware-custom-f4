@@ -185,36 +185,53 @@ int FM_CheckFrequencyLock(uint16_t Frequency, uint16_t LowerLimit)
     const uint16_t Deviation = BK1080_REG_07_GET_FREQD(Test2);
 
     if (BK1080_REG_07_GET_SNR(Test2) <= 2) {
-        goto Bail;
+        BK1080_FrequencyDeviation = Deviation;
+        BK1080_BaseFrequency      = Frequency;
+
+        return ret;
     }
 
     const uint16_t Status = BK1080_ReadRegister(BK1080_REG_10);
 
     if ((Status & BK1080_REG_10_MASK_AFCRL) != BK1080_REG_10_AFCRL_NOT_RAILED || BK1080_REG_10_GET_RSSI(Status) < 10) {
-        goto Bail;
+        BK1080_FrequencyDeviation = Deviation;
+        BK1080_BaseFrequency      = Frequency;
+
+        return ret;
     }
 
     //if (Deviation > -281 && Deviation < 280)
     if (Deviation >= 280 && Deviation <= 3815) {
-        goto Bail;
+        BK1080_FrequencyDeviation = Deviation;
+        BK1080_BaseFrequency      = Frequency;
+
+        return ret;
     }
 
     // not BLE(less than or equal)
     if (Frequency > LowerLimit && (Frequency - BK1080_BaseFrequency) == 1) {
         if (BK1080_FrequencyDeviation & 0x800 || (BK1080_FrequencyDeviation < 20))
-            goto Bail;
+        {
+            BK1080_FrequencyDeviation = Deviation;
+            BK1080_BaseFrequency      = Frequency;
+
+            return ret;
+        }
     }
 
     // not BLT(less than)
 
     if (Frequency >= LowerLimit && (BK1080_BaseFrequency - Frequency) == 1) {
         if ((BK1080_FrequencyDeviation & 0x800) == 0 || (BK1080_FrequencyDeviation > 4075))
-            goto Bail;
+        {
+            BK1080_FrequencyDeviation = Deviation;
+            BK1080_BaseFrequency      = Frequency;
+
+            return ret;
+        }
     }
 
     ret = 0;
-
-Bail:
     BK1080_FrequencyDeviation = Deviation;
     BK1080_BaseFrequency      = Frequency;
 

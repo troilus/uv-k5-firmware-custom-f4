@@ -658,6 +658,13 @@ void RADIO_SetupRegisters(bool switchToForeground)
 {
     BK4819_FilterBandwidth_t Bandwidth = gRxVfo->CHANNEL_BANDWIDTH;
 
+    #ifdef ENABLE_FEAT_F4HWN_NARROWER
+        if(Bandwidth == BK4819_FILTER_BW_NARROW && gSetting_set_nfm == 1)
+        {
+            Bandwidth = BK4819_FILTER_BW_NARROWER;
+        }
+    #endif
+
     AUDIO_AudioPathOff();
 
     gEnableSpeaker = false;
@@ -671,6 +678,7 @@ void RADIO_SetupRegisters(bool switchToForeground)
             [[fallthrough]];
         case BK4819_FILTER_BW_WIDE:
         case BK4819_FILTER_BW_NARROW:
+        case BK4819_FILTER_BW_NARROWER:
             #ifdef ENABLE_AM_FIX
 //              BK4819_SetFilterBandwidth(Bandwidth, gRxVfo->Modulation == MODULATION_AM && gSetting_AM_fix);
                 BK4819_SetFilterBandwidth(Bandwidth, true);
@@ -745,13 +753,8 @@ void RADIO_SetupRegisters(bool switchToForeground)
             {
                 default:
                 case CODE_TYPE_OFF:
-                    BK4819_SetCTCSSFrequency(670);
-
-                    //#ifndef ENABLE_CTCSS_TAIL_PHASE_SHIFT
-                        BK4819_SetTailDetection(550);       // QS's 55Hz tone method
-                    //#else
-                    //  BK4819_SetTailDetection(670);       // 67Hz
-                    //#endif
+                    BK4819_SetCTCSSFrequency(SQL_TONE);
+                    BK4819_SetTailDetection(SQL_TONE); // Default 550 = QS's 55Hz tone method
 
                     InterruptMask = BK4819_REG_3F_CxCSS_TAIL | BK4819_REG_3F_SQUELCH_FOUND | BK4819_REG_3F_SQUELCH_LOST;
                     break;
@@ -760,7 +763,7 @@ void RADIO_SetupRegisters(bool switchToForeground)
                     BK4819_SetCTCSSFrequency(CTCSS_Options[Code]);
 
                     //#ifndef ENABLE_CTCSS_TAIL_PHASE_SHIFT
-                        BK4819_SetTailDetection(550);       // QS's 55Hz tone method
+                    //    BK4819_SetTailDetection(550);       // QS's 55Hz tone method
                     //#else
                     //  BK4819_SetTailDetection(CTCSS_Options[Code]);
                     //#endif
@@ -892,6 +895,13 @@ void RADIO_SetTxParameters(void)
 {
     BK4819_FilterBandwidth_t Bandwidth = gCurrentVfo->CHANNEL_BANDWIDTH;
 
+    #ifdef ENABLE_FEAT_F4HWN_NARROWER
+        if(Bandwidth == BK4819_FILTER_BW_NARROW && gSetting_set_nfm == 1)
+        {
+            Bandwidth = BK4819_FILTER_BW_NARROWER;
+        }
+    #endif
+
     AUDIO_AudioPathOff();
 
     gEnableSpeaker = false;
@@ -905,6 +915,7 @@ void RADIO_SetTxParameters(void)
             [[fallthrough]];
         case BK4819_FILTER_BW_WIDE:
         case BK4819_FILTER_BW_NARROW:
+        case BK4819_FILTER_BW_NARROWER:
             #ifdef ENABLE_AM_FIX
 //              BK4819_SetFilterBandwidth(Bandwidth, gCurrentVfo->Modulation == MODULATION_AM && gSetting_AM_fix);
                 BK4819_SetFilterBandwidth(Bandwidth, true);

@@ -309,7 +309,7 @@ int MENU_GetLimits(uint8_t menu_id, int32_t *pMin, int32_t *pMax)
 
         case MENU_SAVE:
             //*pMin = 0;
-            *pMax = ARRAY_SIZE(gSubMenu_SAVE) - 1;
+            *pMax = 5;
             break;
 
         case MENU_MIC:
@@ -418,6 +418,18 @@ int MENU_GetLimits(uint8_t menu_id, int32_t *pMin, int32_t *pMax)
             //*pMin = 0;
             *pMax = ARRAY_SIZE(gSubMenu_SET_MET) - 1;
             break;
+        #ifdef ENABLE_FEAT_F4HWN_NARROWER
+            case MENU_SET_NFM:
+                //*pMin = 0;
+                *pMax = ARRAY_SIZE(gSubMenu_SET_NFM) - 1;
+                break;
+        #endif
+        #ifdef ENABLE_FEAT_F4HWN_VOL
+            case MENU_SET_VOL:
+                //*pMin = 0;
+                *pMax = 63;
+                break;
+        #endif
 #endif
 
         default:
@@ -917,6 +929,18 @@ void MENU_AcceptSetting(void)
         case MENU_SET_GUI:
             gSetting_set_gui = gSubMenuSelection;
             break;
+        #ifdef ENABLE_FEAT_F4HWN_NARROWER
+            case MENU_SET_NFM:
+                gSetting_set_nfm = gSubMenuSelection;
+                RADIO_SetTxParameters();
+                RADIO_SetupRegisters(true);
+                break;
+        #endif
+        #ifdef ENABLE_FEAT_F4HWN_VOL
+            case MENU_SET_VOL:
+                gEeprom.VOLUME_GAIN = gSubMenuSelection;
+                break;
+        #endif
         case MENU_SET_TMR:
             gSetting_set_tmr = gSubMenuSelection;
             break;
@@ -1351,6 +1375,16 @@ void MENU_ShowCurrentSetting(void)
         case MENU_SET_GUI:
             gSubMenuSelection = gSetting_set_gui;
             break;
+        #ifdef ENABLE_FEAT_F4HWN_NARROWER
+            case MENU_SET_NFM:
+                gSubMenuSelection = gSetting_set_nfm;
+                break;
+        #endif
+        #ifdef ENABLE_FEAT_F4HWN_VOL
+            case MENU_SET_VOL:
+                gSubMenuSelection = gEeprom.VOLUME_GAIN;
+                break;
+        #endif
         case MENU_SET_TMR:
             gSubMenuSelection = gSetting_set_tmr;
             break;

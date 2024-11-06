@@ -139,6 +139,7 @@ const t_menu_item MenuList[] =
 
 #ifdef ENABLE_FEAT_F4HWN
     {"SetPwr",      MENU_SET_PWR       },
+
 //    {"SetPtt",      MENU_SET_PTT       },
 //    {"SetTot",      MENU_SET_TOT       },
 //    {"SetEot",      MENU_SET_EOT       },
@@ -151,6 +152,13 @@ const t_menu_item MenuList[] =
 //#ifdef ENABLE_FEAT_F4HWN_SLEEP
 //    {"SetOff",       MENU_SET_OFF      },
 //#endif
+
+#ifdef ENABLE_FEAT_F4HWN_NARROWER
+    {"SetNFM",      MENU_SET_NFM       },
+#endif
+#ifdef ENABLE_FEAT_F4HWN_VOL
+    {"SetVol",      MENU_SET_VOL       },
+#endif
 #endif
     // hidden menu items from here on
     // enabled if pressing both the PTT and upper side button at power-on
@@ -205,15 +213,6 @@ const char gSubMenu_OFF_ON[][4] =
 {
     "OFF",
     "ON"
-};
-
-const char gSubMenu_SAVE[][4] =
-{
-    "OFF",
-    "1:1",
-    "1:2",
-    "1:3",
-    "1:4"
 };
 
 const char* const gSubMenu_RXMode[] =
@@ -391,6 +390,14 @@ const char gSubMenu_SCRAMBLER[][7] =
         "TINY",
         "CLASSIC"
     };
+
+    #ifdef ENABLE_FEAT_F4HWN_NARROWER
+        const char gSubMenu_SET_NFM[][9] =
+        {
+            "NARROW",
+            "NARROWER"
+        };
+    #endif
 #endif
 
 const t_sidefunction gSubMenu_SIDEFUNCTIONS[] =
@@ -665,10 +672,7 @@ void UI_DisplayMenu(void)
 
         #ifdef ENABLE_VOX
             case MENU_VOX:
-                if (gSubMenuSelection == 0)
-                    strcpy(String, "OFF");
-                else
-                    sprintf(String, "%d", gSubMenuSelection);
+                sprintf(String, gSubMenuSelection == 0 ? "OFF" : "%u", gSubMenuSelection);
                 break;
         #endif
 
@@ -814,7 +818,7 @@ void UI_DisplayMenu(void)
         }
 
         case MENU_SAVE:
-            strcpy(String, gSubMenu_SAVE[gSubMenuSelection]);
+            sprintf(String, gSubMenuSelection == 0 ? "OFF" : "1:%u", gSubMenuSelection);
             break;
 
         case MENU_TDR:
@@ -851,10 +855,7 @@ void UI_DisplayMenu(void)
             break;
 
         case MENU_RP_STE:
-            if (gSubMenuSelection == 0)
-                strcpy(String, "OFF");
-            else
-                sprintf(String, "%d*100ms", gSubMenuSelection);
+            sprintf(String, gSubMenuSelection == 0 ? "OFF" : "%u*100ms", gSubMenuSelection);
             break;
 
 //        case MENU_S_LIST:
@@ -1046,6 +1047,23 @@ void UI_DisplayMenu(void)
             strcpy(String, gSubMenu_SET_MET[gSubMenuSelection]); // Same as SET_MET
             break;
 
+        #ifdef ENABLE_FEAT_F4HWN_NARROWER
+            case MENU_SET_NFM:
+                strcpy(String, gSubMenu_SET_NFM[gSubMenuSelection]);
+                break;
+        #endif
+
+        #ifdef ENABLE_FEAT_F4HWN_VOL
+            case MENU_SET_VOL:
+                sprintf(String, gSubMenuSelection == 0 ? "OFF" : "%02u", gSubMenuSelection);
+                gEeprom.VOLUME_GAIN = gSubMenuSelection;
+                BK4819_WriteRegister(BK4819_REG_48,
+                    (11u << 12)                |     // ??? .. 0 ~ 15, doesn't seem to make any difference
+                    ( 0u << 10)                |     // AF Rx Gain-1
+                    (gEeprom.VOLUME_GAIN << 4) |     // AF Rx Gain-2
+                    (gEeprom.DAC_GAIN    << 0));     // AF DAC Gain (after Gain-1 and Gain-2)
+                break;
+        #endif
 #endif
 
     }

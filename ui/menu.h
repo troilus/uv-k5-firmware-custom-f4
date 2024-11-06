@@ -141,6 +141,12 @@ enum
     MENU_SET_MET,
     MENU_SET_GUI,
     MENU_SET_TMR,
+    #ifdef ENABLE_FEAT_F4HWN_NARROWER
+        MENU_SET_NFM,
+    #endif
+    #ifdef ENABLE_FEAT_F4HWN_VOL
+        MENU_SET_VOL,
+    #endif
 #endif
     MENU_BATCAL,  // battery voltage calibration
     MENU_F1SHRT,
@@ -158,7 +164,6 @@ extern const char        gSubMenu_TXP[8][6];
 extern const char        gSubMenu_SFT_D[3][4];
 extern const char        gSubMenu_W_N[2][7];
 extern const char        gSubMenu_OFF_ON[2][4];
-extern const char        gSubMenu_SAVE[5][4];
 extern const char        gSubMenu_TOT[11][7];
 extern const char* const gSubMenu_RXMode[4];
 
@@ -179,6 +184,9 @@ extern const char        gSubMenu_D_RSP[4][11];
     extern const char    gSubMenu_SET_TOT[4][7];
     extern const char    gSubMenu_SET_LCK[2][9];
     extern const char    gSubMenu_SET_MET[2][8];
+    #ifdef ENABLE_FEAT_F4HWN_NARROWER
+        extern const char    gSubMenu_SET_NFM[2][9];
+    #endif
 #endif
 
 extern const char* const gSubMenu_PTT_ID[5];

@@ -1153,7 +1153,7 @@ void APP_Update(void)
 #ifdef ENABLE_FEAT_F4HWN_SLEEP
             if(gWakeUp)
             {
-                gPowerSave_10ms = 1000; // Why ? Why not :) 10s
+                gPowerSave_10ms = gEeprom.BATTERY_SAVE * 200; // deep sleep now indexed on BatSav
             }
             else
             {
