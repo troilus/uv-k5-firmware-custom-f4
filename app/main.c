@@ -48,7 +48,7 @@ static void toggle_chan_scanlist(void)
 
     if (SCANNER_IsScanning())
         return;
-
+//这里是设置范围搜索
     if(!IS_MR_CHANNEL(gTxVfo->CHANNEL_SAVE)) {
 #ifdef ENABLE_SCAN_RANGES
         gScanRangeStart = gScanRangeStart ? 0 : gTxVfo->pRX->Frequency;
@@ -58,7 +58,7 @@ static void toggle_chan_scanlist(void)
 #endif
         return;
     }
-    
+  /*去掉非频率模式下长按5切换scanlist的功能、以及什么不扫描排除频率的功能，没卵用  
     // Remove exclude
     if(gMR_ChannelExclude[gTxVfo->CHANNEL_SAVE] == true)
     {
@@ -77,9 +77,9 @@ static void toggle_chan_scanlist(void)
     SETTINGS_UpdateChannel(gTxVfo->CHANNEL_SAVE, gTxVfo, true, true, true);
 
     gVfoConfigureMode = VFO_CONFIGURE;
-    gFlagResetVfos    = true;
+    gFlagResetVfos    = true;*/
 }
-
+//这里修改键盘F+按键的功能？
 static void processFKeyFunction(const KEY_Code_t Key, const bool beep)
 {
     uint8_t Vfo = gEeprom.TX_VFO;
@@ -90,14 +90,14 @@ static void processFKeyFunction(const KEY_Code_t Key, const bool beep)
     }
     
     gBeepToPlay = BEEP_1KHZ_60MS_OPTIONAL;
-
+//F0收音机
     switch (Key) {
         case KEY_0:
             #ifdef ENABLE_FMRADIO
                 ACTION_FM();
             #endif
             break;
-
+//F1切band
         case KEY_1:
             if (!IS_FREQ_CHANNEL(gTxVfo->CHANNEL_SAVE)) {
                 gWasFKeyPressed = false;
@@ -170,7 +170,7 @@ static void processFKeyFunction(const KEY_Code_t Key, const bool beep)
                 gBeepToPlay = BEEP_1KHZ_60MS_OPTIONAL;
 
             break;
-
+//F2切AB
         case KEY_2:
             #ifdef ENABLE_FEAT_F4HWN
                 gVfoConfigureMode     = VFO_CONFIGURE;
@@ -179,7 +179,7 @@ static void processFKeyFunction(const KEY_Code_t Key, const bool beep)
             if (beep)
                 gBeepToPlay = BEEP_1KHZ_60MS_OPTIONAL;
             break;
-
+//F3切VFO、MR
         case KEY_3:
             #ifdef ENABLE_FEAT_F4HWN
                 gVfoConfigureMode     = VFO_CONFIGURE;
@@ -189,7 +189,7 @@ static void processFKeyFunction(const KEY_Code_t Key, const bool beep)
                 gBeepToPlay = BEEP_500HZ_60MS_DOUBLE_BEEP_OPTIONAL;
 
             break;
-
+//F4扫频
         case KEY_4:
             gWasFKeyPressed          = false;
 
@@ -202,7 +202,7 @@ static void processFKeyFunction(const KEY_Code_t Key, const bool beep)
             SCANNER_Start(false);
             gRequestDisplayScreen = DISPLAY_SCANNER;
             break;
-
+//F5 进频谱图
         case KEY_5:
             if(beep) {
 #ifdef ENABLE_NOAA
@@ -223,15 +223,18 @@ static void processFKeyFunction(const KEY_Code_t Key, const bool beep)
 #endif
             }
             else {
-                toggle_chan_scanlist();
+                toggle_chan_scanlist(); 
+                //修改为不要改scanlist，上面改了， 这里应该不用改
+                //APP_RunSpectrum();
+                //gRequestDisplayScreen = DISPLAY_MAIN;
             }
 
             break;
-
+//F6改功率
         case KEY_6:
             ACTION_Power();
             break;
-
+//F7改VOX或者暂时没功能
         case KEY_7:
 #ifdef ENABLE_VOX
             ACTION_Vox();
@@ -239,7 +242,7 @@ static void processFKeyFunction(const KEY_Code_t Key, const bool beep)
 //          toggle_chan_scanlist();
 #endif
             break;
-
+//F8长按是倒频，F+8在529行
         case KEY_8:
             gTxVfo->FrequencyReverse = gTxVfo->FrequencyReverse == false;
             gRequestSaveChannel = 1;
@@ -262,7 +265,7 @@ static void processFKeyFunction(const KEY_Code_t Key, const bool beep)
             if (beep)
                 gBeepToPlay = BEEP_500HZ_60MS_DOUBLE_BEEP_OPTIONAL;
             break;
-
+//这里是修改F+上下侧键1、侧键2的功能，修改下侧键1、2，去掉功能
 #ifdef ENABLE_FEAT_F4HWN // Set Squelch F + UP or Down and Step F + SIDE1 or F + SIDE2
         case KEY_UP:
             gEeprom.SQUELCH_LEVEL = (gEeprom.SQUELCH_LEVEL < 9) ? gEeprom.SQUELCH_LEVEL + 1: 9;
@@ -275,7 +278,7 @@ static void processFKeyFunction(const KEY_Code_t Key, const bool beep)
             gWasFKeyPressed = false;
             break;
 
-        case KEY_SIDE1:
+        /*case KEY_SIDE1:
             uint8_t a = FREQUENCY_GetSortedIdxFromStepIdx(gTxVfo->STEP_SETTING);
             if (a < STEP_N_ELEM - 1)
             {
@@ -300,7 +303,7 @@ static void processFKeyFunction(const KEY_Code_t Key, const bool beep)
             }
             gVfoConfigureMode     = VFO_CONFIGURE;
             gWasFKeyPressed = false;
-            break;
+            break;*/
 #endif
 
         default:
@@ -547,15 +550,25 @@ static void MAIN_Key_DIGITS(KEY_Code_t Key, bool bKeyPressed, bool bKeyHeld)
 
     gWasFKeyPressed = false;
     gUpdateStatus   = true;
-
+//这里是F+8、F+9的功能，找了老半天， 都改成长按功能！背光有个毛切头啊
+        const uint8_t Vfo = gEeprom.TX_VFO;
     if(Key == 8)
     {
-        ACTION_BackLightOnDemand();
+        gTxVfo->FrequencyReverse = gTxVfo->FrequencyReverse == false;
+        gRequestSaveChannel = 1;
         return;
     }
+        
     else if(Key == 9)
     {
-        ACTION_BackLight();
+    if (RADIO_CheckValidChannel(gEeprom.CHAN_1_CALL, false, 0)) {
+        gEeprom.MrChannel[Vfo]     = gEeprom.CHAN_1_CALL;
+        gEeprom.ScreenChannel[Vfo] = gEeprom.CHAN_1_CALL;
+        gRequestSaveVFO            = true;
+        gVfoConfigureMode          = VFO_CONFIGURE_RELOAD;
+    } else {
+       
+    }
         return;
     }
 
@@ -702,7 +715,7 @@ static void MAIN_Key_STAR(bool bKeyPressed, bool bKeyHeld)
             gBeepToPlay = BEEP_500HZ_60MS_DOUBLE_BEEP_OPTIONAL;
         return;
     }
-
+//长按*键,开始搜索
     if (bKeyHeld && !gWasFKeyPressed){ // long press
         if (!bKeyPressed) // released
             return; 
@@ -740,7 +753,7 @@ static void MAIN_Key_STAR(bool bKeyPressed, bool bKeyHeld)
             && gScanRangeStart == 0
 #endif      
         )
-        {   // start entering a DTMF string
+       {    /*不要进入DTMF输入模式// start entering a DTMF string
             gBeepToPlay = BEEP_1KHZ_60MS_OPTIONAL;
             memcpy(gDTMF_InputBox, gDTMF_String, MIN(sizeof(gDTMF_InputBox), sizeof(gDTMF_String) - 1));
             gDTMF_InputBox_Index  = 0;
@@ -748,7 +761,7 @@ static void MAIN_Key_STAR(bool bKeyPressed, bool bKeyHeld)
 
             gKeyInputCountdown    = key_input_timeout_500ms;
 
-            gRequestDisplayScreen = DISPLAY_MAIN;
+            gRequestDisplayScreen = DISPLAY_MAIN;*/
         }
         else
             gBeepToPlay = BEEP_500HZ_60MS_DOUBLE_BEEP_OPTIONAL;
@@ -763,7 +776,7 @@ static void MAIN_Key_STAR(bool bKeyPressed, bool bKeyHeld)
             return;
         }               
 #endif
-        // scan the CTCSS/DCS code
+        // F+*进入搜索哑音模式 scan the CTCSS/DCS code
         gBackup_CROSS_BAND_RX_TX  = gEeprom.CROSS_BAND_RX_TX;
         gEeprom.CROSS_BAND_RX_TX = CROSS_BAND_OFF;
 

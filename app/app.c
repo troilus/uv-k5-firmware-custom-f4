@@ -101,12 +101,35 @@ static_assert(ARRAY_SIZE(ProcessKeysFunctions) == DISPLAY_N_ELEM);
 
 
 static void CheckForIncoming(void)
+/*CheckForIncoming() 的函数，用来处理设备（可能是无线电设备）接收到信号时的状态变化。它主要检查设备的状态，并根据接收的信号、扫描状态以及双重监听（dual watch）模式做出相应的处理。具体来说：
+
+检查 squelch（静噪电路）是否关闭：
+
+如果 g_SquelchLost 为假，函数直接返回，表示静噪未丢失，不需要进一步处理（没有接收到信号）。
+处理 squelch 打开情况：
+
+如果 squelch 打开，说明设备接收到信号，接着会判断设备是否在执行 RF 扫描（gScanStateDir 是否为 SCAN_OFF）。
+处理非 RF 扫描状态：
+
+
+
+
+
+
+如果设备正在执行 RF 扫描（gScanStateDir 不是 SCAN_OFF），且接收模式不是 RX_MODE_NONE，同样切换到 "incoming" 模式。
+如果接收模式为 RX_MODE_NONE，则执行扫描暂停倒计时，并停止扫描监听。
+更新接收模式：
+
+无论扫描状态如何，当检测到接收到信号时，将接收模式设置为 RX_MODE_DETECTED，并确保切换到 "incoming" 模式。*/
 {
     if (!g_SquelchLost)
         return;          // squelch is closed
 
     // squelch is open
-
+/*如果设备未进行 RF 扫描，进一步检查是否开启了双重监听（gEeprom.DUAL_WATCH 是否为 DUAL_WATCH_OFF）。
+如果双重监听模式关闭：
+在 NOAA 模式下（gIsNoaaMode），执行 NOAA 特定的倒计时和调度设置。
+如果当前功能（gCurrentFunction）不是 "incoming" 模式，调用 FUNCTION_Select(FUNCTION_INCOMING) 切换到 "incoming" 模式。*/ 
     if (gScanStateDir == SCAN_OFF)
     {   // not RF scanning
         if (gEeprom.DUAL_WATCH == DUAL_WATCH_OFF)
@@ -130,7 +153,8 @@ static void CheckForIncoming(void)
         }
 
         // dual watch is enabled and we're RX'ing a signal
-
+/*处理双重监听模式开启的情况：如果双重监听模式开启且接收模式（gRxReceptionMode）不是 RX_MODE_NONE，则同样切换到 "incoming" 模式。
+如果接收模式为 RX_MODE_NONE，则启动双重监听倒计时（gDualWatchCountdown_10ms），并设置一些状态标志。*/
         if (gRxReceptionMode != RX_MODE_NONE)
         {
             if (gCurrentFunction != FUNCTION_INCOMING)
@@ -494,14 +518,14 @@ void APP_StartListening(FUNCTION_Type_t function)
 {
     const unsigned int vfo = gEeprom.RX_VFO;
 
-#ifdef ENABLE_FEAT_F4HWN_RX_TX_TIMER
+/*#ifdef ENABLE_FEAT_F4HWN_RX_TX_TIMER
     gRxTimerCountdown_500ms = 7200;
-#endif
+#endif*/
 
-#ifdef ENABLE_DTMF_CALLING
+/*#ifdef ENABLE_DTMF_CALLING
     if (gSetting_KILLED)
         return;
-#endif
+#endif*/
 
 #ifdef ENABLE_FMRADIO
     if (gFmRadioMode)
@@ -521,7 +545,7 @@ void APP_StartListening(FUNCTION_Type_t function)
     if (gScanStateDir != SCAN_OFF)
         CHFRSCANNER_Found();
 
-#ifdef ENABLE_NOAA
+/*#ifdef ENABLE_NOAA
     if (IS_NOAA_CHANNEL(gRxVfo->CHANNEL_SAVE) && gIsNoaaMode) {
         gRxVfo->CHANNEL_SAVE        = gNoaaChannel + NOAA_CHANNEL_FIRST;
         gRxVfo->pRX->Frequency      = NoaaFrequencyTable[gNoaaChannel];
@@ -531,7 +555,7 @@ void APP_StartListening(FUNCTION_Type_t function)
         gNOAA_Countdown_10ms        = 500;   // 5 sec
         gScheduleNOAA               = false;
     }
-#endif
+#endif*/
 
     if (gScanStateDir == SCAN_OFF &&
         gEeprom.DUAL_WATCH != DUAL_WATCH_OFF)
