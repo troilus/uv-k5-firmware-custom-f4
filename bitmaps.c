@@ -22,19 +22,40 @@ const uint8_t gFontPttClassic[2][6] =
     {0x00, 0x7f, 0x40, 0x40, 0x40, 0x40},
 };
 
-const uint8_t gFontF[1][8] =
+const uint8_t gFontF[8] =
 {
-    {0x7f, 0x00, 0x76, 0x76, 0x76, 0x76, 0x7e, 0x7f}, // 'F'
+    0b01111111,
+    0b00000000,
+    0b01110110,
+    0b01110110,
+    0b01110110,
+    0b01110110,
+    0b01111110,
+    0b01111111
 };
 
-const uint8_t gFontS[1][6] =
+#ifdef ENABLE_FEAT_F4HWN_MENU_LOCK
+    const uint8_t gFontR[8] =
+    {
+        0b01111111,
+        0b00000000,
+        0b01110110,
+        0b01110110,
+        0b01100110,
+        0b01010110,
+        0b00111001,
+        0b01111111
+    };
+#endif
+
+const uint8_t gFontS[6] =
 {
-    {0x26, 0x49, 0x49, 0x49, 0x49, 0x32}, // 'S'
+    0x26, 0x49, 0x49, 0x49, 0x49, 0x32 // 'S'
 };
 
-const uint8_t gFontKeyLock[1][9] =
+const uint8_t gFontKeyLock[9] =
 {
-    {0x7c, 0x46, 0x45, 0x45, 0x45, 0x45, 0x45, 0x46, 0x7c}
+    0x7c, 0x46, 0x45, 0x45, 0x45, 0x45, 0x45, 0x46, 0x7c
 };
 
 const uint8_t gFontLight[9] =
@@ -281,6 +302,7 @@ const uint8_t BITMAP_compand[6] =
     0b00100100
 };
 
+/*
 const uint8_t BITMAP_Ready[7] =
 {
     0b00001000,
@@ -291,6 +313,18 @@ const uint8_t BITMAP_Ready[7] =
     0b00000100,
     0b00000010,
 };
+
+const uint8_t BITMAP_NotReady[7] =
+{
+    0b00000000,
+    0b01000010,
+    0b00100100,
+    0b00011000,
+    0b00100100,
+    0b01000010,
+    0b00000000,
+};
+*/
 
 const uint8_t BITMAP_PowerUser[3] =
 {   // 'arrow' symbol

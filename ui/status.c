@@ -222,6 +222,11 @@ void UI_DisplayStatus()
         }
         */
     }
+#ifdef ENABLE_FEAT_F4HWN_MENU_LOCK
+    else if(gEeprom.MENU_LOCK == true) {
+        memcpy(line + x + 1, gFontR, sizeof(gFontR));
+    }
+#endif
     else if (gBackLight)
     {
         memcpy(line + x + 1, gFontLight, sizeof(gFontLight));

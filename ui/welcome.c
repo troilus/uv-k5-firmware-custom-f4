@@ -48,6 +48,7 @@ void UI_DisplayWelcome(void)
     char WelcomeString0[16];
     char WelcomeString1[16];
     char WelcomeString2[16];
+    char WelcomeString3[20];
 
     memset(gStatusLine,  0, sizeof(gStatusLine));
 
@@ -128,6 +129,43 @@ void UI_DisplayWelcome(void)
             gFrameBuffer[4][i] ^= 0xFF;
         }
 
+
+        sprintf(WelcomeString3, "%s Edition", Edition);
+        UI_PrintStringSmallNormal(WelcomeString3, 0, 127, 6);
+
+        /*
+        #ifdef ENABLE_FEAT_F4HWN_MENU_LOCK
+            #if ENABLE_FEAT_F4HWN_MENU_LOCK > 1
+                UI_PrintStringSmallNormal(Edition, 18, 0, 6);
+                if(gEeprom.MENU_LOCK == true) {
+                    memcpy(gFrameBuffer[6] + 103, BITMAP_Ready, sizeof(BITMAP_Ready));
+                }
+                else
+                {
+                    memcpy(gFrameBuffer[6] + 103, BITMAP_NotReady, sizeof(BITMAP_NotReady));                    
+                }
+            #else
+                UI_PrintStringSmallNormal(Edition, 18, 0, 5);
+                memcpy(gFrameBuffer[5] + 103, BITMAP_Ready, sizeof(BITMAP_Ready));
+                
+                #ifdef ENABLE_FEAT_F4HWN_MENU_LOCK
+                    UI_PrintStringSmallNormal("RescueOps", 18, 0, 6);
+                    if(gEeprom.MENU_LOCK == true) {
+                        memcpy(gFrameBuffer[6] + 103, BITMAP_Ready, sizeof(BITMAP_Ready));
+                    }
+                    else
+                    {
+                        memcpy(gFrameBuffer[6] + 103, BITMAP_NotReady, sizeof(BITMAP_NotReady));
+                    }
+                #endif
+            #endif
+        #else
+            UI_PrintStringSmallNormal(Edition, 18, 0, 6);
+            memcpy(gFrameBuffer[6] + 103, BITMAP_Ready, sizeof(BITMAP_Ready));                    
+        #endif
+        */
+
+        /*
         #ifdef ENABLE_SPECTRUM
             #ifdef ENABLE_FMRADIO
                     UI_PrintStringSmallNormal(Based, 0, 127, 5);
@@ -135,13 +173,29 @@ void UI_DisplayWelcome(void)
             #else
                     UI_PrintStringSmallNormal("Bandscope  ", 0, 127, 5);
                     memcpy(gFrameBuffer[5] + 95, BITMAP_Ready, sizeof(BITMAP_Ready));
-                    UI_PrintStringSmallNormal("Broadcast  ", 0, 127, 6);
+
+                    #ifdef ENABLE_FEAT_F4HWN_MENU_LOCK
+                        UI_PrintStringSmallNormal("RescueOps  ", 0, 127, 6);
+                        if(gEeprom.MENU_LOCK == true) {
+                            memcpy(gFrameBuffer[6] + 95, BITMAP_Ready, sizeof(BITMAP_Ready));
+                        }
+                    #else
+                        UI_PrintStringSmallNormal("Broadcast  ", 0, 127, 6);
+                    #endif
             #endif
         #else
-            UI_PrintStringSmallNormal("Bandscope  ", 0, 127, 5);
+            #ifdef ENABLE_FEAT_F4HWN_MENU_LOCK
+                UI_PrintStringSmallNormal("RescueOps  ", 0, 127, 5);
+                if(gEeprom.MENU_LOCK == true) {
+                    memcpy(gFrameBuffer[5] + 95, BITMAP_Ready, sizeof(BITMAP_Ready));
+                }
+            #else
+                UI_PrintStringSmallNormal("Bandscope  ", 0, 127, 5);
+            #endif
             UI_PrintStringSmallNormal("Broadcast  ", 0, 127, 6);
             memcpy(gFrameBuffer[6] + 95, BITMAP_Ready, sizeof(BITMAP_Ready));
         #endif
+        */
 #else
         UI_PrintStringSmallNormal(Version, 0, 127, 6);
 #endif

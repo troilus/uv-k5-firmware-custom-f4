@@ -147,6 +147,9 @@ enum
     #ifdef ENABLE_FEAT_F4HWN_VOL
         MENU_SET_VOL,
     #endif
+    #ifdef ENABLE_FEAT_F4HWN_MENU_LOCK
+        MENU_SET_KEY,
+    #endif
 #endif
     MENU_BATCAL,  // battery voltage calibration
     MENU_F1SHRT,
@@ -186,6 +189,9 @@ extern const char        gSubMenu_D_RSP[4][11];
     extern const char    gSubMenu_SET_MET[2][8];
     #ifdef ENABLE_FEAT_F4HWN_NARROWER
         extern const char    gSubMenu_SET_NFM[2][9];
+    #endif
+    #ifdef ENABLE_FEAT_F4HWN_MENU_LOCK
+        extern const char gSubMenu_SET_KEY[][9];
     #endif
 #endif
 

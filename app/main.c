@@ -84,6 +84,12 @@ static void processFKeyFunction(const KEY_Code_t Key, const bool beep)
 {
     uint8_t Vfo = gEeprom.TX_VFO;
 
+#ifdef ENABLE_FEAT_F4HWN_MENU_LOCK
+    if(gEeprom.MENU_LOCK == true) {
+        return; // prevent F function if MENU LOCK is true
+    }
+#endif
+
     if (gScreenToDisplay == DISPLAY_MENU) {
         gBeepToPlay = BEEP_500HZ_60MS_DOUBLE_BEEP_OPTIONAL;
         return;
@@ -430,7 +436,7 @@ static void MAIN_Key_DIGITS(KEY_Code_t Key, bool bKeyPressed, bool bKeyHeld)
 
         if (IS_MR_CHANNEL(gTxVfo->CHANNEL_SAVE)) { // user is entering channel number
 
-            gKeyInputCountdown = (key_input_timeout_500ms / 5); // short time...
+            gKeyInputCountdown = (key_input_timeout_500ms / 4); // short time...
 
             #ifdef ENABLE_VOICE
                 gAnotherVoiceID   = (VOICE_ID_t)Key;
@@ -457,8 +463,8 @@ static void MAIN_Key_DIGITS(KEY_Code_t Key, bool bKeyPressed, bool bKeyHeld)
                 // do nothing
                 return;
             }
-
-            gKeyInputCountdown = (key_input_timeout_500ms / 5); // short time...
+            
+            gKeyInputCountdown = (gInputBoxIndex == totalDigits) ? (key_input_timeout_500ms / 16) : (key_input_timeout_500ms / 3);
 
             const char *inputStr = INPUTBOX_GetAscii();
             uint8_t inputLength = gInputBoxIndex;
@@ -693,10 +699,18 @@ static void MAIN_Key_MENU(bool bKeyPressed, bool bKeyHeld)
                 return;
             }
 
+            #ifdef ENABLE_FEAT_F4HWN_MENU_LOCK
+            if(gEeprom.MENU_LOCK == false) {
+            #endif
+
             gFlagRefreshSetting = true;
             gRequestDisplayScreen = DISPLAY_MENU;
             #ifdef ENABLE_VOICE
                 gAnotherVoiceID   = VOICE_ID_MENU;
+            #endif
+
+            #ifdef ENABLE_FEAT_F4HWN_MENU_LOCK
+            }
             #endif
         }
         else {
@@ -707,6 +721,13 @@ static void MAIN_Key_MENU(bool bKeyPressed, bool bKeyHeld)
 
 static void MAIN_Key_STAR(bool bKeyPressed, bool bKeyHeld)
 {
+
+#ifdef ENABLE_FEAT_F4HWN_MENU_LOCK
+    if(gEeprom.MENU_LOCK == true) {
+        return; // prevent F function if MENU LOCK is true
+    }
+#endif
+
     if (gCurrentFunction == FUNCTION_TRANSMIT)
         return;
     
@@ -940,7 +961,13 @@ void MAIN_ProcessKeys(KEY_Code_t Key, bool bKeyPressed, bool bKeyHeld)
             MAIN_Key_STAR(bKeyPressed, bKeyHeld);
             break;
         case KEY_F:
-            GENERIC_Key_F(bKeyPressed, bKeyHeld);
+            #ifndef ENABLE_FEAT_F4HWN_MENU_LOCK
+                GENERIC_Key_F(bKeyPressed, bKeyHeld);
+            #else
+                if(gEeprom.MENU_LOCK == false) {
+                    GENERIC_Key_F(bKeyPressed, bKeyHeld);
+                }
+            #endif
             break;
         case KEY_PTT:
             GENERIC_Key_PTT(bKeyPressed);

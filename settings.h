@@ -186,6 +186,10 @@ typedef struct {
 #ifdef ENABLE_FEAT_F4HWN
     bool                  KEY_LOCK_PTT;
 #endif
+#ifdef ENABLE_FEAT_F4HWN_MENU_LOCK
+    bool                  MENU_LOCK;
+    uint8_t               SET_KEY;
+#endif
     bool                  VOX_SWITCH;
     uint8_t               VOX_LEVEL;
 #ifdef ENABLE_VOICE

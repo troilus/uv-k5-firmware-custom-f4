@@ -400,10 +400,12 @@ int MENU_GetLimits(uint8_t menu_id, int32_t *pMin, int32_t *pMax)
             //*pMin = 0;
             *pMax = ARRAY_SIZE(gSubMenu_SET_TOT) - 1;
             break;
+#ifdef ENABLE_FEAT_F4HWN_CONTRAST
         case MENU_SET_CTR:
             *pMin = 1;
             *pMax = 15;
             break;
+#endif
         case MENU_TX_LOCK:
         case MENU_SET_INV:
             //*pMin = 0;
@@ -428,6 +430,12 @@ int MENU_GetLimits(uint8_t menu_id, int32_t *pMin, int32_t *pMax)
             case MENU_SET_VOL:
                 //*pMin = 0;
                 *pMax = 63;
+                break;
+        #endif
+        #ifdef ENABLE_FEAT_F4HWN_MENU_LOCK
+            case MENU_SET_KEY:
+                //*pMin = 0;
+                *pMax = 4;
                 break;
         #endif
 #endif
@@ -914,9 +922,11 @@ void MENU_AcceptSetting(void)
         case MENU_SET_EOT:
             gSetting_set_eot = gSubMenuSelection;
             break;
+#ifdef ENABLE_FEAT_F4HWN_CONTRAST
         case MENU_SET_CTR:
             gSetting_set_ctr = gSubMenuSelection;
             break;
+#endif
         case MENU_SET_INV:
             gSetting_set_inv = gSubMenuSelection;
             break;
@@ -939,6 +949,11 @@ void MENU_AcceptSetting(void)
         #ifdef ENABLE_FEAT_F4HWN_VOL
             case MENU_SET_VOL:
                 gEeprom.VOLUME_GAIN = gSubMenuSelection;
+                break;
+        #endif
+        #ifdef ENABLE_FEAT_F4HWN_MENU_LOCK
+            case MENU_SET_KEY:
+                gEeprom.SET_KEY = gSubMenuSelection;
                 break;
         #endif
         case MENU_SET_TMR:
@@ -1360,9 +1375,11 @@ void MENU_ShowCurrentSetting(void)
         case MENU_SET_EOT:
             gSubMenuSelection = gSetting_set_eot;
             break;
+#ifdef ENABLE_FEAT_F4HWN_CONTRAST
         case MENU_SET_CTR:
             gSubMenuSelection = gSetting_set_ctr;
             break;
+#endif
         case MENU_SET_INV:
             gSubMenuSelection = gSetting_set_inv;
             break;
@@ -1383,6 +1400,11 @@ void MENU_ShowCurrentSetting(void)
         #ifdef ENABLE_FEAT_F4HWN_VOL
             case MENU_SET_VOL:
                 gSubMenuSelection = gEeprom.VOLUME_GAIN;
+                break;
+        #endif
+        #ifdef ENABLE_FEAT_F4HWN_MENU_LOCK
+            case MENU_SET_KEY:
+                gSubMenuSelection = gEeprom.SET_KEY;
                 break;
         #endif
         case MENU_SET_TMR:

@@ -129,7 +129,30 @@ void Main(void)
     AM_fix_init();
 #endif
 
-    const BOOT_Mode_t  BootMode = BOOT_GetMode();
+    BOOT_Mode_t  BootMode = BOOT_GetMode();
+
+#ifdef ENABLE_FEAT_F4HWN_MENU_LOCK
+    if (BootMode == BOOT_MODE_MENU_LOCK)
+    {
+        gEeprom.MENU_LOCK = !gEeprom.MENU_LOCK;
+        SETTINGS_SaveSettings();
+    }
+
+    if(gEeprom.MENU_LOCK == true) // Force Main Only
+    {
+        gEeprom.DUAL_WATCH = 0;
+        gEeprom.CROSS_BAND_RX_TX = 0;
+        //gFlagReconfigureVfos = true;
+        //gUpdateStatus        = true;
+    }
+#endif
+
+#ifdef ENABLE_FEAT_F4HWN_MENU_LOCK
+    if (BootMode == BOOT_MODE_F_LOCK && gEeprom.MENU_LOCK == true)
+    {
+        BootMode = BOOT_MODE_NORMAL;
+    }
+#endif
 
     if (BootMode == BOOT_MODE_F_LOCK)
     {
@@ -139,13 +162,16 @@ void Main(void)
             gEeprom.KEY_LOCK = 0;
             SETTINGS_SaveSettings();
             #ifndef ENABLE_VOX
-                gMenuCursor = 64; // move to hidden section, fix me if change... !!! Remove VOX and Mic Bar
+                gMenuCursor = 65; // move to hidden section, fix me if change... !!! Remove VOX and Mic Bar
             #else
-                #ifdef ENABLE_FEAT_F4HWN_SLEEP
-                    gMenuCursor = 67; // move to hidden section, fix me if change... !!!
-                #else
-                    gMenuCursor = 66; // move to hidden section, fix me if change... !!!
-                #endif
+                gMenuCursor = 68; // move to hidden section, fix me if change... !!!
+            #endif
+
+            #ifdef ENABLE_NOAA
+                gMenuCursor += 1; // move to hidden section, fix me if change... !!!
+            #endif
+            #ifdef ENABLE_FEAT_F4HWN_MENU_LOCK
+                gMenuCursor += 1; // move to hidden section, fix me if change... !!!
             #endif
             gSubMenuSelection = gSetting_F_LOCK;
         #endif

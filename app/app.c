@@ -1422,7 +1422,7 @@ void APP_TimeSlice10ms(void)
         return;
 #endif
 
-#ifndef ENABLE_FEAT_F4HWN
+#if !defined(ENABLE_FEAT_F4HWN) || defined(ENABLE_FEAT_F4HWN_MENU_LOCK)
     #ifdef ENABLE_FLASHLIGHT
         FlashlightTimeSlice();
     #endif
