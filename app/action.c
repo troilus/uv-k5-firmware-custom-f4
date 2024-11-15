@@ -474,9 +474,10 @@ void ACTION_BlminTmpOff(void)
 #ifdef ENABLE_FEAT_F4HWN
 void ACTION_Update(void)
 {
-    gSaveRxMode          = false;
+    gSaveRxMode          = true;
     gFlagReconfigureVfos = true;
     gUpdateStatus        = true;
+    SETTINGS_SaveSettings();
 }
 
 void ACTION_RxMode(void)
