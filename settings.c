@@ -51,7 +51,7 @@ void SETTINGS_InitEEPROM(void)
     #ifdef ENABLE_NOAA
         gEeprom.NOAA_AUTO_SCAN   = (Data[3] <  2) ? Data[3] : false;
     #endif
-    #ifdef ENABLE_FEAT_F4HWN_MENU_LOCK
+    #ifdef ENABLE_FEAT_F4HWN_RESCUE_OPS
         gEeprom.KEY_LOCK = (Data[4] & 0x01) != 0;
         gEeprom.MENU_LOCK = (Data[4] & 0x02) != 0;
         gEeprom.SET_KEY = ((Data[4] >> 2) & 0x0F) > 4 ? 0 : (Data[4] >> 2) & 0x0F;
@@ -597,7 +597,7 @@ void SETTINGS_SaveSettings(void)
         State[3] = false;
     #endif
 
-    #ifdef ENABLE_FEAT_F4HWN_MENU_LOCK
+    #ifdef ENABLE_FEAT_F4HWN_RESCUE_OPS
         State[4] = (gEeprom.KEY_LOCK ? 0x01 : 0) | (gEeprom.MENU_LOCK ? 0x02 :0) | ((gEeprom.SET_KEY & 0x0F) << 2);
     #else
         State[4] = gEeprom.KEY_LOCK;
@@ -999,7 +999,7 @@ State[1] = 0
 #ifdef ENABLE_SPECTRUM
     | (1 << 5)
 #endif
-#ifdef ENABLE_FEAT_F4HWN_MENU_LOCK
+#ifdef ENABLE_FEAT_F4HWN_RESCUE_OPS
     | (1 << 6)
 #endif
 ;

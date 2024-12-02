@@ -8,21 +8,18 @@ extern const uint8_t gFontPowerSave[2][6];
 extern const uint8_t gFontPttOnePush[2][6];
 extern const uint8_t gFontPttClassic[2][6];
 extern const uint8_t gFontF[8];
-
-#ifdef ENABLE_FEAT_F4HWN_MENU_LOCK
-    extern const uint8_t gFontR[8];
-#endif
-
 extern const uint8_t gFontS[6];
 
 extern const uint8_t gFontKeyLock[9];
 extern const uint8_t gFontLight[9];
 
 extern const uint8_t gFontXB[2][6];
+
 extern const uint8_t gFontMO[1][7];
 extern const uint8_t gFontDWR[1][7];
 extern const uint8_t gFontDW[1][7];
 extern const uint8_t gFontHold[1][7];
+
 
 extern const uint8_t BITMAP_BatteryLevel[2];
 extern const uint8_t BITMAP_BatteryLevel1[17];

@@ -153,6 +153,7 @@ void UI_DisplayStatus()
             }
             else
         #endif
+
             {//这里修改接收模式的图标gFontDWR、gFontHold、gFontMO
                 uint8_t dw = (gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2;
                 if(dw == 1 || dw == 3) { // DWR - dual watch + respond
@@ -171,11 +172,28 @@ void UI_DisplayStatus()
                 }
                 else if(dw == 2) { // XB - crossband
                     memcpy(line + x + 2, gFontXB, sizeof(gFontXB));
+
                 }
                 else
                 {
-                    memcpy(line + x + 2, gFontMO, sizeof(gFontMO));
+                #endif
+                    uint8_t dw = (gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2;
+                    if(dw == 1 || dw == 3) { // DWR - dual watch + respond
+                        if(gDualWatchActive)
+                            memcpy(line + x + (dw==1?0:2), gFontDWR, sizeof(gFontDWR) - (dw==1?0:5));
+                        else
+                            memcpy(line + x + 3, gFontHold, sizeof(gFontHold));
+                    }
+                    else if(dw == 2) { // XB - crossband
+                        memcpy(line + x + 2, gFontXB, sizeof(gFontXB));
+                    }
+                    else
+                    {
+                        memcpy(line + x + 2, gFontMO, sizeof(gFontMO));
+                    }
+                #ifdef ENABLE_FEAT_F4HWN_RESCUE_OPS
                 }
+                #endif
             }
         }
         x += sizeof(gFontDWR) + 3;
@@ -212,21 +230,14 @@ void UI_DisplayStatus()
         memcpy(line + x + 1, gFontKeyLock, sizeof(gFontKeyLock));
     }
     else if (gWasFKeyPressed) {
-        memcpy(line + x + 1, gFontF, sizeof(gFontF));
-        /*
-        UI_PrintStringSmallBufferNormal("F", line + x + 1);
-        
-        for (uint8_t i = 71; i < 79; i++)
-        {
-            gStatusLine[i] ^= 0x7F;
-        }
-        */
+        #ifdef ENABLE_FEAT_F4HWN_RESCUE_OPS
+            if(gEeprom.MENU_LOCK == false) {
+                memcpy(line + x + 1, gFontF, sizeof(gFontF));
+            }
+        #else
+            memcpy(line + x + 1, gFontF, sizeof(gFontF));
+        #endif
     }
-#ifdef ENABLE_FEAT_F4HWN_MENU_LOCK
-    else if(gEeprom.MENU_LOCK == true) {
-        memcpy(line + x + 1, gFontR, sizeof(gFontR));
-    }
-#endif
     else if (gBackLight)
     {
         memcpy(line + x + 1, gFontLight, sizeof(gFontLight));

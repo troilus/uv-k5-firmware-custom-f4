@@ -111,6 +111,10 @@ void (*action_opt_table[])(void) = {
     [ACTION_OPT_PTT] = &ACTION_Ptt,
     [ACTION_OPT_WN] = &ACTION_Wn,
     [ACTION_OPT_BACKLIGHT] = &ACTION_BackLight,
+    #ifdef ENABLE_FEAT_F4HWN_RESCUE_OPS
+        [ACTION_OPT_POWER_HIGH] = &ACTION_Power_High,
+        [ACTION_OPT_REMOVE_OFFSET] = &ACTION_Remove_Offset,
+    #endif
 #else
     [ACTION_OPT_RXMODE] = &FUNCTION_NOP,
 #endif
@@ -614,4 +618,20 @@ void ACTION_BackLightOnDemand(void)
     
     BACKLIGHT_TurnOn();
 }
+
+
+    #ifdef ENABLE_FEAT_F4HWN_RESCUE_OPS
+    void ACTION_Power_High(void)
+    {
+        gPowerHigh = !gPowerHigh;
+        gVfoConfigureMode = VFO_CONFIGURE_RELOAD;
+    }
+
+    void ACTION_Remove_Offset(void)
+    {
+        gRemoveOffset = !gRemoveOffset;
+        gVfoConfigureMode = VFO_CONFIGURE_RELOAD;
+    }
+    #endif
 #endif
+

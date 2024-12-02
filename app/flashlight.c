@@ -5,7 +5,7 @@
 
 #include "flashlight.h"
 
-#if !defined(ENABLE_FEAT_F4HWN) || defined(ENABLE_FEAT_F4HWN_MENU_LOCK)
+#if !defined(ENABLE_FEAT_F4HWN) || defined(ENABLE_FEAT_F4HWN_RESCUE_OPS)
     enum FlashlightMode_t  gFlashLightState;
 
     void FlashlightTimeSlice()

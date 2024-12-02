@@ -31,7 +31,7 @@ bandscope() {
         ENABLE_FMRADIO=0 \
         ENABLE_AIRCOPY=1 \
         ENABLE_NOAA=0 \
-        ENABLE_FEAT_F4HWN_MENU_LOCK=0 \
+        ENABLE_FEAT_F4HWN_RESCUE_OPS=0 \
         EDITION_STRING=Bandscope \
         TARGET=f4hwn.bandscope \
         && cp f4hwn.bandscope* compiled-firmware/"
@@ -45,7 +45,7 @@ broadcast() {
         ENABLE_AIRCOPY=1 \
         ENABLE_NOAA=0 \
         EDITION_STRING=Broadcast \
-        ENABLE_FEAT_F4HWN_MENU_LOCK=0 \
+        ENABLE_FEAT_F4HWN_RESCUE_OPS=0 \
         TARGET=f4hwn.broadcast \
         && cp f4hwn.broadcast* compiled-firmware/"
 }
@@ -63,7 +63,7 @@ voxless() {
         ENABLE_FEAT_F4HWN_RESTORE_SCAN=0 \
         ENABLE_FEAT_F4HWN_CHARGING_C=0 \
         ENABLE_FEAT_F4HWN_NARROWER=0 \
-        ENABLE_FEAT_F4HWN_MENU_LOCK=0 \
+        ENABLE_FEAT_F4HWN_RESCUE_OPS=0 \
         EDITION_STRING=Voxless \
         TARGET=f4hwn.voxless \
         && cp f4hwn.voxless* compiled-firmware/"
@@ -76,7 +76,7 @@ rescueops() {
         ENABLE_FMRADIO=0 \
         ENABLE_AIRCOPY=1 \
         ENABLE_NOAA=1 \
-        ENABLE_FEAT_F4HWN_MENU_LOCK=1 \
+        ENABLE_FEAT_F4HWN_RESCUE_OPS=1 \
         EDITION_STRING=RescueOps \
         TARGET=f4hwn.rescueops \
         && cp f4hwn.rescueops* compiled-firmware/"
@@ -104,7 +104,6 @@ case "$1" in
     all)
         bandscope
         broadcast
-        voxless
         rescueops
         ;;
     *)

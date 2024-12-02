@@ -147,7 +147,7 @@ enum
     #ifdef ENABLE_FEAT_F4HWN_VOL
         MENU_SET_VOL,
     #endif
-    #ifdef ENABLE_FEAT_F4HWN_MENU_LOCK
+    #ifdef ENABLE_FEAT_F4HWN_RESCUE_OPS
         MENU_SET_KEY,
     #endif
 #endif
@@ -190,7 +190,7 @@ extern const char        gSubMenu_D_RSP[4][11];
     #ifdef ENABLE_FEAT_F4HWN_NARROWER
         extern const char    gSubMenu_SET_NFM[2][9];
     #endif
-    #ifdef ENABLE_FEAT_F4HWN_MENU_LOCK
+    #ifdef ENABLE_FEAT_F4HWN_RESCUE_OPS
         extern const char gSubMenu_SET_KEY[][9];
     #endif
 #endif

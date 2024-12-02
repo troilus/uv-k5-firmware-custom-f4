@@ -37,9 +37,9 @@ static void Render(void)
     memset(gStatusLine,  0, sizeof(gStatusLine));
     UI_DisplayClear();
 
-    UI_PrintString("LOCK", 0, 127, 1, 10);
+    UI_PrintString("PASSWORD", 0, 127, 1, 10);
     for (i = 0; i < 6; i++)
-        String[i] = (gInputBox[i] == 10) ? '-' : '*';
+        String[i] = (gInputBox[i] == 10) ? '-' : 'x';
     String[6] = 0;
     UI_PrintString(String, 0, 127, 3, 12);
 

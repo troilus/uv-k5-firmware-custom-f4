@@ -1422,7 +1422,7 @@ void APP_TimeSlice10ms(void)
         return;
 #endif
 
-#if !defined(ENABLE_FEAT_F4HWN) || defined(ENABLE_FEAT_F4HWN_MENU_LOCK)
+#if !defined(ENABLE_FEAT_F4HWN) || defined(ENABLE_FEAT_F4HWN_RESCUE_OPS)
     #ifdef ENABLE_FLASHLIGHT
         FlashlightTimeSlice();
     #endif
@@ -1642,7 +1642,7 @@ void APP_TimeSlice500ms(void)
             PWM_PLUS0_CH0_COMP = 0;
             ST7565_ShutDown();
         }
-        else if(gSleepModeCountdown_500ms != 0 && gSleepModeCountdown_500ms < 61 && gSetting_set_off != 0)
+        else if(gSleepModeCountdown_500ms != 0 && gSleepModeCountdown_500ms < 21 && gSetting_set_off != 0)
         {
             if(gSleepModeCountdown_500ms % 4 == 0)
             {
@@ -1849,6 +1849,25 @@ static void ALARM_Off(void)
 
 static void ProcessKey(KEY_Code_t Key, bool bKeyPressed, bool bKeyHeld)
 {
+    #ifdef ENABLE_FEAT_F4HWN_SLEEP
+    if(gWakeUp)
+    {
+        if(!bKeyPressed || Key == KEY_PTT)
+        {
+            BACKLIGHT_TurnOn();
+
+            if(Key != KEY_PTT)
+            {
+                Key = KEY_INVALID;
+            }
+        }
+        else
+        {
+            return;
+        }
+    }
+    #endif
+
     if (Key == KEY_EXIT && !BACKLIGHT_IsOn() && gEeprom.BACKLIGHT_TIME > 0)
     {   // just turn the light on for now so the user can see what's what
         BACKLIGHT_TurnOn();

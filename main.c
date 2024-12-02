@@ -131,13 +131,14 @@ void Main(void)
 
     BOOT_Mode_t  BootMode = BOOT_GetMode();
 
-#ifdef ENABLE_FEAT_F4HWN_MENU_LOCK
-    if (BootMode == BOOT_MODE_MENU_LOCK)
+#ifdef ENABLE_FEAT_F4HWN_RESCUE_OPS
+    if (BootMode == BOOT_MODE_RESCUE_OPS)
     {
         gEeprom.MENU_LOCK = !gEeprom.MENU_LOCK;
         SETTINGS_SaveSettings();
     }
 
+    /*
     if(gEeprom.MENU_LOCK == true) // Force Main Only
     {
         gEeprom.DUAL_WATCH = 0;
@@ -145,9 +146,10 @@ void Main(void)
         //gFlagReconfigureVfos = true;
         //gUpdateStatus        = true;
     }
+    */
 #endif
 
-#ifdef ENABLE_FEAT_F4HWN_MENU_LOCK
+#ifdef ENABLE_FEAT_F4HWN_RESCUE_OPS
     if (BootMode == BOOT_MODE_F_LOCK && gEeprom.MENU_LOCK == true)
     {
         BootMode = BOOT_MODE_NORMAL;
@@ -170,7 +172,7 @@ void Main(void)
             #ifdef ENABLE_NOAA
                 gMenuCursor += 1; // move to hidden section, fix me if change... !!!
             #endif
-            #ifdef ENABLE_FEAT_F4HWN_MENU_LOCK
+            #ifdef ENABLE_FEAT_F4HWN_RESCUE_OPS
                 gMenuCursor += 1; // move to hidden section, fix me if change... !!!
             #endif
             gSubMenuSelection = gSetting_F_LOCK;
@@ -245,6 +247,16 @@ void Main(void)
             bIsInLockScreen = true;
             UI_DisplayLock();
             bIsInLockScreen = false;
+
+            // 500ms
+            for (int i = 0; i < 50;)
+            {
+                i = (GPIO_CheckBit(&GPIOC->DATA, GPIOC_PIN_PTT) && KEYBOARD_Poll() == KEY_INVALID) ? i + 1 : 0;
+                SYSTEM_DelayMs(10);
+            }
+            gKeyReading0 = KEY_INVALID;
+            gKeyReading1 = KEY_INVALID;
+            gDebounceCounter = 0;
         }
 #endif
 
