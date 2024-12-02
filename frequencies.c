@@ -21,11 +21,11 @@
 
 // the BK4819 has 2 bands it covers, 18MHz ~ 630MHz and 760MHz ~ 1300MHz
 
-#define BX4819_band1_lower 1800000
+#define BX4819_band1_lower 1500000
 #define BX4819_band2_upper 130000000
 
 const freq_band_table_t BX4819_band1 = {BX4819_band1_lower,  63000000};
-const freq_band_table_t BX4819_band2 = {84000000, BX4819_band2_upper};
+const freq_band_table_t BX4819_band2 = {63000000, BX4819_band2_upper};
 
 const freq_band_table_t frequencyBandTable[] =
 {
@@ -171,7 +171,7 @@ int32_t TX_freq_check(const uint32_t Frequency)
 
     switch (gSetting_F_LOCK)
     {
-        case F_LOCK_DEF:
+        /*case F_LOCK_DEF:
             if (Frequency >= frequencyBandTable[BAND3_137MHz].lower && Frequency < frequencyBandTable[BAND3_137MHz].upper)
                 return 0;
             if (Frequency >= frequencyBandTable[BAND4_174MHz].lower && Frequency < frequencyBandTable[BAND4_174MHz].upper)
@@ -193,42 +193,44 @@ int32_t TX_freq_check(const uint32_t Frequency)
                 if (gSetting_500TX)
             #endif
                     return 0;
-            break;
+            break;*/
 
-        case F_LOCK_FCC:
+        /*case F_LOCK_FCC:
             if (Frequency >= 14400000 && Frequency < 14800000)
                 return 0;
             if (Frequency >= 42000000 && Frequency < 45000000)
                 return 0;
-            break;
+            break;*/
 
-        case F_LOCK_CE:
+        /*case F_LOCK_CE:
             if (Frequency >= 14400000 && Frequency < 14600000)
                 return 0;
             if (Frequency >= 43000000 && Frequency < 44000000)
                 return 0;
-            break;
+            break;*/
 
         case F_LOCK_GB:
             if (Frequency >= 14400000 && Frequency < 14800000)
                 return 0;
             if (Frequency >= 43000000 && Frequency < 44000000)
                 return 0;
+            if (Frequency >= 40899999 && Frequency < 40999001)
+                return 0;
             break;
 
-        case F_LOCK_430:
+        /*case F_LOCK_430:
             if (Frequency >= frequencyBandTable[BAND3_137MHz].lower && Frequency < 17400000)
                 return 0;
             if (Frequency >= 40000000 && Frequency < 43000000)
                 return 0;
-            break;
+            break;*/
 
-        case F_LOCK_438:
+        /*case F_LOCK_438:
             if (Frequency >= frequencyBandTable[BAND3_137MHz].lower && Frequency < 17400000)
                 return 0;
             if (Frequency >= 40000000 && Frequency < 43800000)
                 return 0;
-            break;
+            break;*/
 
 #ifdef ENABLE_FEAT_F4HWN_PMR
         case F_LOCK_PMR:

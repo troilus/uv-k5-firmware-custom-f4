@@ -478,9 +478,10 @@ void ACTION_BlminTmpOff(void)
 #ifdef ENABLE_FEAT_F4HWN
 void ACTION_Update(void)
 {
-    gSaveRxMode          = false;
+    gSaveRxMode          = true;
     gFlagReconfigureVfos = true;
     gUpdateStatus        = true;
+    SETTINGS_SaveSettings();
 }
 
 void ACTION_RxMode(void)
@@ -618,6 +619,7 @@ void ACTION_BackLightOnDemand(void)
     BACKLIGHT_TurnOn();
 }
 
+
     #ifdef ENABLE_FEAT_F4HWN_RESCUE_OPS
     void ACTION_Power_High(void)
     {
@@ -632,3 +634,4 @@ void ACTION_BackLightOnDemand(void)
     }
     #endif
 #endif
+
