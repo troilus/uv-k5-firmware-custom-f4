@@ -34,23 +34,6 @@
 #include "ui/ui.h"
 #include "ui/status.h"
 
-#ifdef ENABLE_FEAT_F4HWN_RX_TX_TIMER
-static void convertTime(uint8_t *line, uint8_t type) 
-{
-    uint16_t t = (type == 0) ? (gTxTimerCountdown_500ms / 2) : (3600 - gRxTimerCountdown_500ms / 2);
-
-    uint8_t m = t / 60;
-    uint8_t s = t % 60; // Utilisation de l'opérateur modulo pour simplifier le calcul des secondes
-
-    gStatusLine[0] = gStatusLine[7] = gStatusLine[14] = 0x00; // Quick fix on display (on scanning I, II, etc.)
-
-    char str[8];
-    sprintf(str, "%02d:%02d", m, s);
-    UI_PrintStringSmallBufferNormal(str, line);
-
-    gUpdateStatus = true;
-}
-#endif
 
 void UI_DisplayStatus()
 {
@@ -70,21 +53,6 @@ void UI_DisplayStatus()
     x += 8;
     unsigned int x1 = x;
 
-#ifdef ENABLE_NOAA
-    if (gIsNoaaMode) { // NOASS SCAN indicator
-        memcpy(line + x, BITMAP_NOAA, sizeof(BITMAP_NOAA));
-        x1 = x + sizeof(BITMAP_NOAA);
-    }
-    x += sizeof(BITMAP_NOAA);
-#endif
-
-#ifdef ENABLE_DTMF_CALLING
-    if (gSetting_KILLED) {
-        memset(line + x, 0xFF, 10);
-        x1 = x + 10;
-    }
-    else
-#endif
     { // SCAN indicator
         if (gScanStateDir != SCAN_OFF || SCANNER_IsScanning()) {
             if (IS_MR_CHANNEL(gNextMrChannel) && !SCANNER_IsScanning()) { // channel mode
@@ -176,7 +144,7 @@ void UI_DisplayStatus()
                 }
                 else
                 {
-                #endif
+                //#endif
                     uint8_t dw = (gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2;
                     if(dw == 1 || dw == 3) { // DWR - dual watch + respond
                         if(gDualWatchActive)
@@ -191,14 +159,13 @@ void UI_DisplayStatus()
                     {
                         memcpy(line + x + 2, gFontMO, sizeof(gFontMO));
                     }
-                #ifdef ENABLE_FEAT_F4HWN_RESCUE_OPS
-                }
-                #endif
+
             }
         }
         x += sizeof(gFontDWR) + 3;
     }
-
+    
+    }
 #ifdef ENABLE_VOX
     // VOX indicator
     if (gEeprom.VOX_SWITCH) {
@@ -229,25 +196,15 @@ void UI_DisplayStatus()
     if (gEeprom.KEY_LOCK) {
         memcpy(line + x + 1, gFontKeyLock, sizeof(gFontKeyLock));
     }
-    else if (gWasFKeyPressed) {
-        #ifdef ENABLE_FEAT_F4HWN_RESCUE_OPS
-            if(gEeprom.MENU_LOCK == false) {
-                memcpy(line + x + 1, gFontF, sizeof(gFontF));
-            }
-        #else
-            memcpy(line + x + 1, gFontF, sizeof(gFontF));
-        #endif
+    else if (gWasFKeyPressed) 
+    {
+        memcpy(line + x + 1, gFontF, sizeof(gFontF));
     }
     else if (gBackLight)
     {
         memcpy(line + x + 1, gFontLight, sizeof(gFontLight));
     }
-    #ifdef ENABLE_FEAT_F4HWN_CHARGING_C
-    else if (gChargingWithTypeC)
-    {
-        memcpy(line + x + 1, BITMAP_USB_C, sizeof(BITMAP_USB_C));
-    }
-    #endif
+
     
     // Battery
     unsigned int x2 = LCD_WIDTH - sizeof(BITMAP_BatteryLevel1) - 0;
