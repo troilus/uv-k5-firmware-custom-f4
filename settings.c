@@ -1027,3 +1027,17 @@ State[1] = 0
         EEPROM_WriteBuffer(0x1F88, State);
     }
 #endif
+
+#ifdef ENABLE_FEAT_F4HWN
+void SETTINGS_ResetTxLock(void)
+{
+    uint8_t State[8];
+    for(uint8_t channel = 0; channel < 200; channel++)
+    {
+        uint16_t OffsetVFO = channel * 16;
+        EEPROM_ReadBuffer(OffsetVFO + 8, State, sizeof(State));
+        State[4] |= (1 << 6);
+        EEPROM_WriteBuffer(OffsetVFO + 8, State);
+    }
+}
+#endif

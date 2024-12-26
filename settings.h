@@ -319,4 +319,7 @@ void SETTINGS_WriteBuildOptions(void);
 #ifdef ENABLE_FEAT_F4HWN_VOL
     void SETTINGS_WriteCurrentVol(void);
 #endif
+#ifdef ENABLE_FEAT_F4HWN
+    void SETTINGS_ResetTxLock(void);
+#endif
 #endif

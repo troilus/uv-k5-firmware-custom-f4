@@ -952,12 +952,23 @@ static void ShowChannelName(uint32_t f)
                 if (SETTINGS_FetchChannelFrequency(i) == f)
                 {
                     SETTINGS_FetchChannelName(String, i);
-                    UI_PrintStringSmallBold(String[0] ? String : "--", 8, 127, 1);
+                    if (String[0] != 0) {
+                        UI_PrintStringSmallBufferNormal(String, gStatusLine + 36);
+                        //GUI_DisplaySmallest(String, 127, 1, true, true);
+                    }
                     break;
                 }
             }
         }
     }
+    else
+    {
+        for (int i = 36; i < 100; i++)
+        {
+            gStatusLine[i] = 0b00000000;
+        }
+    }
+    ST7565_BlitStatusLine();
 }
 #endif
 
@@ -1281,6 +1292,9 @@ static void RenderStatus()
 {
     memset(gStatusLine, 0, sizeof(gStatusLine));
     DrawStatus();
+#ifdef ENABLE_FEAT_F4HWN_SPECTRUM
+    ShowChannelName(peak.f);
+#endif
     ST7565_BlitStatusLine();
 }
 

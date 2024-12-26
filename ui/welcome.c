@@ -119,16 +119,12 @@ void UI_DisplayWelcome(void)
 #ifdef ENABLE_FEAT_F4HWN
         UI_PrintStringSmallNormal(Version, 0, 128, 4);
 
-        for (uint8_t i = 0; i < 128; i++)
-        {
-            gFrameBuffer[3][i] ^= 0x80;
-        }
+        UI_DrawLineBuffer(gFrameBuffer, 0, 31, 127, 31, 1); // Be ware, status zone = 8 lines, the rest = 56 ->total 64
 
         for (uint8_t i = 18; i < 110; i++)
         {
             gFrameBuffer[4][i] ^= 0xFF;
         }
-
 
         sprintf(WelcomeString3, "%s Edition", Edition);
         UI_PrintStringSmallNormal(WelcomeString3, 0, 127, 6);

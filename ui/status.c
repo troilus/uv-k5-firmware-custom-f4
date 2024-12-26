@@ -34,6 +34,23 @@
 #include "ui/ui.h"
 #include "ui/status.h"
 
+#ifdef ENABLE_FEAT_F4HWN_RX_TX_TIMER
+static void convertTime(uint8_t *line, uint8_t type) 
+{
+    uint16_t t = (type == 0) ? (gTxTimerCountdown_500ms / 2) : (3600 - gRxTimerCountdown_500ms / 2);
+
+    uint8_t m = t / 60;
+    uint8_t s = t - (m * 60); // Replace modulo with subtraction for efficiency
+
+    gStatusLine[0] = gStatusLine[7] = gStatusLine[14] = 0x00; // Quick fix on display (on scanning I, II, etc.)
+
+    char str[6];
+    sprintf(str, "%02u:%02u", m, s);
+    UI_PrintStringSmallBufferNormal(str, line);
+
+    gUpdateStatus = true;
+}
+#endif
 
 void UI_DisplayStatus()
 {
@@ -44,15 +61,34 @@ void UI_DisplayStatus()
 
     uint8_t     *line = gStatusLine;
     unsigned int x    = 0;
-    // **************
 
-    // POWER-SAVE indicator
+#ifdef ENABLE_NOAA
+    // NOAA indicator
+    if (!(gScanStateDir != SCAN_OFF || SCANNER_IsScanning()) && gIsNoaaMode) { // NOASS SCAN indicator
+        memcpy(line + x, BITMAP_NOAA, sizeof(BITMAP_NOAA));
+    }
+    // Power Save indicator
+    else if (gCurrentFunction == FUNCTION_POWER_SAVE) {
+        memcpy(line + x, gFontPowerSave, sizeof(gFontPowerSave));
+    }
+    x += 8;
+#else
+    // Power Save indicator
     if (gCurrentFunction == FUNCTION_POWER_SAVE) {
         memcpy(line + x, gFontPowerSave, sizeof(gFontPowerSave));
     }
     x += 8;
+#endif
+
     unsigned int x1 = x;
 
+#ifdef ENABLE_DTMF_CALLING
+    if (gSetting_KILLED) {
+        memset(line + x, 0xFF, 10);
+        x1 = x + 10;
+    }
+    else
+#endif
     { // SCAN indicator
         if (gScanStateDir != SCAN_OFF || SCANNER_IsScanning()) {
             if (IS_MR_CHANNEL(gNextMrChannel) && !SCANNER_IsScanning()) { // channel mode
@@ -190,7 +226,7 @@ void UI_DisplayStatus()
     x += sizeof(gFontPttClassic) + 3;
 #endif
 */
-    x = MAX(x1, 70u);
+    x = MAX(x1, 69u);
 
     // KEY-LOCK indicator
     if (gEeprom.KEY_LOCK) {
@@ -211,28 +247,37 @@ void UI_DisplayStatus()
 
     UI_DrawBattery(line + x2, gBatteryDisplayLevel, gLowBatteryBlink);
 
+    bool BatTxt = true;
+
     switch (gSetting_battery_text) {
         default:
         case 0:
+            BatTxt = false;
             break;
 
-        case 1: {   // voltage
+        case 1:    // voltage
             const uint16_t voltage = (gBatteryVoltageAverage <= 999) ? gBatteryVoltageAverage : 999; // limit to 9.99V
-#ifdef ENABLE_FEAT_F4HWN
             sprintf(str, "%u.%02u", voltage / 100, voltage % 100);
-#else
-            sprintf(str, "%u.%02uV", voltage / 100, voltage % 100);
-#endif
             break;
-        }
 
         case 2:     // percentage
-            sprintf(str, "%u%%", BATTERY_VoltsToPercent(gBatteryVoltageAverage));
+            //gBatteryVoltageAverage = 999;
+            sprintf(str, "%02u%%", BATTERY_VoltsToPercent(gBatteryVoltageAverage));
             break;
     }
 
-    x2 -= (7 * strlen(str));
-    UI_PrintStringSmallBufferNormal(str, line + x2);
+    if (BatTxt) {
+        x2 -= (7 * strlen(str));
+        UI_PrintStringSmallBufferNormal(str, line + x2);
+        /*
+        uint8_t shift = (strlen(str) < 5) ? 92 : 88;
+        GUI_DisplaySmallest(str, shift, 1, true, true);
+
+        for (uint8_t i = shift - 2; i < 110; i++) {
+            gStatusLine[i] ^= 0x7F; // invert
+        }
+        */
+    }
 
     // **************
 

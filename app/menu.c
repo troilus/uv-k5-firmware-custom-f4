@@ -840,6 +840,12 @@ void MENU_AcceptSetting(void)
                 gUnlockAllTxConfCnt = 0;
 
             gSetting_F_LOCK = gSubMenuSelection;
+
+            #ifdef ENABLE_FEAT_F4HWN
+            if(gSetting_F_LOCK == F_LOCK_ALL) {
+                SETTINGS_ResetTxLock();
+            }
+            #endif
             break;
         }
 #ifndef ENABLE_FEAT_F4HWN

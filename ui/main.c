@@ -53,16 +53,9 @@ center_line_t center_line = CENTER_LINE_NONE;
 
     bool isMainOnlyInputDTMF = false;
 
-    static int16_t map(int16_t x, int16_t in_min, int16_t in_max, int16_t out_min, int16_t out_max) {
-        return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
-    }
-
     static bool isMainOnly()
     {
-        if((gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2 == 0)
-            return true;
-        else
-            return false;
+        return (gEeprom.DUAL_WATCH == DUAL_WATCH_OFF) && (gEeprom.CROSS_BAND_RX_TX == CROSS_BAND_OFF);
     }
 #endif
 
@@ -281,22 +274,15 @@ void DisplayRSSIBar(const bool now)
 
     if(RxLine >= 0 && center_line != CENTER_LINE_IN_USE)
     {
-        switch(RxBlink)
-        {
-            case 0:
-                UI_PrintStringSmallBold("RX", 8, 0, RxLine);
-                break;
-            case 1:
-                UI_PrintStringSmallBold("RX", 8, 0, RxLine);
-                RxBlink = 2;
-                break;
-            case 2:
-                for (uint8_t i = 8; i < 24; i++)
-                {
-                    gFrameBuffer[RxLine][i] = 0x00;
-                }
-                RxBlink = 1;
-                break;
+        if (RxBlink == 0 || RxBlink == 1) {
+            UI_PrintStringSmallBold("RX", 8, 0, RxLine);
+            if (RxBlink == 1) RxBlink = 2;
+        } else {
+            for (uint8_t i = 8; i < 24; i++)
+            {
+                gFrameBuffer[RxLine][i] = 0x00;
+            }
+            RxBlink = 1;
         }
         ST7565_BlitLine(RxLine);
     }
@@ -1076,10 +1062,11 @@ void UI_DisplayMain(void)
 最终，Level 值用于绘制图形，显示在设备的屏幕上，反映当前的发射功率或接收信号强度。
     */
         {   // show the TX/RX level
-            uint8_t Level = 0;
+            int8_t Level = -1;
 
             if (mode == VFO_MODE_TX)
             {   // TX power level
+                /*
                 switch (gRxVfo->OUTPUT_POWER)
                 {
                     case OUTPUT_POWER_LOW1:     Level = 2; break;
@@ -1090,6 +1077,16 @@ void UI_DisplayMain(void)
                     case OUTPUT_POWER_MID:      Level = 4; break;
                     case OUTPUT_POWER_HIGH:     Level = 6; break;
                 }
+
+                if (gRxVfo->OUTPUT_POWER == OUTPUT_POWER_MID) {
+                    Level = 4;
+                } else if (gRxVfo->OUTPUT_POWER == OUTPUT_POWER_HIGH) {
+                    Level = 6;
+                } else {
+                    Level = 2;
+                }
+                */
+                Level = gRxVfo->OUTPUT_POWER - 1;
             }
             else
             if (mode == VFO_MODE_RX)
@@ -1100,7 +1097,7 @@ void UI_DisplayMain(void)
                         Level = gVFO_RSSI_bar_level[vfo_num];
                 #endif
             }
-            if(Level)
+            if(Level >= 0)
                 DrawSmallAntennaAndBars(p_line1 + LCD_WIDTH, Level);
         }
 
@@ -1345,6 +1342,7 @@ void UI_DisplayMain(void)
 #endif
 
 #ifdef ENABLE_FEAT_F4HWN
+        /*
         if(isMainVFO)   
         {
             if(gMonitor)
@@ -1368,6 +1366,20 @@ void UI_DisplayMain(void)
                 }
                 GUI_DisplaySmallest(String, 110, line == 0 ? 17 : 49, false, true);
             }
+        }
+        */
+        if (isMainVFO) {
+           if (gMonitor) {
+               sprintf(String, "MONI");
+           } else {
+               sprintf(String, "SQL%d", gEeprom.SQUELCH_LEVEL);
+           }
+
+           if (gSetting_set_gui) {
+               UI_PrintStringSmallNormal(String, LCD_WIDTH + 98, 0, line + 1);
+           } else {
+               GUI_DisplaySmallest(String, 110, line == 0 ? 17 : 49, false, true);
+           }
         }
 #endif
     }

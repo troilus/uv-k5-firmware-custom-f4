@@ -219,6 +219,25 @@ uint8_t cmds[] = {
             ST7565_Cmd(i);
         }
     }
+
+    int16_t map(int16_t x, int16_t in_min, int16_t in_max, int16_t out_min, int16_t out_max) {
+        return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+    }
+
+    void ST7565_Gauge(uint8_t line, uint8_t min, uint8_t max, uint8_t value)
+    {
+        gFrameBuffer[line][54] = 0x0c;
+        gFrameBuffer[line][55] = 0x12;
+
+        gFrameBuffer[line][121] = 0x12;
+        gFrameBuffer[line][122] = 0x0c;
+
+        uint8_t filled = map(value, min, max, 56, 120);
+
+        for (uint8_t i = 56; i <= 120; i++) {
+            gFrameBuffer[line][i] = (i <= filled) ? 0x2d : 0x21;
+        }
+    }
 #endif
     
 void ST7565_Init(void)

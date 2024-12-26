@@ -234,7 +234,14 @@ void ACTION_Scan(bool bRestart)
         gScheduleScanListen    = false;
     } else {
         #ifdef ENABLE_FEAT_F4HWN_RESTORE_SCAN
-        gEeprom.CURRENT_STATE = 1;
+        if(gScanRangeStart == 0) // No ScanRange
+        {
+            gEeprom.CURRENT_STATE = 1;
+        }
+        else // ScanRange
+        {
+            gEeprom.CURRENT_STATE = 2;
+        }
         SETTINGS_WriteCurrentState();
         #endif
         // start scanning

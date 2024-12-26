@@ -71,10 +71,12 @@ const t_menu_item MenuList[] =
 //    {"SList1",      MENU_SLIST1        },
 //    {"SList2",      MENU_SLIST2        },
 //    {"SList3",      MENU_SLIST3        },
-    {"ScSTOP",      MENU_SC_REV        },
-//#ifdef ENABLE_NOAA
-//    {"NOAA-S",      MENU_NOAA_S        },
-//#endif
+//    {"ScnRev",      MENU_SC_REV        },
+#ifndef ENABLE_FEAT_F4HWN
+    #ifdef ENABLE_NOAA
+        {"NOAA-S",      MENU_NOAA_S    },
+    #endif
+#endif
     {"F1Shrt",      MENU_F1SHRT        },
     {"F1Long",      MENU_F1LONG        },
     {"F2Shrt",      MENU_F2SHRT        },
@@ -163,6 +165,9 @@ const t_menu_item MenuList[] =
 #endif
 #ifdef ENABLE_FEAT_F4HWN_RESCUE_OPS
     {"SetKey",      MENU_SET_KEY       },
+#endif
+#ifdef ENABLE_NOAA
+    {"SetNWR",      MENU_NOAA_S    },
 #endif
 #endif
     // hidden menu items from here on
@@ -704,6 +709,7 @@ void UI_DisplayMenu(void)
             else if(gSubMenuSelection < 61)
             {
                 sprintf(String, "%02dm:%02ds", (((gSubMenuSelection) * 5) / 60), (((gSubMenuSelection) * 5) % 60));
+                ST7565_Gauge(4, 1, 60, gSubMenuSelection);
             }
             else
             {
@@ -733,7 +739,10 @@ void UI_DisplayMenu(void)
             if (gSubMenuSelection == 0)
                 strcpy(String, "OFF");
             else
+            {
                 sprintf(String, "%02dm:%02ds", ((gSubMenuSelection * 15) / 60), ((gSubMenuSelection * 15) % 60));
+                ST7565_Gauge(4, 1, 40, gSubMenuSelection);
+            }
             break;
 
 //        case MENU_COMPAND:
@@ -847,6 +856,7 @@ void UI_DisplayMenu(void)
 
         case MENU_TOT:
             sprintf(String, "%02dm:%02ds", (((gSubMenuSelection + 1) * 5) / 60), (((gSubMenuSelection + 1) * 5) % 60));
+            ST7565_Gauge(4, 5, 179, gSubMenuSelection);
             break;
 
 //        #ifdef ENABLE_VOICE
@@ -863,10 +873,12 @@ void UI_DisplayMenu(void)
             else if(gSubMenuSelection < 81)
             {
                 sprintf(String, "CARRIER\n%02ds:%03dms", ((gSubMenuSelection * 250) / 1000), ((gSubMenuSelection * 250) % 1000));
+                ST7565_Gauge(5, 1, 80, gSubMenuSelection);
             }
             else
             {
                 sprintf(String, "TIMEOUT\n%02dm:%02ds", (((gSubMenuSelection - 80) * 5) / 60), (((gSubMenuSelection - 80) * 5) % 60));
+                ST7565_Gauge(5, 80, 104, gSubMenuSelection);
             }
             break;
 
@@ -1009,18 +1021,19 @@ void UI_DisplayMenu(void)
             strcpy(String, gSubMenu_SIDEFUNCTIONS[gSubMenuSelection].name);
             break;
 
-//#ifdef ENABLE_FEAT_F4HWN_SLEEP
-//        case MENU_SET_OFF:
-//            if(gSubMenuSelection == 0)
-//            {
-//                sprintf(String, "%s", "OFF");
-//            }
-//            else if(gSubMenuSelection < 121)
-//            {
-//                sprintf(String, "%dh:%02dm", (gSubMenuSelection / 60), (gSubMenuSelection % 60));
-//            }
-//            break;
-//#endif
+#ifdef ENABLE_FEAT_F4HWN_SLEEP
+        case MENU_SET_OFF:
+            if(gSubMenuSelection == 0)
+            {
+                sprintf(String, "%s", "OFF");
+            }
+            else if(gSubMenuSelection < 121)
+            {
+                sprintf(String, "%dh:%02dm", (gSubMenuSelection / 60), (gSubMenuSelection % 60));
+                ST7565_Gauge(4, 1, 120, gSubMenuSelection);
+            }
+            break;
+#endif
 
 #ifdef ENABLE_FEAT_F4HWN
         case MENU_SET_PWR:
