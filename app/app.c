@@ -96,9 +96,12 @@ void (*ProcessKeysFunctions[])(KEY_Code_t Key, bool bKeyPressed, bool bKeyHeld) 
 #endif
 };
 
+#ifdef ENABLE_REGA
+// This is a hack for REGA as I need a special display element only for it with no key
+static_assert(ARRAY_SIZE(ProcessKeysFunctions) == DISPLAY_N_ELEM-1);
+#else
 static_assert(ARRAY_SIZE(ProcessKeysFunctions) == DISPLAY_N_ELEM);
-
-
+#endif
 
 static void CheckForIncoming(void)
 /*CheckForIncoming() 的函数，用来处理设备（可能是无线电设备）接收到信号时的状态变化。它主要检查设备的状态，并根据接收的信号、扫描状态以及双重监听（dual watch）模式做出相应的处理。具体来说：
@@ -990,19 +993,10 @@ void APP_Update(void)
                 //if (gKeyReading1 != KEY_INVALID)
                 //  gPttWasReleased = true;
             }
+            #if defined(ENABLE_FEAT_F4HWN_CTR) || defined(ENABLE_FEAT_F4HWN_INV)
             ST7565_ContrastAndInv();
+            #endif
         }
-        /*
-        if (gSetting_set_ptt_session) // Improve OnePush if TOT
-        {
-            ProcessKey(KEY_PTT, false, false);
-            gPttIsPressed = false;
-            gPttOnePushCounter = 0;
-            if (gKeyReading1 != KEY_INVALID)
-                gPttWasReleased = true;
-            ST7565_ContrastAndInv();
-        }
-        */
 #endif
 
         APP_EndTransmission();
@@ -1237,7 +1231,9 @@ static void CheckKeys(void)
                 if (gKeyReading1 != KEY_INVALID)
                     gPttWasReleased = true;
                 gPttOnePushCounter = 0;
-                ST7565_ContrastAndInv();            
+                #if defined(ENABLE_FEAT_F4HWN_CTR) || defined(ENABLE_FEAT_F4HWN_INV)
+                ST7565_ContrastAndInv();
+                #endif
             }
         }
         else
@@ -1257,7 +1253,9 @@ static void CheckKeys(void)
                     gPttIsPressed = false;
                     if (gKeyReading1 != KEY_INVALID)
                         gPttWasReleased = true;
+                    #if defined(ENABLE_FEAT_F4HWN_CTR) || defined(ENABLE_FEAT_F4HWN_INV)
                     ST7565_ContrastAndInv();
+                    #endif
                 }
             }
             else
