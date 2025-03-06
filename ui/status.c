@@ -143,63 +143,47 @@ void UI_DisplayStatus()
         #endif
 
         if(!SCANNER_IsScanning()) {
-        #ifdef ENABLE_FEAT_F4HWN_RX_TX_TIMER
-            if(gCurrentFunction == FUNCTION_TRANSMIT && gSetting_set_tmr == true)
-            {
-                convertTime(line, 0);
-            }
-            else if(FUNCTION_IsRx() && gSetting_set_tmr == true)
-            {
-                convertTime(line, 1);
-            }
-            else
-        #endif
-
-            {//这里修改接收模式的图标gFontDWR、gFontHold、gFontMO
-                uint8_t dw = (gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2;
-                if(dw == 1 || dw == 3) { // DWR - dual watch + respond
-                        if(gDualWatchActive) {
-                            if (dw == 1) {
-                                // dw == 1 时显示 gFontDWR
-                                memcpy(line + x + 2, gFontDWR, sizeof(gFontDWR));
-                            } else if (dw == 3) {
-                                // dw == 3 时显示 gFontDW
-                                memcpy(line + x + 2, gFontDW, sizeof(gFontDW));
-                            }
-                        } else {
-                            // 如果 gDualWatchActive 为假，则显示 gFontHold
-                            memcpy(line + x + 2, gFontHold, sizeof(gFontHold));
-                        }
+            #ifdef ENABLE_FEAT_F4HWN_RX_TX_TIMER
+                if(gCurrentFunction == FUNCTION_TRANSMIT && gSetting_set_tmr == true)
+                {
+                    convertTime(line, 0);
                 }
-                else if(dw == 2) { // XB - crossband
-                    memcpy(line + x + 2, gFontXB, sizeof(gFontXB));
-
+                else if(FUNCTION_IsRx() && gSetting_set_tmr == true)
+                {
+                    convertTime(line, 1);
                 }
                 else
+            #endif
                 {
-                //#endif
-                    uint8_t dw = (gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2;
-                    if(dw == 1 || dw == 3) { // DWR - dual watch + respond
-                        if(gDualWatchActive)
-                            memcpy(line + x + (dw==1?0:2), gFontDWR, sizeof(gFontDWR) - (dw==1?0:5));
-                        else
-                            memcpy(line + x + 3, gFontHold, sizeof(gFontHold));
-                    }
-                    else if(dw == 2) { // XB - crossband
-                        memcpy(line + x + 2, gFontXB, sizeof(gFontXB));
+                    #ifdef ENABLE_FEAT_F4HWN_RESCUE_OPS
+                    if(gEeprom.MENU_LOCK == true) {
+                        memcpy(line + x + 2, gFontRO, sizeof(gFontRO));
                     }
                     else
                     {
-                        memcpy(line + x + 2, gFontMO, sizeof(gFontMO));
+                    #endif
+                        uint8_t dw = (gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2;
+                        if(dw == 1 || dw == 3) { // DWR - dual watch + respond
+                            if(gDualWatchActive)
+                                memcpy(line + x + (dw==1?0:2), gFontDWR, sizeof(gFontDWR) - (dw==1?0:5));
+                            else
+                                memcpy(line + x + 3, gFontHold, sizeof(gFontHold));
+                        }
+                        else if(dw == 2) { // XB - crossband
+                            memcpy(line + x + 2, gFontXB, sizeof(gFontXB));
+                        }
+                        else
+                        {
+                            memcpy(line + x + 2, gFontMO, sizeof(gFontMO));
+                        }
+                    #ifdef ENABLE_FEAT_F4HWN_RESCUE_OPS
                     }
-
+                    #endif
+                }
             }
-        }
-        x += sizeof(gFontDWR) + 3;
-
-    }
-    
-    }
+            x += sizeof(gFontDWR) + 3;
+        #endif
+ 
 
 
 

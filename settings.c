@@ -1020,10 +1020,6 @@ State[1] = 0
     EEPROM_WriteBuffer(0x1FF0, State);
 }
 
-
-
-#ifdef ENABLE_FEAT_F4HWN_RESTORE_SCAN
-
 #ifdef ENABLE_FEAT_F4HWN_RESUME_STATE
 
     void SETTINGS_WriteCurrentState(void)
