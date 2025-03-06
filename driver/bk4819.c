@@ -88,8 +88,8 @@ void BK4819_Init(void)
     BK4819_WriteRegister(BK4819_REG_48, //  0xB3A8);     // 1011 00 111010 1000
         (11u << 12) |     // ??? 0..15
         ( 0u << 10) |     // AF Rx Gain-1
-        (58u <<  4) |     // AF Rx Gain-2
-        ( 8u <<  0));     // AF DAC Gain (after Gain-1 and Gain-2)
+        (30u <<  4) |     // AF Rx Gain-2
+        ( 4u <<  0));     // AF DAC Gain (after Gain-1 and Gain-2)
 
 #if 1
     const uint8_t dtmf_coeffs[] = {111, 107, 103, 98, 80, 71, 58, 44, 65, 55, 37, 23, 228, 203, 181, 159};
@@ -1684,12 +1684,14 @@ void BK4819_PrepareFSKReceive(void)
 static void BK4819_PlayRogerNormal(void)
 {
     #if 0
-        const uint32_t tone1_Hz = 500;
-        const uint32_t tone2_Hz = 700;
+        const uint32_t tone1_Hz = 730;
+        const uint32_t tone2_Hz = 730;
     #else
         // motorola type
-        const uint32_t tone1_Hz = 1540;
-        const uint32_t tone2_Hz = 1310;
+        const uint32_t tone1_Hz = 730;
+        const uint32_t tone2_Hz = 0;
+        const uint32_t tone3_Hz = 730;
+
     #endif
 
 
@@ -1704,13 +1706,18 @@ static void BK4819_PlayRogerNormal(void)
     BK4819_WriteRegister(BK4819_REG_71, scale_freq(tone1_Hz));
 
     BK4819_ExitTxMute();
-    SYSTEM_DelayMs(80);
+    SYSTEM_DelayMs(140);
     BK4819_EnterTxMute();
 
     BK4819_WriteRegister(BK4819_REG_71, scale_freq(tone2_Hz));
 
     BK4819_ExitTxMute();
-    SYSTEM_DelayMs(80);
+    SYSTEM_DelayMs(140);
+    BK4819_EnterTxMute();
+    BK4819_WriteRegister(BK4819_REG_71, scale_freq(tone3_Hz));
+
+    BK4819_ExitTxMute();
+    SYSTEM_DelayMs(140);
     BK4819_EnterTxMute();
 
     BK4819_WriteRegister(BK4819_REG_70, 0x0000);

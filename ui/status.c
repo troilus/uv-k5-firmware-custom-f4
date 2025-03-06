@@ -154,14 +154,30 @@ void UI_DisplayStatus()
             }
             else
         #endif
-            {
-                #ifdef ENABLE_FEAT_F4HWN_RESCUE_OPS
-                if(gEeprom.MENU_LOCK == true) {
-                    memcpy(line + x + 2, gFontRO, sizeof(gFontRO));
+
+            {//这里修改接收模式的图标gFontDWR、gFontHold、gFontMO
+                uint8_t dw = (gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2;
+                if(dw == 1 || dw == 3) { // DWR - dual watch + respond
+                        if(gDualWatchActive) {
+                            if (dw == 1) {
+                                // dw == 1 时显示 gFontDWR
+                                memcpy(line + x + 2, gFontDWR, sizeof(gFontDWR));
+                            } else if (dw == 3) {
+                                // dw == 3 时显示 gFontDW
+                                memcpy(line + x + 2, gFontDW, sizeof(gFontDW));
+                            }
+                        } else {
+                            // 如果 gDualWatchActive 为假，则显示 gFontHold
+                            memcpy(line + x + 2, gFontHold, sizeof(gFontHold));
+                        }
+                }
+                else if(dw == 2) { // XB - crossband
+                    memcpy(line + x + 2, gFontXB, sizeof(gFontXB));
+
                 }
                 else
                 {
-                #endif
+                //#endif
                     uint8_t dw = (gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2;
                     if(dw == 1 || dw == 3) { // DWR - dual watch + respond
                         if(gDualWatchActive)
@@ -176,13 +192,16 @@ void UI_DisplayStatus()
                     {
                         memcpy(line + x + 2, gFontMO, sizeof(gFontMO));
                     }
-                #ifdef ENABLE_FEAT_F4HWN_RESCUE_OPS
-                }
-                #endif
+
             }
         }
         x += sizeof(gFontDWR) + 3;
-    #endif
+
+    }
+    
+    }
+
+
 
 #ifdef ENABLE_VOX
     // VOX indicator
@@ -193,6 +212,7 @@ void UI_DisplayStatus()
     x += sizeof(gFontVox) + 3;
 #endif
 
+/*不显示PTT方式，没用
 #ifdef ENABLE_FEAT_F4HWN
     // PTT indicator
     if (gSetting_set_ptt_session) {
@@ -206,7 +226,7 @@ void UI_DisplayStatus()
     }
     x += sizeof(gFontPttClassic) + 3;
 #endif
-
+*/
     x = MAX(x1, 69u);
 
     const void *src = NULL;   // Pointer to the font/bitmap to copy
@@ -227,6 +247,7 @@ void UI_DisplayStatus()
         src = gFontF;
         size = sizeof(gFontF);
         #endif
+
     }
     #ifdef ENABLE_FEAT_F4HWN
         else if (gMute) {
@@ -238,6 +259,7 @@ void UI_DisplayStatus()
         src = gFontLight;
         size = sizeof(gFontLight);
     }
+
     #ifdef ENABLE_FEAT_F4HWN_CHARGING_C
     else if (gChargingWithTypeC) {
         src = BITMAP_USB_C;
@@ -249,6 +271,7 @@ void UI_DisplayStatus()
     if (src) {
         memcpy(line + x + 1, src, size);
     }
+
 
     // Battery
     unsigned int x2 = LCD_WIDTH - sizeof(BITMAP_BatteryLevel1) - 0;

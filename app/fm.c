@@ -356,6 +356,7 @@ static void Key_FUNC(KEY_Code_t Key, uint8_t state)
                 ACTION_FM();
                 break;
 
+            //中国就一个频段，切不切无所谓
             case KEY_1:
                 gEeprom.FM_Band++;
                 gRequestSaveFM = true;
@@ -611,7 +612,7 @@ void FM_Play(void)
 
 void FM_Start(void)
 {
-    gDualWatchActive          = false;
+    gDualWatchActive          = true; //收音机状态下双守
     gFmRadioMode              = true;
     gFM_ScanState             = FM_SCAN_OFF;
     gFM_RestoreCountdown_10ms = 0;

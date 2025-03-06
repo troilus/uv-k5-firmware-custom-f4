@@ -40,36 +40,38 @@
 const t_menu_item MenuList[] =
 {
 //   text,          menu ID
+    {"Sql",         MENU_SQL           },
+    {"DWMode",      MENU_TDR           },
     {"Step",        MENU_STEP          },
     {"Power",       MENU_TXP           }, // was "TXP"
     {"RxDCS",       MENU_R_DCS         }, // was "R_DCS"
     {"RxCTCS",      MENU_R_CTCS        }, // was "R_CTCS"
     {"TxDCS",       MENU_T_DCS         }, // was "T_DCS"
     {"TxCTCS",      MENU_T_CTCS        }, // was "T_CTCS"
-    {"TxODir",      MENU_SFT_D         }, // was "SFT_D"
+    {"TxDir",       MENU_SFT_D         }, // was "SFT_D"
     {"TxOffs",      MENU_OFFSET        }, // was "OFFSET"
     {"W/N",         MENU_W_N           },
-#ifndef ENABLE_FEAT_F4HWN
+#ifdef ENABLE_FEAT_F4HWN
     {"Scramb",      MENU_SCR           }, // was "SCR"
 #endif
-    {"BusyCL",      MENU_BCL           }, // was "BCL"
-    {"Compnd",      MENU_COMPAND       },
+    {"BzLock",      MENU_BCL           }, // was "BCL"
+//    {"Compnd",      MENU_COMPAND       },
     {"Mode",        MENU_AM            }, // was "AM"
 #ifdef ENABLE_FEAT_F4HWN
     {"TXLock",      MENU_TX_LOCK       }, 
 #endif
-    {"ScAdd1",      MENU_S_ADD1        },
-    {"ScAdd2",      MENU_S_ADD2        },
-    {"ScAdd3",      MENU_S_ADD3        },
+//    {"ScAdd1",      MENU_S_ADD1        },
+//    {"ScAdd2",      MENU_S_ADD2        },
+//    {"ScAdd3",      MENU_S_ADD3        },
     {"ChSave",      MENU_MEM_CH        }, // was "MEM-CH"
     {"ChDele",      MENU_DEL_CH        }, // was "DEL-CH"
     {"ChName",      MENU_MEM_NAME      },
 
-    {"SList",       MENU_S_LIST        },
-    {"SList1",      MENU_SLIST1        },
-    {"SList2",      MENU_SLIST2        },
-    {"SList3",      MENU_SLIST3        },
-    {"ScnRev",      MENU_SC_REV        },
+//    {"SList",       MENU_S_LIST        },
+//    {"SList1",      MENU_SLIST1        },
+//    {"SList2",      MENU_SLIST2        },
+//    {"SList3",      MENU_SLIST3        },
+//    {"ScnRev",      MENU_SC_REV        },
 #ifndef ENABLE_FEAT_F4HWN
     #ifdef ENABLE_NOAA
         {"NOAA-S",      MENU_NOAA_S    },
@@ -81,46 +83,48 @@ const t_menu_item MenuList[] =
     {"F2Long",      MENU_F2LONG        },
     {"M Long",      MENU_MLONG         },
 
-    {"KeyLck",      MENU_AUTOLK        }, // was "AUTOLk"
-    {"TxTOut",      MENU_TOT           }, // was "TOT"
+//    {"KeyLck",      MENU_AUTOLK        }, // was "AUTOLk"
+//    {"TxTOut",      MENU_TOT           }, // was "TOT"
     {"BatSav",      MENU_SAVE          }, // was "SAVE"
     {"BatTxt",      MENU_BAT_TXT       },
     {"Mic",         MENU_MIC           },
-    {"MicBar",      MENU_MIC_BAR       },
+
+//    {"MicBar",      MENU_MIC_BAR       }, //去掉了音量条显示
+
     {"ChDisp",      MENU_MDF           }, // was "MDF"
     {"POnMsg",      MENU_PONMSG        },
     {"BLTime",      MENU_ABR           }, // was "ABR"
-    {"BLMin",       MENU_ABR_MIN       },
+//    {"BLMin",       MENU_ABR_MIN       },
     {"BLMax",       MENU_ABR_MAX       },
-    {"BLTxRx",      MENU_ABR_ON_TX_RX  },
+//    {"BLTxRx",      MENU_ABR_ON_TX_RX  },
     {"Beep",        MENU_BEEP          },
-#ifdef ENABLE_VOICE
-    {"Voice",       MENU_VOICE         },
-#endif
+//#ifdef ENABLE_VOICE
+//    {"Voice",       MENU_VOICE         },
+//#endif
     {"Roger",       MENU_ROGER         },
     {"STE",         MENU_STE           },
     {"RP STE",      MENU_RP_STE        },
     {"1 Call",      MENU_1_CALL        },
-#ifdef ENABLE_ALARM
-    {"AlarmT",      MENU_AL_MOD        },
-#endif
-#ifdef ENABLE_DTMF_CALLING
-    {"ANI ID",      MENU_ANI_ID        },
-#endif
-    {"UPCode",      MENU_UPCODE        },
-    {"DWCode",      MENU_DWCODE        },
-    {"PTT ID",      MENU_PTT_ID        },
-    {"D ST",        MENU_D_ST          },
-#ifdef ENABLE_DTMF_CALLING
-    {"D Resp",      MENU_D_RSP         },
-    {"D Hold",      MENU_D_HOLD        },
-#endif
-    {"D Prel",      MENU_D_PRE         },
-#ifdef ENABLE_DTMF_CALLING
-    {"D Decd",      MENU_D_DCD         },
-    {"D List",      MENU_D_LIST        },
-#endif
-    {"D Live",      MENU_D_LIVE_DEC    }, // live DTMF decoder
+//#ifdef ENABLE_ALARM
+//    {"AlarmT",      MENU_AL_MOD        },
+//#endif
+//#ifdef ENABLE_DTMF_CALLING
+//    {"ANI ID",      MENU_ANI_ID        },
+//#endif
+//    {"UPCode",      MENU_UPCODE        },
+//    {"DWCode",      MENU_DWCODE        },
+//    {"PTT ID",      MENU_PTT_ID        },
+//    {"D ST",        MENU_D_ST          },
+//#ifdef ENABLE_DTMF_CALLING
+//    {"D Resp",      MENU_D_RSP         },
+//    {"D Hold",      MENU_D_HOLD        },
+//#endif
+//    {"D Prel",      MENU_D_PRE         },
+//#ifdef ENABLE_DTMF_CALLING
+//    {"D Decd",      MENU_D_DCD         },
+//    {"D List",      MENU_D_LIST        },
+//#endif
+//    {"D Live",      MENU_D_LIVE_DEC    }, // live DTMF decoder
 #ifndef ENABLE_FEAT_F4HWN
     #ifdef ENABLE_AM_FIX
         {"AM Fix",      MENU_AM_FIX        },
@@ -132,22 +136,22 @@ const t_menu_item MenuList[] =
 #else
     {"BatVol",      MENU_VOL           }, // was "VOL"
 #endif
-    {"RxMode",      MENU_TDR           },
-    {"Sql",         MENU_SQL           },
+
 #ifdef ENABLE_FEAT_F4HWN
     {"SetPwr",      MENU_SET_PWR       },
-    {"SetPTT",      MENU_SET_PTT       },
-    {"SetTOT",      MENU_SET_TOT       },
-    {"SetEOT",      MENU_SET_EOT       },
+    //{"SetPTT",      MENU_SET_PTT       },
+    //{"SetTOT",      MENU_SET_TOT       },
+    //{"SetEOT",      MENU_SET_EOT       },
     {"SetCtr",      MENU_SET_CTR       },
     {"SetInv",      MENU_SET_INV       },
     {"SetLck",      MENU_SET_LCK       },
     {"SetMet",      MENU_SET_MET       },
-    {"SetGUI",      MENU_SET_GUI       },
-    {"SetTmr",      MENU_SET_TMR       },
-#ifdef ENABLE_FEAT_F4HWN_SLEEP
-    {"SetOff",       MENU_SET_OFF      },
-#endif
+    {"SetGui",      MENU_SET_GUI       },
+//    {"SetTmr",      MENU_SET_TMR       },
+//#ifdef ENABLE_FEAT_F4HWN_SLEEP
+//    {"SetOff",       MENU_SET_OFF      },
+//#endif
+
 #ifdef ENABLE_FEAT_F4HWN_NARROWER
     {"SetNFM",      MENU_SET_NFM       },
 #endif
@@ -164,18 +168,18 @@ const t_menu_item MenuList[] =
     // hidden menu items from here on
     // enabled if pressing both the PTT and upper side button at power-on
     {"F Lock",      MENU_F_LOCK        },
-#ifndef ENABLE_FEAT_F4HWN
-    {"Tx 200",      MENU_200TX         }, // was "200TX"
-    {"Tx 350",      MENU_350TX         }, // was "350TX"
-    {"Tx 500",      MENU_500TX         }, // was "500TX"
-#endif
-    {"350 En",      MENU_350EN         }, // was "350EN"
-#ifndef ENABLE_FEAT_F4HWN
-    {"ScraEn",      MENU_SCREN         }, // was "SCREN"
-#endif
-#ifdef ENABLE_F_CAL_MENU
-    {"FrCali",      MENU_F_CALI        }, // reference xtal calibration
-#endif
+//#ifndef ENABLE_FEAT_F4HWN
+//    {"Tx 200",      MENU_200TX         }, // was "200TX"
+//    {"Tx 350",      MENU_350TX         }, // was "350TX"
+//    {"Tx 500",      MENU_500TX         }, // was "500TX"
+//#endif
+//    {"350 En",      MENU_350EN         }, // was "350EN"
+//#ifndef ENABLE_FEAT_F4HWN
+//    {"ScraEn",      MENU_SCREN         }, // was "SCREN"
+//#endif
+//#ifdef ENABLE_F_CAL_MENU
+//    {"FrCali",      MENU_F_CALI        }, // reference xtal calibration
+//#endif
     {"BatCal",      MENU_BATCAL        }, // battery voltage calibration
     {"BatTyp",      MENU_BATTYP        }, // battery type 1600/2200mAh
     {"Reset",       MENU_RESET         }, // might be better to move this to the hidden menu items ?
@@ -229,14 +233,14 @@ const char* const gSubMenu_RXMode[] =
     "MAIN TX\nDUAL RX"  // always TX on main, but RX on both
 };
 
-#ifdef ENABLE_VOICE
-    const char gSubMenu_VOICE[][4] =
-    {
-        "OFF",
-        "CHI",
-        "ENG"
-    };
-#endif
+//#ifdef ENABLE_VOICE
+//    const char gSubMenu_VOICE[][4] =
+//    {
+//        "OFF",
+//        "CHI",
+//        "ENG"
+//    };
+//#endif
 
 const char* const gSubMenu_MDF[] =
 {
@@ -246,32 +250,32 @@ const char* const gSubMenu_MDF[] =
     "NAME\n+\nFREQ"
 };
 
-#ifdef ENABLE_ALARM
-    const char gSubMenu_AL_MOD[][5] =
-    {
-        "SITE",
-        "TONE"
-    };
-#endif
+//#ifdef ENABLE_ALARM
+//    const char gSubMenu_AL_MOD[][5] =
+//    {
+//        "SITE",
+//        "TONE"
+//    };
+//#endif
 
-#ifdef ENABLE_DTMF_CALLING
-const char gSubMenu_D_RSP[][11] =
-{
-    "DO\nNOTHING",
-    "RING",
-    "REPLY",
-    "BOTH"
-};
-#endif
+//#ifdef ENABLE_DTMF_CALLING
+//const char gSubMenu_D_RSP[][11] =
+//{
+//    "DO\nNOTHING",
+//    "RING",
+//    "REPLY",
+//    "BOTH"
+//};
+//#endif
 
-const char* const gSubMenu_PTT_ID[] =
-{
-    "OFF",
-    "UP CODE",
-    "DOWN CODE",
-    "UP+DOWN\nCODE",
-    "APOLLO\nQUINDAR"
-};
+//const char* const gSubMenu_PTT_ID[] =
+//{
+//    "OFF",
+//    "UP CODE",
+//    "DOWN CODE",
+//    "UP+DOWN\nCODE",
+//    "APOLLO\nQUINDAR"
+///};
 
 const char gSubMenu_PONMSG[][8] =
 {
@@ -289,8 +293,8 @@ const char gSubMenu_PONMSG[][8] =
 const char gSubMenu_ROGER[][6] =
 {
     "OFF",
-    "ROGER",
-    "MDC"
+    "ROGER"
+//    "MDC"
 };
 
 const char gSubMenu_RESET[][4] =
@@ -301,23 +305,23 @@ const char gSubMenu_RESET[][4] =
 
 const char * const gSubMenu_F_LOCK[] =
 {
-    "DEFAULT+\n137-174\n400-470",
-    "FCC HAM\n144-148\n420-450",
-#ifdef ENABLE_FEAT_F4HWN_CA
-    "CA HAM\n144-148\n430-450",
-#endif
-    "CE HAM\n144-146\n430-440",
-    "GB HAM\n144-148\n430-440",
-    "137-174\n400-430",
-    "137-174\n400-438",
-#ifdef ENABLE_FEAT_F4HWN_PMR
-    "PMR 446",
-#endif
-#ifdef ENABLE_FEAT_F4HWN_GMRS_FRS_MURS
-    "GMRS\nFRS\nMURS",
-#endif
+//    "DEFAULT+\n137-174\n400-470",
+//    "FCC HAM\n144-148\n420-450",
+//#ifdef ENABLE_FEAT_F4HWN_CA
+//    "CA HAM\n144-148\n430-450",
+//#endif
+//    "CE HAM\n144-146\n430-440",
+    "CN HAM\n144-148\n430-440",
+//    "137-174\n400-430",
+//    "137-174\n400-438",
+//#ifdef ENABLE_FEAT_F4HWN_PMR
+//    "PMR 446",
+//#endif
+//#ifdef ENABLE_FEAT_F4HWN_GMRS_FRS_MURS
+//    "GMRS\nFRS\nMURS",
+//#endif
     "DISABLE\nALL",
-    "UNLOCK\nALL",
+    "UNLOCK\nALL"
 };
 
 const char gSubMenu_RX_TX[][6] =
@@ -342,7 +346,7 @@ const char gSubMenu_BATTYP[][9] =
     "3500mAh"
 };
 
-#ifndef ENABLE_FEAT_F4HWN
+//#ifndef ENABLE_FEAT_F4HWN
 const char gSubMenu_SCRAMBLER[][7] =
 {
     "OFF",
@@ -357,7 +361,7 @@ const char gSubMenu_SCRAMBLER[][7] =
     "3400Hz",
     "3500Hz"
 };
-#endif
+//#endif
 
 #ifdef ENABLE_FEAT_F4HWN
     const char gSubMenu_SET_PWR[][6] =
@@ -371,19 +375,19 @@ const char gSubMenu_SCRAMBLER[][7] =
         "5"
     };
 
-    const char gSubMenu_SET_PTT[][8] =
-    {
-        "CLASSIC",
-        "ONEPUSH"
-    };
+//    const char gSubMenu_SET_PTT[][8] =
+//    {
+//        "CLASSIC",
+//        "ONEPUSH"
+//    };
 
-    const char gSubMenu_SET_TOT[][7] =  // Use by SET_EOT too
-    {
-        "OFF",
-        "SOUND",
-        "VISUAL",
-        "ALL"
-    };
+//    const char gSubMenu_SET_TOT[][7] =  // Use by SET_EOT too
+//    {
+//        "OFF",
+//        "SOUND",
+//        "VISUAL",
+//        "ALL"
+//    };
 
     const char gSubMenu_SET_LCK[][9] =
     {
@@ -429,9 +433,9 @@ const t_sidefunction gSubMenu_SIDEFUNCTIONS[] =
 #ifdef ENABLE_VOX
     {"VOX",             ACTION_OPT_VOX},
 #endif
-#ifdef ENABLE_ALARM
-    {"ALARM",           ACTION_OPT_ALARM},
-#endif
+//#ifdef ENABLE_ALARM
+//    {"ALARM",           ACTION_OPT_ALARM},
+//#endif
 #ifdef ENABLE_FMRADIO
     {"FM RADIO",        ACTION_OPT_FM},
 #endif
@@ -446,9 +450,9 @@ const t_sidefunction gSubMenu_SIDEFUNCTIONS[] =
     {"VFO A\nVFO B",    ACTION_OPT_A_B},
     {"VFO\nMEM",        ACTION_OPT_VFO_MR},
     {"MODE",            ACTION_OPT_SWITCH_DEMODUL},
-#ifdef ENABLE_BLMIN_TMP_OFF
-    {"BLMIN\nTMP OFF",  ACTION_OPT_BLMIN_TMP_OFF},      //BackLight Minimum Temporay OFF
-#endif
+//#ifdef ENABLE_BLMIN_TMP_OFF
+//    {"BLMIN\nTMP OFF",  ACTION_OPT_BLMIN_TMP_OFF},      //BackLight Minimum Temporay OFF
+//#endif
 #ifdef ENABLE_FEAT_F4HWN
     {"RX MODE",         ACTION_OPT_RXMODE},
     {"MAIN ONLY",       ACTION_OPT_MAINONLY},
@@ -694,7 +698,7 @@ void UI_DisplayMenu(void)
             strcpy(String, gSubMenu_W_N[gSubMenuSelection]);
             break;
 
-#ifndef ENABLE_FEAT_F4HWN
+#ifdef ENABLE_FEAT_F4HWN
         case MENU_SCR:
             strcpy(String, gSubMenu_SCRAMBLER[gSubMenuSelection]);
             #if 1
@@ -768,7 +772,7 @@ void UI_DisplayMenu(void)
             }
             break;
 
-        case MENU_COMPAND:
+//        case MENU_COMPAND:
         case MENU_ABR_ON_TX_RX:
             strcpy(String, gSubMenu_RX_TX[gSubMenuSelection]);
             break;
@@ -780,30 +784,30 @@ void UI_DisplayMenu(void)
         #endif
         case MENU_BCL:
         case MENU_BEEP:
-        case MENU_S_ADD1:
-        case MENU_S_ADD2:
-        case MENU_S_ADD3:
+//        case MENU_S_ADD1:
+//        case MENU_S_ADD2:
+//        case MENU_S_ADD3:
         case MENU_STE:
         case MENU_D_ST:
-#ifdef ENABLE_DTMF_CALLING
-        case MENU_D_DCD:
-#endif
-        case MENU_D_LIVE_DEC:
-        #ifdef ENABLE_NOAA
-            case MENU_NOAA_S:
-        #endif
-#ifndef ENABLE_FEAT_F4HWN
-        case MENU_350TX:
-        case MENU_200TX:
-        case MENU_500TX:
-#endif
+//#ifdef ENABLE_DTMF_CALLING
+//        case MENU_D_DCD:
+//#endif
+//        case MENU_D_LIVE_DEC:
+//        #ifdef ENABLE_NOAA
+//            case MENU_NOAA_S:
+//        #endif
+//#ifndef ENABLE_FEAT_F4HWN
+//        case MENU_350TX:
+//        case MENU_200TX:
+//        case MENU_500TX:
+//#endif
         case MENU_350EN:
 #ifndef ENABLE_FEAT_F4HWN
         case MENU_SCREN:
 #endif
-#ifdef ENABLE_FEAT_F4HWN
-        case MENU_SET_TMR:
-#endif
+//#ifdef ENABLE_FEAT_F4HWN
+//        case MENU_SET_TMR:
+//#endif
             strcpy(String, gSubMenu_OFF_ON[gSubMenuSelection]);
             break;
 
@@ -887,11 +891,11 @@ void UI_DisplayMenu(void)
             #endif
             break;
 
-        #ifdef ENABLE_VOICE
-            case MENU_VOICE:
-                strcpy(String, gSubMenu_VOICE[gSubMenuSelection]);
-                break;
-        #endif
+//        #ifdef ENABLE_VOICE
+//            case MENU_VOICE:
+//                strcpy(String, gSubMenu_VOICE[gSubMenuSelection]);
+//                break;
+//        #endif
 
         case MENU_SC_REV:
             if(gSubMenuSelection == 0)
@@ -928,50 +932,50 @@ void UI_DisplayMenu(void)
             sprintf(String, gSubMenuSelection == 0 ? gSubMenu_OFF_ON[0] : "%u*100ms", gSubMenuSelection);
             break;
 
-        case MENU_S_LIST:
-            if (gSubMenuSelection == 0)
-                strcpy(String, "LIST [0]\nNO LIST");
-            else if (gSubMenuSelection < 4)
-                sprintf(String, "LIST [%u]", gSubMenuSelection);
-            else if (gSubMenuSelection == 4)
-                strcpy(String, "LISTS\n[1, 2, 3]");
-            else if (gSubMenuSelection == 5)
-                strcpy(String, "ALL");
-            break;
+//        case MENU_S_LIST:
+//            if (gSubMenuSelection == 0)
+//                strcpy(String, "LIST [0]\nNO LIST");
+//            else if (gSubMenuSelection < 4)
+//                sprintf(String, "LIST [%u]", gSubMenuSelection);
+//            else if (gSubMenuSelection == 4)
+//                strcpy(String, "LISTS\n[1, 2, 3]");
+//            else if (gSubMenuSelection == 5)
+//                strcpy(String, "ALL");
+//            break;
 
-        #ifdef ENABLE_ALARM
-            case MENU_AL_MOD:
-                sprintf(String, gSubMenu_AL_MOD[gSubMenuSelection]);
-                break;
-        #endif
+//        #ifdef ENABLE_ALARM
+//            case MENU_AL_MOD:
+//                sprintf(String, gSubMenu_AL_MOD[gSubMenuSelection]);
+//                break;
+//        #endif
 
-#ifdef ENABLE_DTMF_CALLING
-        case MENU_ANI_ID:
-            strcpy(String, gEeprom.ANI_DTMF_ID);
-            break;
-#endif
-        case MENU_UPCODE:
-            sprintf(String, "%.8s\n%.8s", gEeprom.DTMF_UP_CODE, gEeprom.DTMF_UP_CODE + 8);
-            break;
+//#ifdef ENABLE_DTMF_CALLING
+//        case MENU_ANI_ID:
+//            strcpy(String, gEeprom.ANI_DTMF_ID);
+//            break;
+//#endif
+//        case MENU_UPCODE:
+//            sprintf(String, "%.8s\n%.8s", gEeprom.DTMF_UP_CODE, gEeprom.DTMF_UP_CODE + 8);
+//            break;
 
-        case MENU_DWCODE:
-            sprintf(String, "%.8s\n%.8s", gEeprom.DTMF_DOWN_CODE, gEeprom.DTMF_DOWN_CODE + 8);
-            break;
+//        case MENU_DWCODE:
+//            sprintf(String, "%.8s\n%.8s", gEeprom.DTMF_DOWN_CODE, gEeprom.DTMF_DOWN_CODE + 8);
+//            break;
 
-#ifdef ENABLE_DTMF_CALLING
-        case MENU_D_RSP:
-            strcpy(String, gSubMenu_D_RSP[gSubMenuSelection]);
-            break;
+//#ifdef ENABLE_DTMF_CALLING
+//        case MENU_D_RSP:
+//            strcpy(String, gSubMenu_D_RSP[gSubMenuSelection]);
+//            break;
 
-        case MENU_D_HOLD:
-            sprintf(String, "%ds", gSubMenuSelection);
-            break;
-#endif
-        case MENU_D_PRE:
-            sprintf(String, "%d*10ms", gSubMenuSelection);
-            break;
+//        case MENU_D_HOLD:
+//            sprintf(String, "%ds", gSubMenuSelection);
+//            break;
+//#endif
+//        case MENU_D_PRE:
+//            sprintf(String, "%d*10ms", gSubMenuSelection);
+//            break;
 
-        case MENU_PTT_ID:
+//        case MENU_PTT_ID:
             strcpy(String, gSubMenu_PTT_ID[gSubMenuSelection]);
             break;
 
@@ -979,15 +983,15 @@ void UI_DisplayMenu(void)
             strcpy(String, gSubMenu_BAT_TXT[gSubMenuSelection]);
             break;
 
-#ifdef ENABLE_DTMF_CALLING
-        case MENU_D_LIST:
-            gIsDtmfContactValid = DTMF_GetContact((int)gSubMenuSelection - 1, Contact);
-            if (!gIsDtmfContactValid)
-                strcpy(String, "NULL");
-            else
-                memcpy(String, Contact, 8);
-            break;
-#endif
+//#ifdef ENABLE_DTMF_CALLING
+//        case MENU_D_LIST:
+//            gIsDtmfContactValid = DTMF_GetContact((int)gSubMenuSelection - 1, Contact);
+//            if (!gIsDtmfContactValid)
+//                strcpy(String, "NULL");
+//            else
+//                memcpy(String, Contact, 8);
+//            break;
+//#endif
 
         case MENU_PONMSG:
             strcpy(String, gSubMenu_PONMSG[gSubMenuSelection]);
@@ -1083,14 +1087,14 @@ void UI_DisplayMenu(void)
             sprintf(String, "%s\n%sW", gSubMenu_TXP[gSubMenuSelection + 1], gSubMenu_SET_PWR[gSubMenuSelection]);
             break;
     
-        case MENU_SET_PTT:
-            strcpy(String, gSubMenu_SET_PTT[gSubMenuSelection]);
-            break;
+//        case MENU_SET_PTT:
+//           strcpy(String, gSubMenu_SET_PTT[gSubMenuSelection]);
+//            break;
 
-        case MENU_SET_TOT:
-        case MENU_SET_EOT:
-            strcpy(String, gSubMenu_SET_TOT[gSubMenuSelection]); // Same as SET_TOT
-            break;
+//        case MENU_SET_TOT:
+//        case MENU_SET_EOT:
+//            strcpy(String, gSubMenu_SET_TOT[gSubMenuSelection]); // Same as SET_TOT
+//            break;
 
         case MENU_SET_CTR:
             #ifdef ENABLE_FEAT_F4HWN_CTR
@@ -1313,22 +1317,22 @@ void UI_DisplayMenu(void)
     if ((UI_MENU_GetCurrentMenuId() == MENU_R_CTCS || UI_MENU_GetCurrentMenuId() == MENU_R_DCS) && gCssBackgroundScan)
         UI_PrintString("SCAN", menu_item_x1, menu_item_x2, 4, 8);
 
-#ifdef ENABLE_DTMF_CALLING
-    if (UI_MENU_GetCurrentMenuId() == MENU_D_LIST && gIsDtmfContactValid) {
-        Contact[11] = 0;
-        memcpy(&gDTMF_ID, Contact + 8, 4);
-        sprintf(String, "ID:%4s", gDTMF_ID);
-        UI_PrintString(String, menu_item_x1, menu_item_x2, 4, 8);
-    }
-#endif
+//#ifdef ENABLE_DTMF_CALLING
+//    if (UI_MENU_GetCurrentMenuId() == MENU_D_LIST && gIsDtmfContactValid) {
+//        Contact[11] = 0;
+//        memcpy(&gDTMF_ID, Contact + 8, 4);
+//        sprintf(String, "ID:%4s", gDTMF_ID);
+//        UI_PrintString(String, menu_item_x1, menu_item_x2, 4, 8);
+//    }
+//#endif
 
     if (UI_MENU_GetCurrentMenuId() == MENU_R_CTCS ||
         UI_MENU_GetCurrentMenuId() == MENU_T_CTCS ||
         UI_MENU_GetCurrentMenuId() == MENU_R_DCS  ||
         UI_MENU_GetCurrentMenuId() == MENU_T_DCS
-#ifdef ENABLE_DTMF_CALLING
-        || UI_MENU_GetCurrentMenuId() == MENU_D_LIST
-#endif
+//#ifdef ENABLE_DTMF_CALLING
+//        || UI_MENU_GetCurrentMenuId() == MENU_D_LIST
+//#endif
     ) {
         sprintf(String, "%2d", gSubMenuSelection);
         UI_PrintStringSmallNormal(String, 105, 0, 0);
