@@ -1230,7 +1230,7 @@ void UI_DisplayMenu(void)
                 UI_PrintStringSmallNormal(edit, 54, 127, 1);
 
                 #if defined(ENABLE_SPECTRUM) && defined(ENABLE_FMRADIO)
-                    UI_PrintStringSmallNormal("Basic", 54, 127, 6);
+                    UI_PrintStringSmallNormal("XANYI.TOP", 54, 127, 6);
                 #elif defined(ENABLE_SPECTRUM)
                     UI_PrintStringSmallNormal("Bandscope", 54, 127, 6);
                 #elif defined(ENABLE_FMRADIO)
