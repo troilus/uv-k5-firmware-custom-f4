@@ -509,13 +509,11 @@ void ACTION_RxMode(void)
   
     switch(cycle) {  
         case 0:  
-            // 设置为模式 3: "MAIN TX\nDUAL RX"  
-            gEeprom.DUAL_WATCH = DUAL_WATCH_ON;  
-            gEeprom.CROSS_BAND_RX_TX = CROSS_BAND_ON;  
+            gEeprom.DUAL_WATCH = DUAL_WATCH_CHAN_A;  
+            gEeprom.CROSS_BAND_RX_TX = CROSS_BAND_CHAN_A;  
             cycle = 1;  
             break;  
         case 1:  
-            // 设置为模式 0: "MAIN\nONLY"  
             gEeprom.DUAL_WATCH = DUAL_WATCH_OFF;  
             gEeprom.CROSS_BAND_RX_TX = CROSS_BAND_OFF;  
             cycle = 0;  
