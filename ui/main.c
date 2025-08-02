@@ -778,7 +778,7 @@ void UI_DisplayMain(void)
                 }
                 else
                 {
-                    RxBlink = 0;
+                    RxBlink = 1;
                 }
 #else
                 UI_PrintStringSmallBold("RX", 8, 0, line);
@@ -1385,6 +1385,25 @@ void UI_DisplayMain(void)
            }
         }
 #endif
+
+
+// 在VFO显示循环结束后，添加RX反色处理  
+if (FUNCTION_IsRx() && gEeprom.RX_VFO == vfo_num && VfoState[vfo_num] == VFO_STATE_NORMAL) {  
+    // 仅在双VFO模式下进行反色  
+    if (!isMainOnly()) {  
+        const unsigned int start_line = (vfo_num == 0) ? 0 : 4;  
+          
+        // 对接收VFO的连续三行进行反色，包括行间间隙  
+        for (unsigned int row = 0; row < 3; row++) {  
+            for (uint8_t i = 0; i < 128; i++) {  
+                gFrameBuffer[start_line + row][i] ^= 0xFF;  // 使用0xFF确保完全反色  
+            }  
+        }  
+          
+        // 如果需要，还可以处理第三行和第四行之间的间隙  
+        // 通过检查实际的VFO内容高度来决定是否需要额外处理  
+    }  
+}
     }
 
 #ifdef ENABLE_AGC_SHOW_DATA

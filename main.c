@@ -88,7 +88,7 @@ void Main(void)
     SYSTICK_Init();
     BOARD_Init();
 
-    boot_counter_10ms = 250;   // 2.5 sec
+    boot_counter_10ms = 120;   // 2.5 sec
 
 #ifdef ENABLE_UART
     UART_Init();
@@ -165,9 +165,9 @@ void Main(void)
             gEeprom.KEY_LOCK = 0;
             SETTINGS_SaveSettings();
             #ifndef ENABLE_VOX
-                gMenuCursor = 48; // move to hidden section, fix me if change... !!! Remove VOX and Mic Bar
+                gMenuCursor = 47; // move to hidden section, fix me if change... !!! Remove VOX and Mic Bar
             #else
-                gMenuCursor = 48; // move to hidden section, fix me if change... !!!
+                gMenuCursor = 47; // move to hidden section, fix me if change... !!!
             #endif
 
             #ifdef ENABLE_NOAA
