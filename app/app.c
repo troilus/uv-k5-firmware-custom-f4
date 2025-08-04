@@ -1055,7 +1055,7 @@ void APP_Update(void)
         && gVoiceWriteIndex == 0
 #endif
 #ifdef ENABLE_FMRADIO
-        // && !gFmRadioMode 测试收音机状态下的双守
+        && !gFmRadioMode
 #endif
 #ifdef ENABLE_DTMF_CALLING
         && gDTMF_CallState == DTMF_CALL_STATE_NONE
