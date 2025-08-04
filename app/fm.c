@@ -612,7 +612,7 @@ void FM_Play(void)
 
 void FM_Start(void)
 {
-    gDualWatchActive          = false; //收音机状态下双守
+    gDualWatchActive          = true; //收音机状态下双守
     gFmRadioMode              = true;
     gFM_ScanState             = FM_SCAN_OFF;
     gFM_RestoreCountdown_10ms = 0;
