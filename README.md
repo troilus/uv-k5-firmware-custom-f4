@@ -1,3 +1,4 @@
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/troilus/uv-k5-firmware-custom-f4)
 #### 基于基于基于基于基于DualTachyon的OneOfEleve和基于fagciegzumer的DualTachyon的egzumer的F4HWN的自用固件：
 - [x] 启用 BYP 输出(用于POCSAG)解码
 - [x] 允许 630-840 MHz RX
