@@ -127,16 +127,6 @@ static void CheckForIncoming(void)
 {
     if (!g_SquelchLost)
         return;          // squelch is closed
-
-
-        // 双守模式下，非当前选择的VFO收到信号时播放提示音  
-    if (gEeprom.DUAL_WATCH != DUAL_WATCH_OFF &&   
-        gEeprom.RX_VFO != gEeprom.TX_VFO &&   
-        gEeprom.BEEP_CONTROL) {  
-        AUDIO_PlayBeep(BEEP_500HZ_30MS);   // 播放短促的"滴"声  
-    }  
-
-    
     // squelch is open
 /*如果设备未进行 RF 扫描，进一步检查是否开启了双重监听（gEeprom.DUAL_WATCH 是否为 DUAL_WATCH_OFF）。
 如果双重监听模式关闭：
