@@ -1,0 +1,25 @@
+name: Build Custom Firmware  
+  
+on:  
+  workflow_dispatch:  # Allows manual triggering from GitHub UI  
+  
+jobs:  
+  build:  
+    runs-on: ubuntu-latest  
+    name: Build Custom UV-K5 Firmware  
+      
+    steps:  
+    - name: Checkout repository  
+      uses: actions/checkout@v4  
+        
+    - name: Build custom firmware  
+      run: |  
+        chmod +x ./compile-with-docker.sh  
+        ./compile-with-docker.sh custom  
+          
+    - name: Upload firmware artifact  
+      uses: actions/upload-artifact@v4  
+      with:  
+        name: f4hwn-custom-firmware  
+        path: compiled-firmware/f4hwn.custom.packed.bin  
+        retention-days: 30
