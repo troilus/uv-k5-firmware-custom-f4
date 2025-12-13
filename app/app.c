@@ -127,7 +127,10 @@ static void CheckForIncoming(void)
 {
     if (!g_SquelchLost)
         return;          // squelch is closed
-
+    // 添加信道2判断和提示音播放  
+    if (gCurrentVfo->CHANNEL_SAVE == 2) {  // 假设CHANNEL_SAVE为信道号  
+        AUDIO_PlayBeep(BEEP_600HZ_30MS);   // 播放短促的"滴"声  
+    }  
     // squelch is open
 /*如果设备未进行 RF 扫描，进一步检查是否开启了双重监听（gEeprom.DUAL_WATCH 是否为 DUAL_WATCH_OFF）。
 如果双重监听模式关闭：
@@ -259,15 +262,7 @@ static void HandleIncoming(void)
         }
     }
 #endif
-    // 根据当前VFO播放不同的提示音  
-    if (gEeprom.TX_VFO == 0) {  
-        // 信道1 - 播放单音  
-        gBeepToPlay = BEEP_500HZ_30MS;  
-    } else {  
-        // 信道2 - 播放双音  
-        gBeepToPlay = BEEP_500HZ_60MS_DOUBLE_BEEP;  
-    }  
-    AUDIO_PlayBeep(gBeepToPlay);  
+
     APP_StartListening(gMonitor ? FUNCTION_MONITOR : FUNCTION_RECEIVE);
 }
 
