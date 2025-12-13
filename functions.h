@@ -34,7 +34,7 @@ enum FUNCTION_Type_t
 typedef enum FUNCTION_Type_t FUNCTION_Type_t;
 
 extern FUNCTION_Type_t       gCurrentFunction;
-extern uint16_t 			 gRxInverseCountdown_10ms;
+
 void FUNCTION_Init(void);
 void FUNCTION_Select(FUNCTION_Type_t Function);
 bool FUNCTION_IsRx();
