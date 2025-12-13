@@ -259,7 +259,15 @@ static void HandleIncoming(void)
         }
     }
 #endif
-
+    // 根据当前VFO播放不同的提示音  
+    if (gEeprom.TX_VFO == 0) {  
+        // 信道1 - 播放单音  
+        gBeepToPlay = BEEP_500HZ_30MS;  
+    } else {  
+        // 信道2 - 播放双音  
+        gBeepToPlay = BEEP_500HZ_60MS_DOUBLE_BEEP;  
+    }  
+    AUDIO_PlayBeep(gBeepToPlay);  
     APP_StartListening(gMonitor ? FUNCTION_MONITOR : FUNCTION_RECEIVE);
 }
 
