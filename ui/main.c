@@ -1388,7 +1388,7 @@ void UI_DisplayMain(void)
 
 
 // 在VFO显示循环结束后，添加RX反色处理  
-if (FUNCTION_IsRx() || gRxInverseCountdown_10ms > 0)  && gEeprom.RX_VFO == vfo_num && VfoState[vfo_num] == VFO_STATE_NORMAL) {  
+if (FUNCTION_IsRx() && gEeprom.RX_VFO == vfo_num && VfoState[vfo_num] == VFO_STATE_NORMAL) {  
     // 仅在双VFO模式下进行反色  
     if (!isMainOnly()) {  
         const unsigned int start_line = (vfo_num == 0) ? 0 : 4;  

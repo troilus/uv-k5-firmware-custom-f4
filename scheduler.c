@@ -116,5 +116,4 @@ void SystickHandler(void)
 #endif
 
     DECREMENT(boot_counter_10ms);
-    DECREMENT(gRxInverseCountdown_10ms);
 }

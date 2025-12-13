@@ -41,7 +41,7 @@
 #include "ui/ui.h"
 
 FUNCTION_Type_t gCurrentFunction;
-uint16_t gRxInverseCountdown_10ms = 0;  // 反色显示倒计时，单位10ms
+
 bool FUNCTION_IsRx()
 {
     return gCurrentFunction == FUNCTION_MONITOR ||

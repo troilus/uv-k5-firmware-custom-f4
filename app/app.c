@@ -127,11 +127,6 @@ static void CheckForIncoming(void)
 {
     if (!g_SquelchLost)
         return;          // squelch is closed
-
-        // 检测到新信号，立即停止反色倒计时  
-    gRxInverseCountdown_10ms = 0;  
-
-    
     // squelch is open
 /*如果设备未进行 RF 扫描，进一步检查是否开启了双重监听（gEeprom.DUAL_WATCH 是否为 DUAL_WATCH_OFF）。
 如果双重监听模式关闭：
@@ -215,8 +210,6 @@ static void HandleIncoming(void)
             FUNCTION_Select(FUNCTION_FOREGROUND);
             gUpdateDisplay = true;
         }
-        // 启动反色倒计时：3秒 = 300个10ms  
-        gRxInverseCountdown_10ms = 500;  
         return;
     }
 
