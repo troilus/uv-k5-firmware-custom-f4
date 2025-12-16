@@ -1029,10 +1029,11 @@ void RADIO_SetModulation(ModulationMode_t modulation)
         uint16_t uVar1 = BK4819_ReadRegister(0x31);
         BK4819_WriteRegister(0x31,uVar1 & 0xfffffffe);
         BK4819_WriteRegister(0x42,0x6b5a);
-        BK4819_WriteRegister(0x43, 0x3028);
         BK4819_WriteRegister(0x2a,0x7400);
         BK4819_WriteRegister(0x2b,0);
         BK4819_WriteRegister(0x2f,0x9890);
+        BK4819_WriteRegister(0x54, 0x9009);
+        BK4819_WriteRegister(0x55, 0x31a9);
         //BK4819_WriteRegister(0x48, 0xb3a8); // set AF RX gain and DAC settings
     }
     else
@@ -1040,10 +1041,12 @@ void RADIO_SetModulation(ModulationMode_t modulation)
         uint16_t uVar1 = BK4819_ReadRegister(0x31);
         BK4819_WriteRegister(0x31,uVar1 | 1);
         BK4819_WriteRegister(0x42,0x6f5c);
-        BK4819_WriteRegister(0x43, 0x347c);
         BK4819_WriteRegister(0x2a,0x7434);
-        BK4819_WriteRegister(0x2b,0x600);
+        BK4819_WriteRegister(0x2b,0x300);
         BK4819_WriteRegister(0x2f,0x9990);
+        BK4819_WriteRegister(0x54, 0x9775);
+        BK4819_WriteRegister(0x55, 0x32c6);
+        BK4819_SetFilterBandwidth(BK4819_FILTER_BW_AM, true);
     }
     
     BK4819_SetRegValue(afDacGainRegSpec, 0xF);
