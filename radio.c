@@ -698,24 +698,27 @@ void RADIO_SetupRegisters(bool switchToForeground)
     gEnableSpeaker = false;
 
     BK4819_ToggleGpioOut(BK4819_GPIO6_PIN2_GREEN, false);
-
-    switch (Bandwidth)
+    if (gRxVfo->Modulation == MODULATION_AM)
+        BK4819_SetFilterBandwidth(BK4819_FILTER_BW_AM, true);
+    else
     {
-        default:
-            Bandwidth = BK4819_FILTER_BW_WIDE;
-            [[fallthrough]];
-        case BK4819_FILTER_BW_WIDE:
-        case BK4819_FILTER_BW_NARROW:
-        case BK4819_FILTER_BW_NARROWER:
-            #ifdef ENABLE_AM_FIX
-//              BK4819_SetFilterBandwidth(Bandwidth, gRxVfo->Modulation == MODULATION_AM && gSetting_AM_fix);
-                BK4819_SetFilterBandwidth(Bandwidth, true);
-            #else
-                BK4819_SetFilterBandwidth(Bandwidth, false);
-            #endif
-            break;
+        switch (Bandwidth)
+        {
+            default:
+                Bandwidth = BK4819_FILTER_BW_WIDE;
+                [[fallthrough]];
+            case BK4819_FILTER_BW_WIDE:
+            case BK4819_FILTER_BW_NARROW:
+            case BK4819_FILTER_BW_NARROWER:
+                #ifdef ENABLE_AM_FIX
+    //              BK4819_SetFilterBandwidth(Bandwidth, gRxVfo->Modulation == MODULATION_AM && gSetting_AM_fix);
+                    BK4819_SetFilterBandwidth(Bandwidth, true);
+                #else
+                    BK4819_SetFilterBandwidth(Bandwidth, false);
+                #endif
+                break;
+        }
     }
-
     BK4819_ToggleGpioOut(BK4819_GPIO5_PIN1_RED, false);
 
     BK4819_SetupPowerAmplifier(0, 0);
