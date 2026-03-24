@@ -35,37 +35,38 @@
 #include "inputbox.h"
 #include "menu.h"
 #include "ui.h"
+#include "../chinese.h"
 
 
 const t_menu_item MenuList[] =
 {
 //   text,          menu ID
-    {"SQL",         MENU_SQL           },
-    {"DWMode",      MENU_TDR           },
-    {"STEP",        MENU_STEP          },
-    {"Power",       MENU_TXP           }, // was "TXP"
-    {"RxDCS",       MENU_R_DCS         }, // was "R_DCS"
-    {"RxCTCS",      MENU_R_CTCS        }, // was "R_CTCS"
-    {"TxDCS",       MENU_T_DCS         }, // was "T_DCS"
-    {"TxCTCS",      MENU_T_CTCS        }, // was "T_CTCS"
-    {"TxDir",       MENU_SFT_D         }, // was "SFT_D"
-    {"TxOffs",      MENU_OFFSET        }, // was "OFFSET"
-    {"W/N",         MENU_W_N           },
+    {SQL,          MENU_SQL           },
+    {DWMode,       MENU_TDR           },
+    {STEP,         MENU_STEP          },
+    {Power,        MENU_TXP           }, // was "TXP"
+    {RxDCS,        MENU_R_DCS         }, // was "R_DCS"
+    {RxCTCS,       MENU_R_CTCS        }, // was "R_CTCS"
+    {TxDCS,        MENU_T_DCS         }, // was "T_DCS"
+    {TxCTCS,       MENU_T_CTCS        }, // was "T_CTCS"
+    {TxDir,        MENU_SFT_D         }, // was "SFT_D"
+    {TxOffs,       MENU_OFFSET        }, // was "OFFSET"
+    {W_N,          MENU_W_N           },
 #ifdef ENABLE_FEAT_F4HWN
-    {"Scramb",      MENU_SCR           }, // was "SCR"
+    {Scramb,       MENU_SCR           }, // was "SCR"
 #endif
-    {"BzLock",      MENU_BCL           }, // was "BCL"
+    {BzLock,       MENU_BCL           }, // was "BCL"
 //    {"Compnd",      MENU_COMPAND       },
-    {"Mode",        MENU_AM            }, // was "AM"
+    {Mode,         MENU_AM            }, // was "AM"
 #ifdef ENABLE_FEAT_F4HWN
-    {"TXLock",      MENU_TX_LOCK       }, 
+    {TXLock,       MENU_TX_LOCK       },
 #endif
 //    {"ScAdd1",      MENU_S_ADD1        },
 //    {"ScAdd2",      MENU_S_ADD2        },
 //    {"ScAdd3",      MENU_S_ADD3        },
-    {"ChSave",      MENU_MEM_CH        }, // was "MEM-CH"
-    {"ChDele",      MENU_DEL_CH        }, // was "DEL-CH"
-    {"ChName",      MENU_MEM_NAME      },
+    {ChSave,       MENU_MEM_CH        }, // was "MEM-CH"
+    {ChDele,       MENU_DEL_CH        }, // was "DEL-CH"
+    {ChName,       MENU_MEM_NAME      },
 
 //    {"SList",       MENU_S_LIST        },
 //    {"SList1",      MENU_SLIST1        },
@@ -77,34 +78,34 @@ const t_menu_item MenuList[] =
         {"NOAA-S",      MENU_NOAA_S    },
     #endif
 #endif
-    {"F1Shrt",      MENU_F1SHRT        },
-    {"F1Long",      MENU_F1LONG        },
-    {"F2Shrt",      MENU_F2SHRT        },
-    {"F2Long",      MENU_F2LONG        },
-    {"M Long",      MENU_MLONG         },
+    {F1Shrt,       MENU_F1SHRT        },
+    {F1Long,       MENU_F1LONG        },
+    {F2Shrt,       MENU_F2SHRT        },
+    {F2Long,       MENU_F2LONG        },
+    {MLong,        MENU_MLONG         },
 
 //    {"KeyLck",      MENU_AUTOLK        }, // was "AUTOLk"
 //    {"TxTOut",      MENU_TOT           }, // was "TOT"
-    {"BatSav",      MENU_SAVE          }, // was "SAVE"
-    {"BatTxt",      MENU_BAT_TXT       },
-    {"Mic",         MENU_MIC           },
+    {BatSav,       MENU_SAVE          }, // was "SAVE"
+    {BatTxt,       MENU_BAT_TXT       },
+    {Mic,          MENU_MIC           },
 
 //    {"MicBar",      MENU_MIC_BAR       }, //去掉了音量条显示
 
-    {"ChDisp",      MENU_MDF           }, // was "MDF"
-    {"POnMsg",      MENU_PONMSG        },
-    {"BLTime",      MENU_ABR           }, // was "ABR"
+    {ChDisp,       MENU_MDF           }, // was "MDF"
+    {POnMsg,       MENU_PONMSG        },
+    {BLTime,       MENU_ABR           }, // was "ABR"
 //    {"BLMin",       MENU_ABR_MIN       },
-    {"BLMax",       MENU_ABR_MAX       },
+    {BLMax,        MENU_ABR_MAX       },
 //    {"BLTxRx",      MENU_ABR_ON_TX_RX  },
-    {"Beep",        MENU_BEEP          },
+    {Beep,         MENU_BEEP          },
 //#ifdef ENABLE_VOICE
 //    {"Voice",       MENU_VOICE         },
 //#endif
-    {"Roger",       MENU_ROGER         },
-    {"STE",         MENU_STE           },
-    {"RP STE",      MENU_RP_STE        },
-    {"1 Call",      MENU_1_CALL        },
+    {Roger,        MENU_ROGER         },
+    {STE,          MENU_STE           },
+    {RP_STE,       MENU_RP_STE        },
+    {Call1,        MENU_1_CALL        },
 //#ifdef ENABLE_ALARM
 //    {"AlarmT",      MENU_AL_MOD        },
 //#endif
@@ -132,42 +133,42 @@ const t_menu_item MenuList[] =
 #endif
     {"VOX",         MENU_VOX           },
 #ifdef ENABLE_FEAT_F4HWN
-    {"SysInf",      MENU_VOL           }, // was "VOL"
+    {SysInf,       MENU_VOL           }, // was "VOL"
 #else
-    {"BatVol",      MENU_VOL           }, // was "VOL"
+    {BatVol,       MENU_VOL           }, // was "VOL"
 #endif
 
 #ifdef ENABLE_FEAT_F4HWN
-    {"SetPwr",      MENU_SET_PWR       },
+    {SetPwr,       MENU_SET_PWR       },
     //{"SetPTT",      MENU_SET_PTT       },
     //{"SetTOT",      MENU_SET_TOT       },
     //{"SetEOT",      MENU_SET_EOT       },
-    {"SetCtr",      MENU_SET_CTR       },
-    {"SetInv",      MENU_SET_INV       },
-    {"SetLck",      MENU_SET_LCK       },
-    {"SetMet",      MENU_SET_MET       },
-    {"SetGui",      MENU_SET_GUI       },
+    {SetCtr,       MENU_SET_CTR       },
+    {SetInv,       MENU_SET_INV       },
+    {SetLck,       MENU_SET_LCK       },
+    {SetMet,       MENU_SET_MET       },
+    {SetGui,       MENU_SET_GUI       },
 //    {"SetTmr",      MENU_SET_TMR       },
 //#ifdef ENABLE_FEAT_F4HWN_SLEEP
 //    {"SetOff",       MENU_SET_OFF      },
 //#endif
 
 #ifdef ENABLE_FEAT_F4HWN_NARROWER
-    {"SetNFM",      MENU_SET_NFM       },
+    {SetNFM,       MENU_SET_NFM       },
 #endif
 #ifdef ENABLE_FEAT_F4HWN_VOL
-    {"SetVol",      MENU_SET_VOL       },
+    {SetVol,       MENU_SET_VOL       },
 #endif
 #ifdef ENABLE_FEAT_F4HWN_RESCUE_OPS
-    {"SetKey",      MENU_SET_KEY       },
+    {SetKey,       MENU_SET_KEY       },
 #endif
 #ifdef ENABLE_NOAA
-    {"SetNWR",      MENU_NOAA_S    },
+    {SetNWR,       MENU_NOAA_S    },
 #endif
 #endif
     // hidden menu items from here on
     // enabled if pressing both the PTT and upper side button at power-on
-    {"F Lock",      MENU_F_LOCK        },
+    {FLock,        MENU_F_LOCK        },
 //#ifndef ENABLE_FEAT_F4HWN
 //    {"Tx 200",      MENU_200TX         }, // was "200TX"
 //    {"Tx 350",      MENU_350TX         }, // was "350TX"
@@ -180,9 +181,9 @@ const t_menu_item MenuList[] =
 //#ifdef ENABLE_F_CAL_MENU
 //    {"FrCali",      MENU_F_CALI        }, // reference xtal calibration
 //#endif
-    {"BatCal",      MENU_BATCAL        }, // battery voltage calibration
-    {"BatTyp",      MENU_BATTYP        }, // battery type 1600/2200mAh
-    {"Reset",       MENU_RESET         }, // might be better to move this to the hidden menu items ?
+    {BatCal,       MENU_BATCAL        }, // battery voltage calibration
+    {BatTyp,       MENU_BATTYP        }, // battery type 1600/2200mAh
+    {Reset,        MENU_RESET         }, // might be better to move this to the hidden menu items ?
 
     {"",                              0xff               }  // end of list - DO NOT delete or move this this
 };
@@ -210,19 +211,19 @@ const char gSubMenu_SFT_D[][4] =
 
 const char gSubMenu_W_N[][7] =
 {
-    "WIDE",
-    "NARROW"
+    WIDE,
+    NARROW
 };
 
 const char gSubMenu_OFF_ON[][4] =
 {
-    "OFF",
-    "ON"
+    OFF,
+    ON
 };
 
 const char gSubMenu_NA[4] =
 {
-    "N/A"
+    NA
 };
 
 const char* const gSubMenu_RXMode[] =
