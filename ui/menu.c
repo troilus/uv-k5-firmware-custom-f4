@@ -209,17 +209,31 @@ const char gSubMenu_SFT_D[][4] =
     "-"
 };
 
-const char gSubMenu_W_N[][7] =
+#ifdef ENABLE_CHINESE
+const char gSubMenu_W_N[][5] =
 {
     WIDE,
     NARROW
 };
 
-const char gSubMenu_OFF_ON[][4] =
+const char gSubMenu_OFF_ON[][5] =
 {
     OFF,
     ON
 };
+#else
+const char gSubMenu_W_N[][7] =
+{
+    "WIDE",
+    "NARROW"
+};
+
+const char gSubMenu_OFF_ON[][4] =
+{
+    "OFF",
+    "ON"
+};
+#endif
 
 const char gSubMenu_NA[4] =
 {

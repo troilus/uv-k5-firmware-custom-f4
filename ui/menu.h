@@ -24,7 +24,11 @@
 #include "settings.h"
 
 typedef struct {
+#ifdef ENABLE_CHINESE
+    const char  name[9];    // Chinese needs more space (2 bytes per character)
+#else
     const char  name[7];    // menu display area only has room for 6 characters
+#endif
     uint8_t     menu_id;
 } t_menu_item;
 
@@ -166,8 +170,13 @@ extern const t_menu_item MenuList[];
 
 extern const char        gSubMenu_TXP[8][6];
 extern const char        gSubMenu_SFT_D[3][4];
+#ifdef ENABLE_CHINESE
+extern const char        gSubMenu_W_N[2][5];
+extern const char        gSubMenu_OFF_ON[2][5];
+#else
 extern const char        gSubMenu_W_N[2][7];
 extern const char        gSubMenu_OFF_ON[2][4];
+#endif
 extern const char        gSubMenu_NA[4];
 extern const char        gSubMenu_TOT[11][7];
 extern const char* const gSubMenu_RXMode[4];
