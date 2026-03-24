@@ -99,8 +99,9 @@ void UI_PrintString(const char *pString, uint8_t Start, uint8_t End, uint8_t Lin
     uint8_t cn_flag[20] = {0};  // 标记哪些字符是中文
     uint16_t true_char[20] = {0};  // 存储真实的字符编码
     uint8_t char_num = 0;  // 字符数量
-    uint8_t flag_move = 0;  // 标记是否包含中文
     uint8_t sum_pixel = 0;  // 总像素宽度
+    
+    (void)Width;  // 避免未使用参数警告
     
     // 第一遍：分析字符串，识别中文字符
     for (i = 0; i < Length; i++) {
@@ -108,7 +109,6 @@ void UI_PrintString(const char *pString, uint8_t Start, uint8_t End, uint8_t Lin
         if (chn_judge != 255) {
             cn_flag[char_num] = 1;
             true_char[char_num] = chn_judge;
-            flag_move = 1;
             char_num++;
             sum_pixel += 13;  // 中文字符宽度
         } else if (pString[i] > ' ' && pString[i] < 127) {
