@@ -20,8 +20,8 @@ bool show_move_flag = false;
 #if  ENABLE_CHINESE_FULL == 4 && !defined(ENABLE_ENGLISH)
 bool audio_keep_flag=false;
 #endif
-#if  ENABLE_CHINESE_FULL == 0 || defined(ENABLE_ENGLISH)
 
+// Basic fonts always needed regardless of language
 const uint8_t gFontBigDigits[11][20] =
         {
 
@@ -234,15 +234,14 @@ const uint8_t gFont3x5[][3] =
                 {0x1a, 0x1e, 0x16}, // 122 - z
                 {0x04, 0x1b, 0x11}, // 123 - braceleft
                 {0x00, 0x1b, 0x00}, // 124 - bar
-                {0x11, 0x1b, 0x04}, // 125 - braceright
-                {0x02, 0x03, 0x01}, // 126 - asciitilde
-                {0x12, 0x17, 0x12}, // 127 - plusminus
-
-        };
-
-#endif
-#if  ENABLE_CHINESE_FULL == 0
-const uint8_t gFontChinese_out[2261] = {
+                                {0x11, 0x1b, 0x04}, // 125 - braceright
+                                {0x02, 0x03, 0x01}, // 126 - asciitilde
+                                {0x12, 0x17, 0x12}, // 127 - plusminus
+                        };
+                
+                // Chinese fonts for simplified mode
+                #if  ENABLE_CHINESE_FULL == 0
+                const uint8_t gFontChinese_out[2261] = {
         0X20, 0X20, 0X3E, 0XA0, 0X20, 0XBF, 0X24,
         0X24, 0X24, 0XA4, 0X20, 0XA0, 0X89,
         0X74, 0X22, 0X01, 0X00, 0X11, 0X21,
