@@ -240,7 +240,7 @@ const uint8_t gFont3x5[][3] =
                         };
                 
                 // Chinese fonts for simplified mode
-                #if  ENABLE_CHINESE_FULL == 0
+                #if  ENABLE_CHINESE_FULL == 0 || ENABLE_CHINESE_FULL == 4
                 const uint8_t gFontChinese_out[2261] = {
         0X20, 0X20, 0X3E, 0XA0, 0X20, 0XBF, 0X24,
         0X24, 0X24, 0XA4, 0X20, 0XA0, 0X89,
