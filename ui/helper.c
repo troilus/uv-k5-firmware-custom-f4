@@ -80,8 +80,6 @@ void UI_PrintStringBuffer(const char *pString, uint8_t * buffer, uint32_t char_w
 
 void UI_PrintString(const char *pString, uint8_t Start, uint8_t End, uint8_t Line, uint8_t Width)
 {
-#if defined(ENABLE_ENGLISH)
-    // 英文模式 - 原始实现
     size_t i;
     size_t Length = strlen(pString);
 
@@ -98,8 +96,25 @@ void UI_PrintString(const char *pString, uint8_t Start, uint8_t End, uint8_t Lin
             memcpy(gFrameBuffer[Line + 1] + ofs, &gFontBig[index][7], 7);
         }
     }
-#else
-    // 中文模式 - 类似 losehu 的实现
+}
+
+#define IS_BIT_SET(byte, bit) ((byte>>bit) & (1))
+
+static void set_bit(uint8_t *value, uint8_t bit_position) {
+    *value = *value | (1 << bit_position);
+}
+
+// 判断是否为中文字符并返回索引（来自 losehu）
+static uint8_t is_chn(uint8_t num) {
+    if (num >= 1 && num < 10) return num - 1;
+    else if (num > 10 && num < 32) return num - 2;
+    else if (num > 126 && num <= 233) return num - 97;
+    else return 255;
+}
+
+// 专门用于显示中文字符的函数
+void UI_PrintStringChinese(const char *pString, uint8_t Start, uint8_t End, uint8_t Line, uint8_t Width)
+{
     size_t i;
     size_t Length = strlen(pString);
     uint8_t cn_flag[20] = {0};  // 标记哪些字符是中文
@@ -173,25 +188,9 @@ void UI_PrintString(const char *pString, uint8_t Start, uint8_t End, uint8_t Lin
                     }
                 }
             }
-            
-            now_pixel += 13;  // 中文字符宽度
+            now_pixel += 13;
         }
     }
-#endif
-}
-
-#define IS_BIT_SET(byte, bit) ((byte>>bit) & (1))
-
-static void set_bit(uint8_t *value, uint8_t bit_position) {
-    *value = *value | (1 << bit_position);
-}
-
-// 判断是否为中文字符并返回索引（来自 losehu）
-static uint8_t is_chn(uint8_t num) {
-    if (num >= 1 && num < 10) return num - 1;
-    else if (num > 10 && num < 32) return num - 2;
-    else if (num > 126 && num <= 233) return num - 97;
-    else return 255;
 }
 
 void UI_PrintStringSmall(const char *pString, uint8_t Start, uint8_t End, uint8_t Line, uint8_t char_width, const uint8_t *font)
