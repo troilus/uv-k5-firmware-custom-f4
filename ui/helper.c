@@ -194,8 +194,13 @@ void UI_PrintStringSmallNormal(const char *pString, uint8_t Start, uint8_t End, 
 
 void UI_PrintStringSmallBold(const char *pString, uint8_t Start, uint8_t End, uint8_t Line)
 {
+#ifdef ENABLE_SMALL_BOLD
     const uint8_t *font = (uint8_t *)gFontSmallBold;
     const uint8_t char_width = ARRAY_SIZE(gFontSmallBold[0]);
+#else
+    const uint8_t *font = (uint8_t *)gFontSmall;
+    const uint8_t char_width = ARRAY_SIZE(gFontSmall[0]);
+#endif
     UI_PrintStringSmall(pString, Start, End, Line, char_width, font);
 }
 
@@ -206,8 +211,13 @@ void UI_PrintStringSmallBufferNormal(const char *pString, uint8_t * buffer)
 
 void UI_PrintStringSmallBufferBold(const char *pString, uint8_t * buffer)
 {
+#ifdef ENABLE_SMALL_BOLD
     const uint8_t *font = (uint8_t *)gFontSmallBold;
     const uint8_t char_width = ARRAY_SIZE(gFontSmallBold[0]);
+#else
+    const uint8_t *font = (uint8_t *)gFontSmall;
+    const uint8_t char_width = ARRAY_SIZE(gFontSmall[0]);
+#endif
     UI_PrintStringBuffer(pString, buffer, char_width, font);
 }
 
