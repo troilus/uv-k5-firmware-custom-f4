@@ -94,6 +94,7 @@ void UI_PrintString(const char *pString, uint8_t Start, uint8_t End, uint8_t Lin
             const unsigned int index = pString[i] - ' ' - 1;
             memcpy(gFrameBuffer[Line + 0] + ofs, &gFontBig[index][0], 7);
             memcpy(gFrameBuffer[Line + 1] + ofs, &gFontBig[index][7], 7);
+            (void)index;  // Suppress unused variable warning
         }
     }
 }
