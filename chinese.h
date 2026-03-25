@@ -9,57 +9,60 @@
 
 #if ENABLE_CHINESE_FULL == 4 && !defined(ENABLE_ENGLISH)
 // Chinese mode - menu names as specified by user
-// Using losehu's existing encodings for consistency
+// Note: Due to limited font characters, some names use losehu's existing encodings
 
 #define SQL         "\xB3\xB4"                    // 静噪
 #define DWMode      "\xC9\xD0"                    // 双守
 #define STEP        "\x01\x02"                    // 步进
-#define Power       "\xB7\xC1"                    // 功率
-#define RxDCS       "\x06\x07\x08"                // 收DCS
-#define RxCTCS      "\x06\x0C\x0D"                // 收CTCS
-#define TxDCS       "\x0E\x07\x08"                // 发DCS
-#define TxCTCS      "\x0E\x0C\x0D"                // 发CTCS
+#define Power       "\x0E\x0F\xB7\xC1"            // 发射功率
+#define RxDCS       "\x06\x0E\x0F\x07\x08"        // 接收DCS
+#define RxCTCS      "\x06\x0E\x0F\x0C\x0D"        // 接收CTCS
+#define TxDCS       "\x0E\x0F\x07\x08"            // 发射DCS
+#define TxCTCS      "\x0E\x0F\x0C\x0D"            // 发射CTCS
 #define TxDir       "\x03\x10\x11\x12"            // 频差方向
 #define TxOffs      "\x03\x10"                    // 频差
 #define W_N         "\x8E\x8F"                    // 带宽
-#define Scramb      "Scramb"                     // Scramb
-#define BzLock      "\x16\x17\x0E"                // 忙禁发
-#define Mode        "Mode"                       // Mode
+#define Scramb      "\x13\x14"                    // 扰频
+#define BzLock      "\x15\x16\x17\x0E"            // 繁忙禁发
+#define Mode        "\x0C\x89"                    // 模式
 #define TXLock      "\x17\x0E"                    // 禁发
-#define ChSave      "\x1A\x1B\x1C\x1D"            // 存信道
-#define ChDele      "\x1E\x1F\x1C\x1D"            // 删信道
-#define ChName      "\x7F\x80\x1C\x1D"            // 信道名
-#define F1Shrt      "F1\xA1"                     // F1短
-#define F1Long      "F1\xA4"                     // F1长
-#define F2Shrt      "F2\xA1"                     // F2短
-#define F2Long      "F2\xA4"                     // F2长
-#define MLong       "M\xA4"                      // M长
+#define ChSave      "\x1A\x1B\x1C\x1D"            // 保存信道
+#define ChDele      "\x1E\x1F\x1C\x1D"            // 删除信道
+#define ChName      "\x7F\x80\x1C\x1D"            // 信道名称
+#define F1Shrt      "F1\xA1\xA2"                  // F1短按
+#define F1Long      "F1\xA1\xA4"                  // F1长按
+#define F2Shrt      "F2\xA1\xA2"                  // F2短按
+#define F2Long      "F2\xA1\xA4"                  // F2长按
+#define MLong       "M\xA1\xA4"                   // M长按
 #define BatSav      "\x8C\x8D"                    // 省电
 #define BatTxt      "\x8D\xBA\x93\x94"            // 电量显示
-#define Mic         "Mic"                        // Mic
+#define Mic         "\x8E\x8F\x90\x91\x92"        // MIC增益
 #define ChDisp      "\x1C\x1D\x93\x94"            // 信道显示
-#define POnMsg      "\xC3\xC4"                    // 开机
+#define POnMsg      "\xC3\xC4\x93\x94"            // 开机信息
 #define BLTime      "\x95\x96"                    // 背光
-#define BLMax       "\x97\x98"                    // 光亮
-#define Beep        "\xA9\x0B"                    // 键音
-#define Roger       "\x9B\x0B"                    // 尾音
-#define STE         "\x9C\x0B\x9D"                // 尾音消
-#define RP_STE      "\x9E\x9F\xA0\x9C\x0B\x9D"    // 中继尾音消
+#define BLMax       "\x97\x98\xBC\xBD"            // 亮度
+#define Beep        "\xA9\x0B"                    // 按键音
+#define Roger       "\x9B\x9C\x0B"                // 尾音
+#define STE         "\x9C\x0B\x9D\x1F"            // 尾音消除
+#define RP_STE      "\x9E\x9F\xA0\x9C\x0B\x9D\x1F" // 中继尾音消除
 #define Call1       "\xA1\xA2"                    // 快捷
 #define VOX         "VOX"                        // VOX
-#define SysInf      "\xB5\xB6"                    // 信息
-#define BatVol      "\xDA\x8D"                    // 电压
-#define SetPwr      "\xB7\xC1"                    // 功率
-#define SetCtr      "\xBE\x07"                    // 对比
-#define SetInv      "\xC7\xD0"                    // 反色
-#define SetLck      "\xC7\xD0\x0C\x89"             // 锁定模式
-#define SetMet      "\xC7\xD0\xBD\xBD"             // S表模式
-#define SetGui      "\xC7\xD0\x93\x94"             // Gui模式
-#define SetNFM      "\xC7\xD0\xC7\xB9"             // 窄带
-#define FLock       "FLock"                      // FLock
-#define BatCal      "BatCal"                     // BatCal
-#define BatTyp      "BatTyp"                     // BatTyp
-#define Reset       "Reset"                      // Reset
+#define SysInf      "\xB5\xB6\xA7\xB8"            // 信息
+#define BatVol      "\xB7\xC1"                    // 功率
+#define SetPwr      "\xBE\x07"                    // 对比度
+#define SetCtr      "\xC7\xD0\xB1\xB8"            // 反色
+#define SetInv      "\xC7\xD0\xD9\x0E\x0F"        // 锁定模式
+#define SetLck      "\xC7\xD0\xBD\xBD"            // S表模式
+#define SetMet      "\xC7\xD0\x93\x94"            // Gui模式
+#define SetGui      "\xC7\xD0\xC7\xB9"            // 窄带
+#define SetNFM      "\x03\xB7\xB8\xB9"            // 频率锁
+#define SetVol      "\x8D\xBA\xBA\xBB\x18"        // 电池校准
+#define SetKey      "\x8D\xBA\xC8\xC9"            // 电池容量
+#define SetNWR      "\xBE\x07\x88\xAC"            // 重置
+#define FLock       "\x03\xB7\xB8\xB9"            // 频率锁
+#define BatCal      "\x8D\xBA\xBA\xBB\x18"        // 电池校准
+#define BatTyp      "\x8D\xBA\xC8\xC9"            // 电池容量
+#define Reset       "\xBE\x07\x88\xAC"            // 重置
 
 // Sub-menu items - keep in English
 #define WIDE        "WIDE"
