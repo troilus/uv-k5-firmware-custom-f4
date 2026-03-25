@@ -19,8 +19,8 @@ ENABLE_FLASHLIGHT             	?= 1
 
 # ---- CUSTOM MODS ----
 ENABLE_SPECTRUM               	?= 1
-ENABLE_BIG_FREQ               	?= 0
-ENABLE_SMALL_BOLD             	?= 0
+ENABLE_BIG_FREQ               	?= 1
+ENABLE_SMALL_BOLD             	?= 1
 ENABLE_CUSTOM_MENU_LAYOUT     	?= 1
 ENABLE_KEEP_MEM_NAME          	?= 1
 ENABLE_WIDE_RX                	?= 1
