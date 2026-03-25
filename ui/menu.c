@@ -448,11 +448,7 @@ void UI_DisplayMenu(void)
     for (i = 0; i < 3; i++)
         if (gMenuCursor > 0 || i > 0)
             if ((gMenuListCount - 1) != gMenuCursor || i != 2)
-#if defined(ENABLE_CHINESE) && ENABLE_CHINESE_FULL == 4
-                UI_PrintStringChinese(MenuList[gMenuCursor + i - 1].name, 0, 0, i * 2, 8);
-#else
                 UI_PrintString(MenuList[gMenuCursor + i - 1].name, 0, 0, i * 2, 8);
-#endif
 
     // invert the current menu list item pixels
     for (i = 0; i < (8 * menu_list_width); i++)
@@ -492,11 +488,7 @@ void UI_DisplayMenu(void)
 
             // current menu item - keep big n fat
             if (menu_index >= 0 && menu_index < (int)gMenuListCount)
-#if defined(ENABLE_CHINESE) && ENABLE_CHINESE_FULL == 4
-                UI_PrintStringChinese(MenuList[menu_index].name, 0, 0, 2, 8);
-#else
                 UI_PrintString(MenuList[menu_index].name, 0, 0, 2, 8);
-#endif
             i++;
 
             while (i < 4)
@@ -518,11 +510,7 @@ void UI_DisplayMenu(void)
         else if (menu_index >= 0 && menu_index < (int)gMenuListCount)
         {   // current menu item
 //          strcat(String, ":");
-#if defined(ENABLE_CHINESE) && ENABLE_CHINESE_FULL == 4
-            UI_PrintStringChinese(MenuList[menu_index].name, 0, 0, 0, 8);
-#else
             UI_PrintString(MenuList[menu_index].name, 0, 0, 0, 8);
-#endif
 //          UI_PrintStringSmallNormal(String, 0, 0, 0);
         }
 

@@ -27,6 +27,20 @@
     #define ARRAY_SIZE(arr) (sizeof(arr)/sizeof((arr)[0]))
 #endif
 
+#define IS_BIT_SET(byte, bit) ((byte>>bit) & (1))
+
+static void set_bit(uint8_t *value, uint8_t bit_position) {
+    *value = *value | (1 << bit_position);
+}
+
+// 判断是否为中文字符并返回索引（来自 losehu）
+static uint8_t is_chn(uint8_t num) {
+    if (num >= 1 && num < 10) return num - 1;
+    else if (num > 10 && num < 32) return num - 2;
+    else if (num > 126 && num <= 233) return num - 97;
+    else return 255;
+}
+
 void UI_GenerateChannelString(char *pString, const uint8_t Channel)
 {
     unsigned int i;
@@ -79,41 +93,6 @@ void UI_PrintStringBuffer(const char *pString, uint8_t * buffer, uint32_t char_w
 }
 
 void UI_PrintString(const char *pString, uint8_t Start, uint8_t End, uint8_t Line, uint8_t Width)
-{
-    size_t i;
-    size_t Length = strlen(pString);
-
-    if (End > Start)
-        Start += (((End - Start) - (Length * Width)) + 1) / 2;
-
-    for (i = 0; i < Length; i++)
-    {
-        const unsigned int ofs   = (unsigned int)Start + (i * Width);
-        if (pString[i] > ' ' && pString[i] < 127)
-        {
-            const unsigned int index = pString[i] - ' ' - 1;
-            memcpy(gFrameBuffer[Line + 0] + ofs, &gFontBig[index][0], 7);
-            memcpy(gFrameBuffer[Line + 1] + ofs, &gFontBig[index][7], 7);
-        }
-    }
-}
-
-#define IS_BIT_SET(byte, bit) ((byte>>bit) & (1))
-
-static void set_bit(uint8_t *value, uint8_t bit_position) {
-    *value = *value | (1 << bit_position);
-}
-
-// 判断是否为中文字符并返回索引（来自 losehu）
-static uint8_t is_chn(uint8_t num) {
-    if (num >= 1 && num < 10) return num - 1;
-    else if (num > 10 && num < 32) return num - 2;
-    else if (num > 126 && num <= 233) return num - 97;
-    else return 255;
-}
-
-// 专门用于显示中文字符的函数
-void UI_PrintStringChinese(const char *pString, uint8_t Start, uint8_t End, uint8_t Line, uint8_t Width)
 {
     size_t i;
     size_t Length = strlen(pString);
