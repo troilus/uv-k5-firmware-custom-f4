@@ -44,7 +44,7 @@
 #define Beep        "\x92\x8E\x8A\x01"             // 键音
 #define Roger       "\x88\xE1\x8A\x01"             // 尾音
 #define STE         "\x88\xE1\x8A\x01\x8D\x45"      // 尾音消
-#define RP_STE      "\x82\x80\x8E\xE2\x88\xE1\x8A\x01\x8D\x45" // 中继尾音消
+#define RP_STE      "\x82\x80\x8E\xE2\x88\xE1\x8A\x01" // 中继尾音
 #define Call1       "\xBF\xEC\x8E\x0B"              // 快捷
 #define VOX         "VOX"                          // VOX
 #define SysInf      "\x88\x89\x8D\x8C"             // 信息
