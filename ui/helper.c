@@ -27,12 +27,6 @@
     #define ARRAY_SIZE(arr) (sizeof(arr)/sizeof((arr)[0]))
 #endif
 
-#define IS_BIT_SET(byte, bit) ((byte>>bit) & (1))
-
-static void set_bit(uint8_t *value, uint8_t bit_position) {
-    *value = *value | (1 << bit_position);
-}
-
 void UI_GenerateChannelString(char *pString, const uint8_t Channel)
 {
     unsigned int i;
@@ -84,92 +78,22 @@ void UI_PrintStringBuffer(const char *pString, uint8_t * buffer, uint32_t char_w
     }
 }
 
-// 判断是否为中文字符并返回索引（来自 losehu）
-static uint8_t is_chn(uint8_t num) {
-    if (num >= 1 && num < 10) return num - 1;
-    else if (num > 10 && num < 32) return num - 2;
-    else if (num > 126 && num <= 233) return num - 97;
-    else return 255;
-}
-
 void UI_PrintString(const char *pString, uint8_t Start, uint8_t End, uint8_t Line, uint8_t Width)
 {
     size_t i;
     size_t Length = strlen(pString);
-    uint8_t cn_flag[20] = {0};  // 标记哪些字符是中文
-    uint16_t true_char[20] = {0};  // 存储真实的字符编码
-    uint8_t char_num = 0;  // 字符数量
-    uint8_t sum_pixel = 0;  // 总像素宽度
-    
-    (void)Width;  // 避免未使用参数警告
-    
-    // 第一遍：分析字符串，识别中文字符
-    for (i = 0; i < Length; i++) {
-        uint8_t chn_judge = is_chn(pString[i]);
-        if (chn_judge != 255) {
-            cn_flag[char_num] = 1;
-            true_char[char_num] = chn_judge;
-            char_num++;
-            sum_pixel += 13;  // 中文字符宽度
-        } else if (pString[i] > ' ' && pString[i] < 127) {
-            cn_flag[char_num] = 0;
-            true_char[char_num] = pString[i];
-            char_num++;
-            sum_pixel += 7;  // ASCII字符宽度
-        } else if (pString[i] == ' ') {
-            cn_flag[char_num] = 0;
-            true_char[char_num] = ' ';
-            char_num++;
-            sum_pixel += 7;
-        }
-    }
-    
-    // 居中计算
+
     if (End > Start)
-        Start += (((End - Start) - sum_pixel) + 1) / 2;
-    
-    uint8_t *pFb = gFrameBuffer[Line] + Start;
-    uint8_t *pFb1 = gFrameBuffer[Line + 1] + Start;
-    uint8_t now_pixel = 0;
-    
-    // 第二遍：绘制字符
-    for (i = 0; i < char_num; i++) {
-        if (cn_flag[i] == 0) {
-            // ASCII字符
-            if (true_char[i] > ' ' && true_char[i] < 127) {
-                const unsigned int index = (unsigned int)true_char[i] - ' ' - 1;
-                if (index < 94) {
-                    memcpy(pFb + now_pixel + 1, &gFontSmall[index], 6);
-                }
-                now_pixel += 7;
-            } else if (true_char[i] == ' ') {
-                now_pixel += 7;
-            }
-        } else {
-            // 中文字符 - 从 gFontChinese_out 数组读取
-            unsigned int local = (11 * 12 * true_char[i]) / 8;
-            unsigned int local_bit = (11 * 12 * true_char[i]) % 8;
-            
-            for (unsigned char k = 0; k < 22; ++k) {
-                unsigned char j_end = 8;
-                if (k >= 11)
-                    j_end = 12 - 8;
-                    
-                for (unsigned char j = 0; j < j_end; ++j) {
-                    if (local < sizeof(gFontChinese_out) && IS_BIT_SET(gFontChinese_out[local], local_bit)) {
-                        if (k < 11)
-                            set_bit(pFb + now_pixel + 1 + k, j);
-                        else
-                            set_bit(pFb1 + now_pixel + 1 + k - 11, j);
-                    }
-                    local_bit++;
-                    if (local_bit == 8) {
-                        local_bit = 0;
-                        local++;
-                    }
-                }
-            }
-            now_pixel += 13;
+        Start += (((End - Start) - (Length * Width)) + 1) / 2;
+
+    for (i = 0; i < Length; i++)
+    {
+        const unsigned int ofs   = (unsigned int)Start + (i * Width);
+        if (pString[i] > ' ' && pString[i] < 127)
+        {
+            const unsigned int index = pString[i] - ' ' - 1;
+            memcpy(gFrameBuffer[Line + 0] + ofs, &gFontBig[index][0], 7);
+            memcpy(gFrameBuffer[Line + 1] + ofs, &gFontBig[index][7], 7);
         }
     }
 }
