@@ -88,6 +88,63 @@ const t_menu_item MenuList[] =
     {"BatSav",      MENU_SAVE          }, // was "SAVE"
     {"BatTxt",      MENU_BAT_TXT       },
     {"Mic",         MENU_MIC           },
+
+//    {"MicBar",      MENU_MIC_BAR       }, //去掉了音量条显示
+
+    {"ChDisp",      MENU_MDF           }, // was "MDF"
+    {"POnMsg",      MENU_PONMSG        },
+    {"BLTime",      MENU_ABR           }, // was "ABR"
+//    {"BLMin",       MENU_ABR_MIN       },
+    {"BLMax",       MENU_ABR_MAX       },
+//    {"BLTxRx",      MENU_ABR_ON_TX_RX  },
+    {"Beep",        MENU_BEEP          },
+//#ifdef ENABLE_VOICE
+//    {"Voice",       MENU_VOICE         },
+//#endif
+    {"Roger",       MENU_ROGER         },
+    {"STE",         MENU_STE           },
+    {"RP STE",      MENU_RP_STE        },
+    {"1 Call",      MENU_1_CALL        },
+//#ifdef ENABLE_ALARM
+//    {"AlarmT",      MENU_AL_MOD        },
+//#endif
+//#ifdef ENABLE_DTMF_CALLING
+//    {"ANI ID",      MENU_ANI_ID        },
+//#endif
+//    {"UPCode",      MENU_UPCODE        },
+//    {"DWCode",      MENU_DWCODE        },
+//    {"PTT ID",      MENU_PTT_ID        },
+//    {"D ST",        MENU_D_ST          },
+//#ifdef ENABLE_DTMF_CALLING
+//    {"D Resp",      MENU_D_RSP         },
+//    {"D Hold",      MENU_D_HOLD        },
+//#endif
+//    {"D Prel",      MENU_D_PRE         },
+//#ifdef ENABLE_DTMF_CALLING
+//    {"D Decd",      MENU_D_DCD         },
+//    {"D List",      MENU_D_LIST        },
+//#endif
+//    {"D Live",      MENU_D_LIVE_DEC    }, // live DTMF decoder
+#ifndef ENABLE_FEAT_F4HWN
+    #ifdef ENABLE_AM_FIX
+        {"AM Fix",      MENU_AM_FIX        },
+    #endif
+#endif
+    {"VOX",         MENU_VOX           },
+#ifdef ENABLE_FEAT_F4HWN
+    {"SysInf",      MENU_VOL           }, // was "VOL"
+#else
+    {"BatVol",      MENU_VOL           }, // was "VOL"
+#endif
+
+#ifdef ENABLE_FEAT_F4HWN
+    {"SetPwr",      MENU_SET_PWR       },
+    //{"SetPTT",      MENU_SET_PTT       },
+    //{"SetTOT",      MENU_SET_TOT       },
+    //{"SetEOT",      MENU_SET_EOT       },
+    {"SetCtr",      MENU_SET_CTR       },
+    {"SetInv",      MENU_SET_INV       },
+    {"SetLck",      MENU_SET_LCK       },
     {"SetMet",      MENU_SET_MET       },
     {"SetGui",      MENU_SET_GUI       },
 //    {"SetTmr",      MENU_SET_TMR       },
@@ -653,6 +710,14 @@ void UI_DisplayMenu(void)
             break;
 #endif
 
+        case MENU_VOX:
+            #ifdef ENABLE_VOX
+                sprintf(String, gSubMenuSelection == 0 ? gSubMenu_OFF_ON[0] : "%u", gSubMenuSelection);
+            #else
+                strcpy(String, gSubMenu_NA);
+            #endif
+            break;
+
         case MENU_ABR:
             if(gSubMenuSelection == 0)
             {
@@ -1035,6 +1100,15 @@ void UI_DisplayMenu(void)
             #ifdef ENABLE_FEAT_F4HWN_CTR
                 sprintf(String, "%d", gSubMenuSelection);
                 gSetting_set_ctr = gSubMenuSelection;
+                ST7565_ContrastAndInv();
+            #else
+                strcpy(String, gSubMenu_NA);
+            #endif
+            break;
+
+        case MENU_SET_INV:
+            #ifdef ENABLE_FEAT_F4HWN_INV
+                strcpy(String, gSubMenu_OFF_ON[gSubMenuSelection]);
                 ST7565_ContrastAndInv();
             #else
                 strcpy(String, gSubMenu_NA);

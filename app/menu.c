@@ -285,6 +285,7 @@ int MENU_GetLimits(uint8_t menu_id, int32_t *pMin, int32_t *pMax)
             break;
 
         #ifdef ENABLE_VOX
+            case MENU_VOX:
         #endif
         case MENU_RP_STE:
             //*pMin = 0;
@@ -407,7 +408,11 @@ int MENU_GetLimits(uint8_t menu_id, int32_t *pMin, int32_t *pMax)
 #endif
         case MENU_TX_LOCK:
 #ifdef ENABLE_FEAT_F4HWN_INV
-        #endif
+        case MENU_SET_INV:
+            //*pMin = 0;
+            *pMax = ARRAY_SIZE(gSubMenu_OFF_ON) - 1;
+            break;
+#endif
         case MENU_SET_LCK:
             //*pMin = 0;
             *pMax = ARRAY_SIZE(gSubMenu_SET_LCK) - 1;
@@ -584,6 +589,14 @@ void MENU_AcceptSetting(void)
             break;
 
         #ifdef ENABLE_VOX
+            case MENU_VOX:
+                gEeprom.VOX_SWITCH = gSubMenuSelection != 0;
+                if (gEeprom.VOX_SWITCH)
+                    gEeprom.VOX_LEVEL = gSubMenuSelection - 1;
+                SETTINGS_LoadCalibration();
+                gFlagReconfigureVfos = true;
+                gUpdateStatus        = true;
+                break;
         #endif
 
         case MENU_ABR:
@@ -922,6 +935,9 @@ void MENU_AcceptSetting(void)
             gSetting_set_ctr = gSubMenuSelection;
             break;
 #endif
+        case MENU_SET_INV:
+            gSetting_set_inv = gSubMenuSelection;
+            break;
         case MENU_SET_LCK:
             gSetting_set_lck = gSubMenuSelection;
             break;
@@ -1086,7 +1102,11 @@ void MENU_ShowCurrentSetting(void)
             break;
 
 #ifdef ENABLE_VOX
-        #endif
+        case MENU_VOX:
+            gSubMenuSelection = gEeprom.VOX_SWITCH ? gEeprom.VOX_LEVEL + 1 : 0;
+            break;
+#endif
+
         case MENU_ABR:
             #ifdef ENABLE_FEAT_F4HWN
                 if(gBackLight)
@@ -1362,7 +1382,11 @@ void MENU_ShowCurrentSetting(void)
             gSubMenuSelection = gSetting_set_ctr;
             break;
 #endif
-            case MENU_SET_LCK:            gSubMenuSelection = gSetting_set_lck;
+        case MENU_SET_INV:
+            gSubMenuSelection = gSetting_set_inv;
+            break;
+        case MENU_SET_LCK:
+            gSubMenuSelection = gSetting_set_lck;
             break;
         case MENU_SET_MET:
             gSubMenuSelection = gSetting_set_met;
