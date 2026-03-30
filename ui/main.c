@@ -1414,10 +1414,11 @@ if (!isMainOnly()) {
             }
         }
     }
-    // 接收结束后：只反色第一行
+    // 接收结束后：反色第3列、第4列
     else if (RxOnVfofrequency == frequency && RxBlinkLed != 0 && VfoState[vfo_num] == VFO_STATE_NORMAL) {
-        for (uint8_t i = 0; i < 128; i++) {
-            gFrameBuffer[start_line][i] ^= 0xFF;  // 只反色第一行
+        for (unsigned int row = 0; row < 3; row++) {
+            gFrameBuffer[start_line + row][2] ^= 0xFF;  // 第3列
+            gFrameBuffer[start_line + row][3] ^= 0xFF;  // 第4列
         }
     }
 }
