@@ -4,9 +4,9 @@ on:
   workflow_dispatch:  # Allows manual triggering from GitHub UI
     inputs:
       author_string:
-        description: '作者字符串（用于开机显示和SysInf菜单，如：ABC123）'
+        description: '呼号（用于开机显示和SysInf菜单，如：bd8ckf）'
         required: true
-        default: 'CUSTOM'
+        default: 'bd8ckf'
         type: string
 
 jobs:
