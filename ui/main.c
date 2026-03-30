@@ -971,13 +971,27 @@ void UI_DisplayMain(void)
                         }
 
                         if (gEeprom.CHANNEL_DISPLAY_MODE == MDF_NAME) {
+#ifdef ENABLE_FEAT_F4HWN
+                            if (isMainOnly()) {
+                                // 单信道模式下右对齐显示
+                                size_t len = strlen(String);
+                                uint8_t start_pos = (len * 8 >= (LCD_WIDTH - 32)) ? 32 : (LCD_WIDTH - len * 8);
+                                UI_PrintString(String, start_pos, 0, line, 8);
+                            } else {
+                                UI_PrintString(String, 32, 0, line, 8);
+                            }
+#else
                             UI_PrintString(String, 32, 0, line, 8);
+#endif
                         }
                         else {
 #ifdef ENABLE_FEAT_F4HWN
                             if (isMainOnly())
                             {
-                                UI_PrintString(String, 32, 0, line, 8);
+                                // 单信道模式下右对齐显示
+                                size_t len = strlen(String);
+                                uint8_t start_pos = (len * 8 >= (LCD_WIDTH - 32)) ? 32 : (LCD_WIDTH - len * 8);
+                                UI_PrintString(String, start_pos, 0, line, 8);
                             }
                             else
                             {
@@ -986,7 +1000,7 @@ void UI_DisplayMain(void)
                                 }
                                 else
                                 {
-                                    UI_PrintStringSmallNormal(String, 32 + 4, 0, line);     
+                                    UI_PrintStringSmallNormal(String, 32 + 4, 0, line);
                                 }
                             }
 #else
