@@ -15,6 +15,8 @@ custom() {
     docker run --rm -v "${PWD}/compiled-firmware/:/app/compiled-firmware" $IMAGE_NAME /bin/bash -c "rm ./compiled-firmware/*; cd /app && make -s \
         EDITION_STRING=Custom \
         TARGET=f4hwn.custom \
+        ${AUTHOR_STRING_2:+AUTHOR_STRING_2='$AUTHOR_STRING_2'} \
+        ${VERSION_STRING_2:+VERSION_STRING_2='$VERSION_STRING_2'} \
         && cp f4hwn.custom* compiled-firmware/"
 }
 

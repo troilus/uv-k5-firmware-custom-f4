@@ -1,25 +1,40 @@
-name: Build Custom Firmware  
-  
-on:  
-  workflow_dispatch:  # Allows manual triggering from GitHub UI  
-  
-jobs:  
-  build:  
-    runs-on: ubuntu-latest  
-    name: Build Custom UV-K5 Firmware  
-      
-    steps:  
-    - name: Checkout repository  
-      uses: actions/checkout@v4  
-        
-    - name: Build custom firmware  
-      run: |  
-        chmod +x ./compile-with-docker.sh  
-        ./compile-with-docker.sh custom  
-          
-    - name: Upload firmware artifact  
-      uses: actions/upload-artifact@v4  
-      with:  
-        name: f4hwn-custom-firmware  
-        path: compiled-firmware/f4hwn.custom.packed.bin  
+name: Build Custom Firmware
+
+on:
+  workflow_dispatch:  # Allows manual triggering from GitHub UI
+    inputs:
+      author_string:
+        description: '作者字符串（用于开机显示和SysInf菜单，如：ABC123）'
+        required: true
+        default: 'CUSTOM'
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Build Custom UV-K5 Firmware
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # 获取完整的git历史以获取commit hash
+
+    - name: Get commit hash
+      id: commit
+      run: echo "hash=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+    - name: Build custom firmware
+      env:
+        AUTHOR_STRING_2: ${{ inputs.author_string }}
+        VERSION_STRING_2: ${{ steps.commit.outputs.hash }}
+      run: |
+        chmod +x ./compile-with-docker.sh
+        ./compile-with-docker.sh custom
+
+    - name: Upload firmware artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: f4hwn-custom-firmware
+        path: compiled-firmware/f4hwn.custom.packed.bin
         retention-days: 30
