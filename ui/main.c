@@ -1421,7 +1421,7 @@ if (!isMainOnly()) {
     }
 }
     }
-
+}
 #ifdef ENABLE_AGC_SHOW_DATA
     center_line = CENTER_LINE_IN_USE;
     UI_MAIN_PrintAGC(false);
