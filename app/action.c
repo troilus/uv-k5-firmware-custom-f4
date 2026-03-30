@@ -503,24 +503,31 @@ void ACTION_Update(void)
     SETTINGS_SaveSettings();
 }
 
-void ACTION_RxMode(void)  
-{  
-    static bool cycle = 0;  
-  
-    switch(cycle) {  
-        case 0:  
-            gEeprom.DUAL_WATCH = DUAL_WATCH_CHAN_A;  
-            gEeprom.CROSS_BAND_RX_TX = CROSS_BAND_CHAN_A;  
-            cycle = 1;  
-            break;  
-        case 1:  
-            gEeprom.DUAL_WATCH = DUAL_WATCH_OFF;  
-            gEeprom.CROSS_BAND_RX_TX = CROSS_BAND_OFF;  
-            cycle = 0;  
-            break;  
-    }  
-  
-    ACTION_Update();  
+void ACTION_RxMode(void)
+{
+    static bool cycle = 0;
+
+    // 根据当前 DUAL_WATCH 状态初始化 cycle
+    if (gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) {
+        cycle = 1;  // 双信道模式，第一次按键应该切换到单信道
+    } else {
+        cycle = 0;  // 单信道模式，第一次按键应该切换到双信道
+    }
+
+    switch(cycle) {
+        case 0:
+            gEeprom.DUAL_WATCH = DUAL_WATCH_CHAN_A;
+            gEeprom.CROSS_BAND_RX_TX = CROSS_BAND_CHAN_A;
+            cycle = 1;
+            break;
+        case 1:
+            gEeprom.DUAL_WATCH = DUAL_WATCH_OFF;
+            gEeprom.CROSS_BAND_RX_TX = CROSS_BAND_OFF;
+            cycle = 0;
+            break;
+    }
+
+    ACTION_Update();
 }
 
 void ACTION_MainOnly(void)
