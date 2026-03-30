@@ -22,7 +22,7 @@ jobs:
 
     - name: Get commit hash
       id: commit
-      run: echo "hash=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+      run: echo "hash=$(git rev-parse HEAD | cut -c1-5)" >> $GITHUB_OUTPUT
 
     - name: Build custom firmware
       env:
